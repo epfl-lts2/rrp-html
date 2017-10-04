@@ -1,0 +1,271 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>NORM_OF_LOCALIZATION_OPERATOR - This script illustrates a property of the localization operator</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="norm_of_localization_operator.html">View the help</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">NORM_OF_LOCALIZATION_OPERATOR - This script illustrates a property of the localization operator</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="c">%NORM_OF_LOCALIZATION_OPERATOR This script illustrates a property of the localization operator</span>
+<span class="c">%</span>
+<span class="c">%   This package contains the code to reproduce all the figures of the</span>
+<span class="c">%   paper: </span>
+<span class="c">%   </span>
+<span class="c">%   Global and Local Uncertainty Principles for Signals on Graphs</span>
+<span class="c">%</span>
+<span class="c">%   Authors: Nathanael Perraudin, Benjamin Ricaud, David I Shuman, Pierre</span>
+<span class="c">%   Vandergheynst </span>
+<span class="c">%</span>
+<span class="c">%   ArXiv: http://arxiv.org/abs/1603.03030</span>
+<span class="c">%</span>
+<span class="c">%   Abstract of the paper</span>
+<span class="c">%   ---------------------</span>
+<span class="c">%</span>
+<span class="c">%   Uncertainty principles such as Heisenberg&#39;s provide limits on the</span>
+<span class="c">%   time-frequency concentration of a signal, and constitute an important</span>
+<span class="c">%   theoretical tool for designing and evaluating linear signal transforms.</span>
+<span class="c">%   Generalizations of such principles to the graph setting can inform</span>
+<span class="c">%   dictionary design for graph signals, lead to algorithms for</span>
+<span class="c">%   reconstructing missing information from graph signals via sparse</span>
+<span class="c">%   representations, and yield new graph analysis tools. While previous</span>
+<span class="c">%   work has focused on generalizing notions of spreads of a graph signal</span>
+<span class="c">%   in the vertex and graph spectral domains, our approach is to generalize</span>
+<span class="c">%   the methods of Lieb in order to develop uncertainty principles that</span>
+<span class="c">%   provide limits on the concentration of the analysis coefficients of any</span>
+<span class="c">%   graph signal under a dictionary transform whose atoms are jointly</span>
+<span class="c">%   localized in the vertex and graph spectral domains. One challenge we</span>
+<span class="c">%   highlight is that due to the inhomogeneity of the underlying graph data</span>
+<span class="c">%   domain, the local structure in a single small region of the graph can</span>
+<span class="c">%   drastically affect the uncertainty bounds for signals concentrated in</span>
+<span class="c">%   different regions of the graph, limiting the information provided by</span>
+<span class="c">%   global uncertainty principles. Accordingly, we suggest a new way to</span>
+<span class="c">%   incorporate a notion of locality, and develop local uncertainty</span>
+<span class="c">%   principles that bound the concentration of the analysis coefficients of</span>
+<span class="c">%   each atom of a localized graph spectral filter frame in terms of</span>
+<span class="c">%   quantities that depend on the local structure of the graph around the</span>
+<span class="c">%   center vertex of the given atom. Finally, we demonstrate how our</span>
+<span class="c">%   proposed local uncertainty measures can improve the random sampling of</span>
+<span class="c">%   graph signals.</span>
+<span class="c">%</span>
+<span class="c">%   This experiment</span>
+<span class="c">%   ---------------</span>
+<span class="c">%</span>
+<span class="c">%   This experiment illustrates the effect of the graph</span>
+<span class="c">%   structure on the norms of localized functions.</span>
+<span class="c">% </span>
+<span class="c">%   We take the kernel to be localized to be a heat kernel of the form</span>
+<span class="c">%   hat{g}(lambda_ell) = e^{-tau lambda_ell}, for some constant</span>
+<span class="c">%   tau&gt;0. We localize the kernel hat{g} to be centered at each</span>
+<span class="c">%   vertex i of the graph with the operator T_i, and we compute and</span>
+<span class="c">%   plot their ell^2-norms T_IG_2. The figure shows that when a</span>
+<span class="c">%   center node i and its surrounding vertices are relatively weakly</span>
+<span class="c">%   connected, the ell^2-norm of the localized heat kernel is large, and</span>
+<span class="c">%   when the nodes are relatively well connected, the norm is smaller.</span>
+<span class="c">%   Therefore, the norm of the localized heat kernel may be seen as a</span>
+<span class="c">%   measure of vertex centrality.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Random sensor</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 2: Comet</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 3: Grid</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 4: Airfoil</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 5: Minnesota</span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Figure 6: The heat kernel</span>
+<span class="c">%</span>
+<span class="c">%      hat{g}(lambda_ell)=e^{-10frac{lambda_ell}{lambda_text{max}}}</span>
+<span class="c">%   </span>
+<span class="c">%   References:</span>
+<span class="c">%     N. Perraudin, R. Benjamin, S. David I, and P. Vandergheynst. Global and</span>
+<span class="c">%     local uncertainty principles for signals on graphs. arXiv preprint</span>
+<span class="c">%     arXiv:1603.03030, 2016.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: https://epfl-lts2.github.io/rrp-html/uncertainty/norm_of_localization_operator.html</span>
+
+<span class="c">% Copyright (C) 2012-2013 Nathanael Perraudin.</span>
+<span class="c">% This file is part of RRP version 0.2</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%% Initialisation</span>
+
+<span class="n">clear</span><span class="p">;</span>
+<span class="n">close</span> <span class="n">all</span><span class="p">;</span>
+
+
+
+<span class="c">%% Parameters</span>
+<span class="k">global</span> <span class="n">SAVE</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">show_edges</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">save</span> <span class="p">=</span> <span class="n">SAVE</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">savefig</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">titleweight</span> <span class="p">=</span> <span class="s">&#39;bold&#39;</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span> <span class="mi">450</span><span class="p">,</span> <span class="mi">300</span><span class="p">];</span>
+<span class="c">% Kernel</span>
+<span class="n">tau</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="n">g</span> <span class="p">=</span> <span class="p">@(</span><span class="n">x</span><span class="p">)</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">tau</span><span class="o">*</span><span class="n">x</span><span class="p">);</span>
+
+<span class="c">%% Create graphs</span>
+<span class="n">G1</span> <span class="p">=</span> <span class="n">gsp_sensor</span><span class="p">();</span>
+<span class="n">G2</span> <span class="p">=</span> <span class="n">gsp_comet</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>
+<span class="n">G3</span> <span class="p">=</span> <span class="n">gsp_2dgrid</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+<span class="n">G3</span><span class="p">.</span><span class="n">vertex_size</span> <span class="p">=</span> <span class="mi">50</span><span class="p">;</span>
+<span class="n">G4</span> <span class="p">=</span> <span class="n">gsp_airfoil</span><span class="p">();</span>
+<span class="n">G5</span> <span class="p">=</span> <span class="n">gsp_minnesota</span><span class="p">();</span>
+<span class="n">G6</span> <span class="p">=</span> <span class="n">gsp_swiss_roll</span><span class="p">();</span>
+
+
+
+
+<span class="c">%% Translate the kernel</span>
+<span class="n">G1</span> <span class="p">=</span> <span class="n">gsp_estimate_lmax</span><span class="p">(</span><span class="n">G1</span><span class="p">);</span>
+<span class="n">s1</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">G1</span><span class="p">.</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">gsp_filter_analysis</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="n">G1</span><span class="p">.</span><span class="n">N</span><span class="p">));</span>
+
+<span class="n">G2</span> <span class="p">=</span> <span class="n">gsp_estimate_lmax</span><span class="p">(</span><span class="n">G2</span><span class="p">);</span>
+<span class="n">s2</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">G2</span><span class="p">.</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">gsp_filter_analysis</span><span class="p">(</span><span class="n">G2</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="n">G2</span><span class="p">.</span><span class="n">N</span><span class="p">));</span>
+
+<span class="n">G3</span> <span class="p">=</span> <span class="n">gsp_estimate_lmax</span><span class="p">(</span><span class="n">G3</span><span class="p">);</span>
+<span class="n">s3</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">G3</span><span class="p">.</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">gsp_filter_analysis</span><span class="p">(</span><span class="n">G3</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="n">G3</span><span class="p">.</span><span class="n">N</span><span class="p">));</span>
+
+<span class="n">G4</span> <span class="p">=</span> <span class="n">gsp_estimate_lmax</span><span class="p">(</span><span class="n">G4</span><span class="p">);</span>
+<span class="n">s4</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">G4</span><span class="p">.</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">gsp_filter_analysis</span><span class="p">(</span><span class="n">G4</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="n">G4</span><span class="p">.</span><span class="n">N</span><span class="p">));</span>
+
+<span class="n">G5</span> <span class="p">=</span> <span class="n">gsp_estimate_lmax</span><span class="p">(</span><span class="n">G5</span><span class="p">);</span>
+<span class="n">s5</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">G5</span><span class="p">.</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">gsp_filter_analysis</span><span class="p">(</span><span class="n">G5</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="n">G5</span><span class="p">.</span><span class="n">N</span><span class="p">));</span>
+
+
+<span class="n">G6</span> <span class="p">=</span> <span class="n">gsp_estimate_lmax</span><span class="p">(</span><span class="n">G6</span><span class="p">);</span>
+<span class="n">s6</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">G6</span><span class="p">.</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">gsp_filter_analysis</span><span class="p">(</span><span class="n">G6</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="nb">eye</span><span class="p">(</span><span class="n">G6</span><span class="p">.</span><span class="n">N</span><span class="p">));</span>
+
+<span class="c">%% Compute the norm and plot the results</span>
+
+<span class="c">% n1 = (sum(abs(s1),1)./sqrt(sum(abs(s1).^2,1)))&#39;;</span>
+<span class="c">% n2 = (sum(abs(s2),1)./sqrt(sum(abs(s2).^2,1)))&#39;;</span>
+<span class="c">% n3 = (sum(abs(s3),1)./sqrt(sum(abs(s3).^2,1)))&#39;;</span>
+<span class="c">% n4 = (sum(abs(s4),1)./sqrt(sum(abs(s4).^2,1)))&#39;;</span>
+<span class="c">% n5 = (sum(abs(s5),1)./sqrt(sum(abs(s5).^2,1)))&#39;;</span>
+
+<span class="n">n1</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">n2</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">n3</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s3</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">n4</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s4</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">n5</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s5</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+<span class="n">n6</span> <span class="p">=</span> <span class="nb">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">s6</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">&#39;</span><span class="p">;</span>
+
+
+<span class="c">%%</span>
+<span class="n">figure</span><span class="p">()</span>
+<span class="n">gsp_plot_signal</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Random sensor&#39;</span><span class="p">);</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;heat_translate_sensor&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+
+<span class="n">figure</span><span class="p">()</span>
+<span class="n">gsp_plot_signal</span><span class="p">(</span><span class="n">G2</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Comet&#39;</span><span class="p">);</span>
+
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;heat_translate_comet&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+
+<span class="n">figure</span><span class="p">()</span>
+<span class="n">gsp_plot_signal</span><span class="p">(</span><span class="n">G3</span><span class="p">,</span><span class="n">n3</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Grid&#39;</span><span class="p">);</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;heat_translate_grid&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+
+<span class="n">figure</span><span class="p">()</span>
+<span class="n">gsp_plot_signal</span><span class="p">(</span><span class="n">G4</span><span class="p">,</span><span class="n">n4</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Airfoil&#39;</span><span class="p">)</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;heat_translate_airfoil&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+<span class="c">%%</span>
+<span class="n">figure</span><span class="p">()</span>
+<span class="n">gsp_plot_signal</span><span class="p">(</span><span class="n">G5</span><span class="p">,</span><span class="n">n5</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Minnesota&#39;</span><span class="p">)</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;heat_translate_minnesota&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+
+
+<span class="c">%%</span>
+<span class="n">figure</span><span class="p">()</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">show_sum</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">gsp_plot_filter</span><span class="p">(</span><span class="n">G3</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;Heat kernel&#39;</span><span class="p">)</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;heat_translate_kernel&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+</pre></div>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

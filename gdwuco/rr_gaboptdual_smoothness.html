@@ -1,0 +1,480 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_GABOPTDUAL_SMOOTHNESS - Optimization of dual gabor windows with support constraint</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_gaboptdual_smoothness_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_GABOPTDUAL_SMOOTHNESS - Optimization of dual gabor windows with support constraint</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-optimization-of-dual-gabor-windows">
+<h2>Reproducible research addendum for optimization of dual gabor windows</h2>
+<p>DESIGNING GABOR DUAL WINDOWS USING CONVEX OPTIMIZATION</p>
+<p>Paper: Nathanael Perraudin, Nicki Holighaus, Peter L. Sondergaard and Peter Balazs</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- January 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a> and the LTFAT
+toolbox. You can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+</div>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>In this demo file, we solve the following problem:</p>
+<!-- gd  = argmin_x    f(x) -->
+<!-- such that    x is a dual windows of g -->
+<div class="math">
+\begin{equation*}
+\begin{split}  \text{gd}  =  \text{arg} \min_x   &amp; f(x) \\\\     \text{such that }&amp; x \text{ is a dual windows of }g   \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(x\)</span>     :  Optimization variable</li>
+<li><span class="math">\(f(x)\)</span>  :  Functional to optimize</li>
+</ul>
+</dd>
+</dl>
+<p>We present the construction of time-frequency concentrated dual Gabor
+windows for a system of fixed length <span class="math">\(L = 500\)</span>. Our setup considers
+a frame <span class="math">\(G(g,25,125)\)</span>, i.e. a system with redundancy <span class="math">\(5\)</span>, where <span class="math">\(g\)</span> is
+a rectangular window of length <span class="math">\(L_g = 125\)</span> samples. This construction
+allows the comparison of alternative time-frequency localization
+measures and their effect on the solution window. The system forms a
+tight frame with badly localized dual window and is therefore an ideal
+sandbox for experimenting with various localization measures.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_1.png" src="rr_gaboptdual_smoothness_1.png" />
+<p class="caption">Analysis window in time domain</p>
+<div class="legend">
+Rectangular tight window</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_2.png" src="rr_gaboptdual_smoothness_2.png" />
+<p class="caption">Analysis windows in frequency domain</p>
+<div class="legend">
+Rectangular tight window</div>
+</div>
+<p>We apply 3 different methods for measuring joint time- frequency
+localization:</p>
+<ul>
+<li><p class="first">We combine the l2-norms of the gradient of <span class="math">\(x\)</span> and of <span class="math">\(Fx\)</span> (F beeing
+the Fourier transform), to optimize the smoothness in the time and the
+frequency domain. In that case:</p>
+<!-- f(x) = ||nabla x||_2^2 + ||nabla Fx||_2^2 -->
+<div class="math">
+\begin{equation*}
+f(x) = \|\nabla x\|_2^2 + \|\nabla Fx\|_2^2
+\end{equation*}
+</div>
+</li>
+<li><p class="first">Variance is associated with the Heisenberg uncertainty principle, a
+classical measure for time-frequency localiza- tion. While we cannot
+directly optimize the Heisenberg uncertainty (the product
+var(x) var(Fx) ), the sum of variances provides a very similar measure.
+We consider both the magnitude variance, as in Heisenberg?s
+uncertainty, as well as energy variance. In that case <span class="math">\(f(x)\)</span> can be
+too different things</p>
+<!-- f(x)= var(x) + var(Fx) -->
+<div class="math">
+\begin{equation*}
+f(x)= \text{var}(x) + \text{var}(Fx)
+\end{equation*}
+</div>
+<p>or</p>
+<!-- f(x)= var(x^2) + var((Fx)^2) -->
+<div class="math">
+\begin{equation*}
+f(x)= \text{var}(x^2) + \text{var}((Fx)^2)
+\end{equation*}
+</div>
+</li>
+<li><p class="first">The S0-norm of <span class="math">\(x\)</span>, or equivalently l1-norm of its STFT, is widely
+used in Gabor analysis to measure the spread of x in the
+time-frequency plane. Since truly sparse short-time Fourier
+transforms do not exist, it promotes functions that are concentrated
+around few points in the time-frequency plane. Since concentrated
+windows have small spread, they also have a small S0-norm. However,
+small spread is not a guarantee for concentration. To further improve
+the concentration, we also consider to weight the S0-norm as with the
+following:</p>
+<!-- W(f,t)= ln( 1 + x(t)^2 + y(f)^2 ) -->
+<div class="math">
+\begin{equation*}
+W(f,t)= \sqrt{ x(t)^2 + y(f)^2 }
+\end{equation*}
+</div>
+<p>with <span class="math">\(x(i) = y(i)\)</span> being the i-th entry of the vector</p>
+<!-- 1/sqrt(L) [-L/2,L/2+1,....,0,1,...,L/2]. -->
+<div class="math">
+\begin{equation*}
+\frac{1}{\sqrt(L)} [-L/2,L/2+1,....,0,1,...,L/2].
+\end{equation*}
+</div>
+<p>In that case, we have:</p>
+<!-- f(x) = ||x||_S0 = || G x ||_1 -->
+<div class="math">
+\begin{equation*}
+f(x) = \|x\|_{S_0} = \|Gx\|_1
+\end{equation*}
+</div>
+<p>with <span class="math">\(G\)</span> a full STFT with a Gaussian window. If the weighted case is
+considered, we have:</p>
+<!-- f(x) = || W G x ||_1 -->
+<div class="math">
+\begin{equation*}
+f(x) =  \|WGx\|_1
+\end{equation*}
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="experiment-1">
+<h2>Experiment 1</h2>
+<p>To show the effect of the gradient and variance measures when applied
+in a single domain, this experiment shows the results obtained for
+optimizing the concentration in time only. Since the analysis system
+forms a tight frame, the canonical dual is a rectangular windows of
+length 125. In this example, magnitude variance minimization provides
+the strongest concentration in terms of support, albeit at the cost of
+the clear, slim peak obtained from the very similar energy variance and
+gradient optimization.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_3.png" src="rr_gaboptdual_smoothness_3.png" />
+<p class="caption">Windows in time domain</p>
+<div class="legend">
+Optimization of the concentration in time with different methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_4.png" src="rr_gaboptdual_smoothness_4.png" />
+<p class="caption">Windows in frequency domain</p>
+<div class="legend">
+Optimization of the concentration in time with different methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_5.png" src="rr_gaboptdual_smoothness_5.png" />
+<p class="caption">Windows in time domain</p>
+<div class="legend">
+Optimization of the concentration in frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_6.png" src="rr_gaboptdual_smoothness_6.png" />
+<p class="caption">Windows in frequency domain</p>
+<div class="legend">
+Optimization of the concentration in frequency with different
+methods.</div>
+</div>
+</div>
+<div class="section" id="experiment-2">
+<h2>Experiment 2</h2>
+<p>In fact, we are more interested in simultaneous time-frequency
+concentration. Therefore, we performed another experiment comparing the
+time-frequency localization mea- sures proposed above. The following
+figures present the results of the experiment. The advantage of the
+gradient and variance approaches is the simplicity of tuning the
+tradeoff between time and frequency concentration, which involves only
+the appropriate choice of regularization parameter. On the other hand,
+only S0-norm based optimization schemes truly measure concentration on
+the whole time frequency plane, instead of its one dimensional
+projection on the time, respectively frequency domain.</p>
+<p>The results show that pure S0-norm optimization is insufficient to
+obtain good concentration. Weighted S0-norm and magnitude variance
+optimization on the other hand, provide very good results. The
+magnitude variance shows slightly better concentration in time, while
+the weighted S0-norm solution is superior to all other measures in
+terms of time-frequency decay. As observed for the previous experiment,
+energy variance and gradient approaches produce very similar results,
+providing slightly worse time-frequency concentration compared to
+magnitude variance and weighted S0-norm. While the experiment suggests
+weighted S0-norm and magnitude variance as the most promising
+approaches, this experiment should not be considered an exhaustive
+study of the various time-frequency localization measures.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_7.png" src="rr_gaboptdual_smoothness_7.png" />
+<p class="caption">Windows in time domain</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_8.png" src="rr_gaboptdual_smoothness_8.png" />
+<p class="caption">Windows in frequency domain</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_smoothness_9.png" src="rr_gaboptdual_smoothness_9.png" />
+<p class="caption">Spectrograms of the obtained windows</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Compute the canonical dual
+  Reconstruction error of the canonical dual 5.55112e-17
+Solve the optimization problem : smoothness in frequency
+  Reconstruction error of optimization problem: 1.48412e-16
+Solve the optimization problem : variance in time
+  Reconstruction error of optimization problem: 3.91382e-16
+Solve the optimization problem : energy variance in time
+  Reconstruction error of optimization problem: 2.13162e-16
+Solve the optimization problem : smoothness in time
+  Reconstruction error of optimization problem: 3.02599e-16
+Solve the optimization problem : variance in frequency
+  Reconstruction error of optimization problem: 1.12694e-16
+Solve the optimization problem : energy variance in frequency
+  Reconstruction error of optimization problem: 1.40431e-16
+Solve the optimization problem : Smoothness
+  Reconstruction error of optimization problem: 3.15598e-16
+Solve the optimization problem : Variance
+  Reconstruction error of optimization problem: 3.96401e-16
+Solve the optimization problem : energy variance
+  Reconstruction error of optimization problem: 3.44958e-16
+Solve the optimization problem : S0
+  Reconstruction error of optimization problem: 9.59711e-17
+Solve the optimization problem : Weigted S0
+  Reconstruction error of optimization problem: 3.44441e-16
+Solve the optimization problem : Weigted S2 norm
+Iteration 1:
+  Proj. dual windows: ||y-Ax||_2 = 1.678542e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 8.979255e-05, MAX_IT, iter = 5
+Current objective function : 6.633050e-01      relative norm : 3.453392e-01
+Iteration 2:
+  Proj. dual windows: ||y-Ax||_2 = 1.636430e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 8.979255e-05, MAX_IT, iter = 5
+Current objective function : 6.294974e-01      relative norm : 5.370581e-02
+Iteration 3:
+  Proj. dual windows: ||y-Ax||_2 = 1.684535e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 1.409032e-04, MAX_IT, iter = 5
+Current objective function : 6.475172e-01      relative norm : 2.782920e-02
+Iteration 4:
+  Proj. dual windows: ||y-Ax||_2 = 5.934285e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 2.049512e-04, MAX_IT, iter = 5
+Current objective function : 6.703044e-01      relative norm : 3.399531e-02
+Iteration 5:
+  Proj. dual windows: ||y-Ax||_2 = 6.248546e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 2.612780e-04, MAX_IT, iter = 5
+Current objective function : 6.884438e-01      relative norm : 2.634834e-02
+Iteration 6:
+  Proj. dual windows: ||y-Ax||_2 = 3.671226e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.028690e-04, MAX_IT, iter = 5
+Current objective function : 7.019800e-01      relative norm : 1.928294e-02
+Iteration 7:
+  Proj. dual windows: ||y-Ax||_2 = 4.136180e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.303082e-04, MAX_IT, iter = 5
+Current objective function : 7.119686e-01      relative norm : 1.402949e-02
+Iteration 8:
+  Proj. dual windows: ||y-Ax||_2 = 3.820133e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.466218e-04, MAX_IT, iter = 5
+Current objective function : 7.191373e-01      relative norm : 9.968522e-03
+Iteration 9:
+  Proj. dual windows: ||y-Ax||_2 = 1.697918e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.549957e-04, MAX_IT, iter = 5
+Current objective function : 7.244063e-01      relative norm : 7.273473e-03
+Iteration 10:
+  Proj. dual windows: ||y-Ax||_2 = 9.255606e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.580984e-04, MAX_IT, iter = 5
+Current objective function : 7.289900e-01      relative norm : 6.287789e-03
+Iteration 11:
+  Proj. dual windows: ||y-Ax||_2 = 4.170696e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.579742e-04, MAX_IT, iter = 5
+Current objective function : 7.314281e-01      relative norm : 3.333376e-03
+Iteration 12:
+  Proj. dual windows: ||y-Ax||_2 = 6.607573e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.560952e-04, MAX_IT, iter = 5
+Current objective function : 7.321695e-01      relative norm : 1.012487e-03
+Iteration 13:
+  Proj. dual windows: ||y-Ax||_2 = 9.096482e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.534560e-04, MAX_IT, iter = 5
+Current objective function : 7.318847e-01      relative norm : 3.890275e-04
+Iteration 14:
+  Proj. dual windows: ||y-Ax||_2 = 4.636640e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.506777e-04, MAX_IT, iter = 5
+Current objective function : 7.310749e-01      relative norm : 1.107766e-03
+Iteration 15:
+  Proj. dual windows: ||y-Ax||_2 = 8.986680e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.481088e-04, MAX_IT, iter = 5
+Current objective function : 7.300780e-01      relative norm : 1.365422e-03
+Iteration 16:
+  Proj. dual windows: ||y-Ax||_2 = 4.812625e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.459134e-04, MAX_IT, iter = 5
+Current objective function : 7.291051e-01      relative norm : 1.334348e-03
+Iteration 17:
+  Proj. dual windows: ||y-Ax||_2 = 1.687576e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.441395e-04, MAX_IT, iter = 5
+Current objective function : 7.282789e-01      relative norm : 1.134466e-03
+Iteration 18:
+  Proj. dual windows: ||y-Ax||_2 = 3.998773e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.427676e-04, MAX_IT, iter = 5
+Current objective function : 7.276594e-01      relative norm : 8.514235e-04
+Iteration 19:
+  Proj. dual windows: ||y-Ax||_2 = 1.155160e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.417399e-04, MAX_IT, iter = 5
+Current objective function : 7.272471e-01      relative norm : 5.668612e-04
+Iteration 20:
+  Proj. dual windows: ||y-Ax||_2 = 6.744481e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.409800e-04, MAX_IT, iter = 5
+Current objective function : 7.269923e-01      relative norm : 3.505587e-04
+Iteration 21:
+  Proj. dual windows: ||y-Ax||_2 = 4.326681e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.404134e-04, MAX_IT, iter = 5
+Current objective function : 7.268336e-01      relative norm : 2.183253e-04
+Iteration 22:
+  Proj. dual windows: ||y-Ax||_2 = 1.410747e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.399826e-04, MAX_IT, iter = 5
+Current objective function : 7.267270e-01      relative norm : 1.466699e-04
+Iteration 23:
+  Proj. dual windows: ||y-Ax||_2 = 3.118601e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.396481e-04, MAX_IT, iter = 5
+Current objective function : 7.266458e-01      relative norm : 1.116985e-04
+Iteration 24:
+  Proj. dual windows: ||y-Ax||_2 = 3.677464e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.393825e-04, MAX_IT, iter = 5
+Current objective function : 7.265747e-01      relative norm : 9.787986e-05
+Iteration 25:
+  Proj. dual windows: ||y-Ax||_2 = 3.634071e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.391666e-04, MAX_IT, iter = 5
+Current objective function : 7.265059e-01      relative norm : 9.467794e-05
+Iteration 26:
+  Proj. dual windows: ||y-Ax||_2 = 4.280895e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.389882e-04, MAX_IT, iter = 5
+Current objective function : 7.264369e-01      relative norm : 9.508277e-05
+Iteration 27:
+  Proj. dual windows: ||y-Ax||_2 = 6.956583e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.388403e-04, MAX_IT, iter = 5
+Current objective function : 7.263679e-01      relative norm : 9.488856e-05
+Iteration 28:
+  Proj. dual windows: ||y-Ax||_2 = 1.435464e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.387189e-04, MAX_IT, iter = 5
+Current objective function : 7.263011e-01      relative norm : 9.201009e-05
+Iteration 29:
+  Proj. dual windows: ||y-Ax||_2 = 3.941209e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.386213e-04, MAX_IT, iter = 5
+Current objective function : 7.262387e-01      relative norm : 8.599405e-05
+Iteration 30:
+  Proj. dual windows: ||y-Ax||_2 = 5.063158e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.385450e-04, MAX_IT, iter = 5
+Current objective function : 7.261824e-01      relative norm : 7.749054e-05
+Iteration 31:
+  Proj. dual windows: ||y-Ax||_2 = 7.395727e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.384873e-04, MAX_IT, iter = 5
+Current objective function : 7.261333e-01      relative norm : 6.763176e-05
+Iteration 32:
+  Proj. dual windows: ||y-Ax||_2 = 6.585973e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.384453e-04, MAX_IT, iter = 5
+Current objective function : 7.260915e-01      relative norm : 5.751819e-05
+Iteration 33:
+  Proj. dual windows: ||y-Ax||_2 = 6.526510e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.384160e-04, MAX_IT, iter = 5
+Current objective function : 7.260567e-01      relative norm : 4.794372e-05
+Iteration 34:
+  Proj. dual windows: ||y-Ax||_2 = 9.182868e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383969e-04, MAX_IT, iter = 5
+Current objective function : 7.260281e-01      relative norm : 3.934830e-05
+Iteration 35:
+  Proj. dual windows: ||y-Ax||_2 = 8.701364e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383853e-04, MAX_IT, iter = 5
+Current objective function : 7.260050e-01      relative norm : 3.191121e-05
+Iteration 36:
+  Proj. dual windows: ||y-Ax||_2 = 5.072479e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383792e-04, MAX_IT, iter = 5
+Current objective function : 7.259863e-01      relative norm : 2.567222e-05
+Iteration 37:
+  Proj. dual windows: ||y-Ax||_2 = 1.172046e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383768e-04, MAX_IT, iter = 5
+Current objective function : 7.259714e-01      relative norm : 2.060311e-05
+Iteration 38:
+  Proj. dual windows: ||y-Ax||_2 = 4.782711e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383769e-04, MAX_IT, iter = 5
+Current objective function : 7.259593e-01      relative norm : 1.662406e-05
+Iteration 39:
+  Proj. dual windows: ||y-Ax||_2 = 6.431025e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383783e-04, MAX_IT, iter = 5
+Current objective function : 7.259494e-01      relative norm : 1.360187e-05
+Iteration 40:
+  Proj. dual windows: ||y-Ax||_2 = 3.563700e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383803e-04, MAX_IT, iter = 5
+Current objective function : 7.259412e-01      relative norm : 1.136074e-05
+Iteration 41:
+  Proj. dual windows: ||y-Ax||_2 = 6.427195e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383826e-04, MAX_IT, iter = 5
+
+ Solution found:
+ Final relative norm: 9.711091e-06
+ 41 iterations
+ Stopping criterion: REL_NORM
+
+  Proj. dual windows: ||y-Ax||_2 = 4.044610e-17, TOL_EPS, iter = 0
+  Reconstruction error of optimization problem: 2.89626e-16
+
+Y =
+
+    0.1177    0.2630    0.5873    0.4546    1.0000    1.0000    0.2939    1.0000    1.0000    0.5951    0.2961
+    0.5623    0.5806    0.0691    0.4814    0.2090    0.1505    0.6373    0.2492    0.1490    0.0708    0.5808
+    1.0000    1.0000         0    1.0000    0.0832    0.5693    1.0000         0    0.1151         0    1.0000
+    0.6507    0.6883    0.0147    0.6011    0.1970    0.1365    0.7293    0.1983    0.1310    0.0164    0.6884
+         0         0    1.0000         0    0.5594    0.2231         0    0.8161         0    1.0000         0
+    0.7141    0.6529    0.0838    0.5150         0         0    0.7040    0.0514    0.0077    0.0834    0.6528
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

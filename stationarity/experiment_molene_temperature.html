@@ -1,0 +1,147 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>EXPERIMENT_MOLENE_TEMPERATURE - In-painting on the Molene temperature dataset</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="experiment_molene_temperature_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">EXPERIMENT_MOLENE_TEMPERATURE - In-painting on the Molene temperature dataset</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+<p>Authors: Nathanael Perraudin and Pierre Vandergheynst</p>
+<p>Date: January 2016</p>
+<p>Paper: Stationary signal processing on graphs</p>
+</div>
+<div class="section" id="abstract-of-the-paper">
+<h2>Abstract of the paper</h2>
+<p>Graphs are a central tool in machine learning and information
+processing as they allow to conveniently capture the structure of
+complex datasets. In this context, it is of high importance to develop
+flexible models of signals defined over graphs or networks. In this
+paper, we generalize the traditional concept of wide sense stationarity
+to signals defined over the vertices of arbitrary weighted undirected
+graphs. We show that stationarity is intimately linked to statistical
+invariance under a localization operator reminiscent of translation. We
+prove that stationary signals are characterized by a well-defined Power
+Spectral Density that can be efficiently estimated even for large
+graphs. We leverage this new concept to derive Wiener-type estimation
+procedures of noisy and partially observed signals and illustrate the
+performance of this new model for denoising and regression.</p>
+</div>
+<div class="section" id="dataset">
+<h2>Dataset</h2>
+<p>The French national meteorological service has published in open access
+a dataset with hourly weather observations collected during the Month
+of January 2014 in the region of Brest (France). From these data, we
+wish to ascertain that our method still performs better than the two
+other models (TV and Tikonov) on real measurements. The graph is built
+from the coordinates of the weather stations by connecting all the
+neighbours in a given radius with a weight function <span class="math">\(w(i,j) = e^{-d^2\tau}\)</span>
+where <span class="math">\(\tau\)</span> is adjusted to obtain a average degree around <span class="math">\(3\)</span>
+(<span class="math">\(\tau\)</span>, however, is not a sensitive parameter). For our experiments,
+we consider every time step as an independent realization of a WSS
+process. As sole pre-processing, we remove the mean of the temperature.
+Thanks to the <span class="math">\(744\)</span> time observation, we can estimate the covariance
+matrix and check wether the process is stationary on the graph.</p>
+</div>
+<div class="section" id="this-experiment">
+<h2>This experiment</h2>
+<p>The result of the experiment with temperature is displayed in Figures 1
+and 2. The covariance matrix shows a strong correlation between the
+different weather stations. Diagonalizing it with the Fourier basis of
+the graph assesses that the meteorological instances are more or less
+stationary within the distance graph by highlighting its diagonal
+characteristic. Moreover this diagonal gives us access to the PSD of
+the data. In our experiment, we solve an in-painting/de-noising problem
+with a mask operator covering 50 per cent of measurements and various
+amount of noise. We then average the result over <span class="math">\(744\)</span> experiments
+(corresponding to the <span class="math">\(744\)</span> observations) to obtain the curves
+displayed in Figure 2. We observe that Wiener optimization performs
+significantly better when the noise level is high and equivalently well
+to the two other methods for low noise level.</p>
+<div class="figure align-center">
+<img alt="experiment_molene_temperature_1.png" src="experiment_molene_temperature_1.png" />
+<p class="caption">Covariance matrices.</p>
+</div>
+<div class="figure align-center">
+<img alt="experiment_molene_temperature_2.png" src="experiment_molene_temperature_2.png" />
+<p class="caption">Recovery errors for different noise levels.</p>
+</div>
+<div class="figure align-center">
+<img alt="experiment_molene_temperature_3.png" src="experiment_molene_temperature_3.png" />
+<p class="caption">The temperature of the Island of Brehat.</p>
+</div>
+<div class="figure align-center">
+<img alt="experiment_molene_temperature_4.png" src="experiment_molene_temperature_4.png" />
+<p class="caption">An example of the process on the graph (first measure).</p>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+The stationarity ratio is: 9.400517e-01
+</pre>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="perraudin2016stationary"></a>
+
+N.&nbsp;Perraudin and P.&nbsp;Vandergheynst.
+ Stationary signal processing on graphs.
+ In <em>Infoscience - EPFL</em>, 2016.
+
+</p>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

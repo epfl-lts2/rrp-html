@@ -1,0 +1,65 @@
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+PSD estimation for N = 10000  :  1.138986 s
+PSD estimation for N = 20000  :  2.346258 s
+PSD estimation for N = 30000  :  3.456095 s
+PSD estimation for N = 40000  :  4.845546 s
+PSD estimation for N = 50000  :  5.862895 s
+PSD estimation for N = 60000  :  7.258421 s
+[Warning: MATLAB cannot use OpenGL for printing when started with the '-nodisplay' option.] 
+[> In inputcheck (line 143)
+  In print (line 153)
+  In gsp_plotfig (line 86)
+  In plotexec (line 130)] 

@@ -1,0 +1,651 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_LRTV_HSI - Low rank TV on hyperspectral image</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_lrtv_hsi_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_LRTV_HSI - Low rank TV on hyperspectral image</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-compressive-source-separation">
+<h2>Reproducible research addendum for compressive source separation</h2>
+<p>THEORY AND METHODS FOR HYPERSPECTRAL IMAGING</p>
+<p>Paper: Mohammad Golbabaee and Pierre Vandergheynst</p>
+<p>Demonstration matlab file:  Perraudin Nathanael, Mohammad Golbabaee</p>
+<p>EPFL -- February 2012</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocXbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a></p>
+</div>
+<div class="section" id="cs-recovery-of-hyperpectral-images-via-joint-trace-tv-norm-minimization">
+<h2>CS recovery of Hyperpectral images via joint Trace/TV norm minimization</h2>
+<p>We would like to solve this problem:</p>
+<!-- argmin_X   ||X||_* + alpha sum_j ||Xj||_TV -->
+<!-- such that  || A (X) - Y ||_F <= epsilon   Projection on a B2-Ball -->
+<div class="math">
+\begin{equation*}
+\begin{split} \operatorname{arg\,min}_X &amp; \|X\|_* + \alpha \sum_j \|X_j\|_{TV}  \\\\  \text{ such that: } &amp;\| A ( X ) - Y  \|_F &lt; \epsilon  \text{ (Projection on a B2-Ball) }  \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(X\)</span> :  N*J,  HSI</li>
+<li><span class="math">\(Y\)</span> =  <span class="math">\(A(X) + Z\)</span>: the measurement (forward model)</li>
+<li><span class="math">\(A\)</span> :  Sampling operator</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="techniques-for-solving-the-problem">
+<h2>Techniques for solving the problem</h2>
+<ul class="simple">
+<li>Dense operator with TV regularization (Correlated measurements)</li>
+</ul>
+</div>
+<div class="section" id="results">
+<h2>Results</h2>
+<div class="figure align-center">
+<img alt="rr_lrtv_hsi_1.png" src="rr_lrtv_hsi_1.png" />
+<p class="caption">Frames 5 and 6</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_lrtv_hsi_2.png" src="rr_lrtv_hsi_2.png" />
+<p class="caption">Frames 32 and 33</p>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+UnLocBoX version 1.7.2. Copyright 2012-2015 LTS2-EPFL, by Nathanael Perraudin
+Loading data...
+Taking CS measurements...
+Recovery commenced...
+The time step is set manually to : 409.939
+Algorithm selected: PPXA
+Iteration 1:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 4.681133e-13, TOL_EPS, iter = 0
+  Prox_TV: obj = 0.000000e+00, rel_obj = NaN, MAX_IT, iter = 200
+  prox nuclear norm: rank= 0, |x|_* = 0.000000e+00
+  f(x^*) = 1.138416e+06, rel_eval = 8.659223e-01
+Iteration 2:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 5.770473e-13, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.233980e+05, rel_obj = 8.885477e-05, TOL_EPS, iter = 75
+  prox nuclear norm: rank= 0, |x|_* = 0.000000e+00
+  f(x^*) = 1.067482e+06, rel_eval = 6.644945e-02
+Iteration 3:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.609196e-13, TOL_EPS, iter = 0
+  Prox_TV: obj = 9.461269e+05, rel_obj = 7.853049e-05, TOL_EPS, iter = 57
+  prox nuclear norm: rank= 1, |x|_* = 3.373576e+02
+  f(x^*) = 9.645115e+05, rel_eval = 1.067593e-01
+Iteration 4:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.113412e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 1.593153e+06, rel_obj = 9.842164e-05, TOL_EPS, iter = 66
+  prox nuclear norm: rank= 1, |x|_* = 6.633663e+02
+  f(x^*) = 8.166596e+05, rel_eval = 1.810448e-01
+Iteration 5:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.318316e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.293907e+06, rel_obj = 9.991821e-05, TOL_EPS, iter = 56
+  prox nuclear norm: rank= 2, |x|_* = 1.055076e+03
+  f(x^*) = 6.423752e+05, rel_eval = 2.713125e-01
+Iteration 6:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.536765e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.922127e+06, rel_obj = 9.123668e-05, TOL_EPS, iter = 47
+  prox nuclear norm: rank= 20, |x|_* = 2.138801e+03
+  f(x^*) = 4.529028e+05, rel_eval = 4.183511e-01
+Iteration 7:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.672108e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.526307e+06, rel_obj = 7.689700e-05, TOL_EPS, iter = 42
+  prox nuclear norm: rank= 36, |x|_* = 4.210841e+03
+  f(x^*) = 2.980383e+05, rel_eval = 5.196127e-01
+Iteration 8:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.746361e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.207488e+06, rel_obj = 9.835823e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 6.015754e+03
+  f(x^*) = 2.353889e+05, rel_eval = 2.661525e-01
+Iteration 9:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.719997e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.717318e+06, rel_obj = 9.660191e-05, TOL_EPS, iter = 34
+  prox nuclear norm: rank= 40, |x|_* = 6.971039e+03
+  f(x^*) = 2.329934e+05, rel_eval = 1.028159e-02
+Iteration 10:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.736907e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.865752e+06, rel_obj = 8.377825e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 7.219447e+03
+  f(x^*) = 2.333420e+05, rel_eval = 1.493749e-03
+Iteration 11:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.624951e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.696254e+06, rel_obj = 9.999940e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 6.918475e+03
+  f(x^*) = 2.140898e+05, rel_eval = 8.992547e-02
+Iteration 12:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.590245e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.339924e+06, rel_obj = 8.515757e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 6.282754e+03
+  f(x^*) = 1.842462e+05, rel_eval = 1.619767e-01
+Iteration 13:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.704580e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.923402e+06, rel_obj = 9.121755e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 33, |x|_* = 5.609589e+03
+  f(x^*) = 1.638862e+05, rel_eval = 1.242329e-01
+Iteration 14:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.459501e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.531998e+06, rel_obj = 9.690021e-05, TOL_EPS, iter = 40
+  prox nuclear norm: rank= 19, |x|_* = 5.271914e+03
+  f(x^*) = 1.658117e+05, rel_eval = 1.161276e-02
+Iteration 15:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.454042e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.217266e+06, rel_obj = 9.951147e-05, TOL_EPS, iter = 44
+  prox nuclear norm: rank= 8, |x|_* = 5.325432e+03
+  f(x^*) = 1.862113e+05, rel_eval = 1.095506e-01
+Iteration 16:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.688478e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.970083e+06, rel_obj = 9.692630e-05, TOL_EPS, iter = 47
+  prox nuclear norm: rank= 3, |x|_* = 5.540492e+03
+  f(x^*) = 2.153259e+05, rel_eval = 1.352120e-01
+Iteration 17:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.670638e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.754774e+06, rel_obj = 8.143393e-05, TOL_EPS, iter = 48
+  prox nuclear norm: rank= 2, |x|_* = 5.769140e+03
+  f(x^*) = 2.456372e+05, rel_eval = 1.233988e-01
+Iteration 18:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.673901e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.562366e+06, rel_obj = 7.545158e-05, TOL_EPS, iter = 51
+  prox nuclear norm: rank= 2, |x|_* = 5.960005e+03
+  f(x^*) = 2.720852e+05, rel_eval = 9.720482e-02
+Iteration 19:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.503607e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.403856e+06, rel_obj = 9.368063e-05, TOL_EPS, iter = 51
+  prox nuclear norm: rank= 2, |x|_* = 6.108319e+03
+  f(x^*) = 2.911205e+05, rel_eval = 6.538621e-02
+Iteration 20:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.466673e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.289073e+06, rel_obj = 9.004511e-05, TOL_EPS, iter = 47
+  prox nuclear norm: rank= 2, |x|_* = 6.213181e+03
+  f(x^*) = 3.006363e+05, rel_eval = 3.165240e-02
+Iteration 21:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.455943e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.216479e+06, rel_obj = 9.594648e-05, TOL_EPS, iter = 53
+  prox nuclear norm: rank= 2, |x|_* = 6.274362e+03
+  f(x^*) = 3.000491e+05, rel_eval = 1.957123e-03
+Iteration 22:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.516025e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.187883e+06, rel_obj = 9.964571e-05, TOL_EPS, iter = 53
+  prox nuclear norm: rank= 3, |x|_* = 6.296347e+03
+  f(x^*) = 2.897884e+05, rel_eval = 3.540756e-02
+Iteration 23:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.426417e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.195121e+06, rel_obj = 8.199197e-05, TOL_EPS, iter = 49
+  prox nuclear norm: rank= 3, |x|_* = 6.283533e+03
+  f(x^*) = 2.715434e+05, rel_eval = 6.719003e-02
+Iteration 24:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.438293e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.226276e+06, rel_obj = 8.117803e-05, TOL_EPS, iter = 52
+  prox nuclear norm: rank= 3, |x|_* = 6.232408e+03
+  f(x^*) = 2.478532e+05, rel_eval = 9.558146e-02
+Iteration 25:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.430328e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.274503e+06, rel_obj = 9.642703e-05, TOL_EPS, iter = 49
+  prox nuclear norm: rank= 5, |x|_* = 6.151870e+03
+  f(x^*) = 2.215153e+05, rel_eval = 1.188988e-01
+Iteration 26:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.486763e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.328173e+06, rel_obj = 8.394156e-05, TOL_EPS, iter = 49
+  prox nuclear norm: rank= 6, |x|_* = 6.055544e+03
+  f(x^*) = 1.953202e+05, rel_eval = 1.341134e-01
+Iteration 27:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.479613e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.381588e+06, rel_obj = 8.671788e-05, TOL_EPS, iter = 48
+  prox nuclear norm: rank= 10, |x|_* = 5.959205e+03
+  f(x^*) = 1.716785e+05, rel_eval = 1.377091e-01
+Iteration 28:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.422602e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.429811e+06, rel_obj = 9.250866e-05, TOL_EPS, iter = 50
+  prox nuclear norm: rank= 12, |x|_* = 5.852686e+03
+  f(x^*) = 1.525302e+05, rel_eval = 1.255377e-01
+Iteration 29:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.429468e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.472193e+06, rel_obj = 9.048193e-05, TOL_EPS, iter = 43
+  prox nuclear norm: rank= 14, |x|_* = 5.723690e+03
+  f(x^*) = 1.390581e+05, rel_eval = 9.688122e-02
+Iteration 30:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.432759e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.499745e+06, rel_obj = 9.512137e-05, TOL_EPS, iter = 49
+  prox nuclear norm: rank= 16, |x|_* = 5.565101e+03
+  f(x^*) = 1.316727e+05, rel_eval = 5.608938e-02
+Iteration 31:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.482286e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.519023e+06, rel_obj = 9.731889e-05, TOL_EPS, iter = 45
+  prox nuclear norm: rank= 18, |x|_* = 5.382764e+03
+  f(x^*) = 1.303190e+05, rel_eval = 1.038722e-02
+Iteration 32:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.389547e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.527492e+06, rel_obj = 9.523826e-05, TOL_EPS, iter = 48
+  prox nuclear norm: rank= 19, |x|_* = 5.176458e+03
+  f(x^*) = 1.343628e+05, rel_eval = 3.009618e-02
+Iteration 33:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.376458e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.531367e+06, rel_obj = 9.646906e-05, TOL_EPS, iter = 47
+  prox nuclear norm: rank= 20, |x|_* = 4.962128e+03
+  f(x^*) = 1.427061e+05, rel_eval = 5.846441e-02
+Iteration 34:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.363381e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.534459e+06, rel_obj = 7.510333e-05, TOL_EPS, iter = 47
+  prox nuclear norm: rank= 21, |x|_* = 4.759107e+03
+  f(x^*) = 1.537882e+05, rel_eval = 7.206098e-02
+Iteration 35:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.364868e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.542689e+06, rel_obj = 8.544933e-05, TOL_EPS, iter = 48
+  prox nuclear norm: rank= 22, |x|_* = 4.582343e+03
+  f(x^*) = 1.659479e+05, rel_eval = 7.327450e-02
+Iteration 36:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.393594e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.562047e+06, rel_obj = 9.497988e-05, TOL_EPS, iter = 47
+  prox nuclear norm: rank= 24, |x|_* = 4.444288e+03
+  f(x^*) = 1.776489e+05, rel_eval = 6.586571e-02
+Iteration 37:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.353245e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.594850e+06, rel_obj = 7.483835e-05, TOL_EPS, iter = 50
+  prox nuclear norm: rank= 25, |x|_* = 4.354112e+03
+  f(x^*) = 1.875461e+05, rel_eval = 5.277207e-02
+Iteration 38:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.375177e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.646626e+06, rel_obj = 8.044917e-05, TOL_EPS, iter = 45
+  prox nuclear norm: rank= 26, |x|_* = 4.316784e+03
+  f(x^*) = 1.946384e+05, rel_eval = 3.643808e-02
+Iteration 39:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.380060e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.714508e+06, rel_obj = 9.100191e-05, TOL_EPS, iter = 44
+  prox nuclear norm: rank= 29, |x|_* = 4.333297e+03
+  f(x^*) = 1.983073e+05, rel_eval = 1.850149e-02
+Iteration 40:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.467920e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.799005e+06, rel_obj = 9.940068e-05, TOL_EPS, iter = 44
+  prox nuclear norm: rank= 31, |x|_* = 4.399986e+03
+  f(x^*) = 1.983385e+05, rel_eval = 1.570282e-04
+Iteration 41:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.428352e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.898148e+06, rel_obj = 9.494040e-05, TOL_EPS, iter = 43
+  prox nuclear norm: rank= 33, |x|_* = 4.512241e+03
+  f(x^*) = 1.949815e+05, rel_eval = 1.721684e-02
+Iteration 42:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.446852e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.007577e+06, rel_obj = 8.262169e-05, TOL_EPS, iter = 42
+  prox nuclear norm: rank= 36, |x|_* = 4.657688e+03
+  f(x^*) = 1.888409e+05, rel_eval = 3.251728e-02
+Iteration 43:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.465060e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.121489e+06, rel_obj = 9.420684e-05, TOL_EPS, iter = 41
+  prox nuclear norm: rank= 37, |x|_* = 4.817263e+03
+  f(x^*) = 1.807734e+05, rel_eval = 4.462806e-02
+Iteration 44:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.424555e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.233084e+06, rel_obj = 9.055019e-05, TOL_EPS, iter = 39
+  prox nuclear norm: rank= 38, |x|_* = 4.972814e+03
+  f(x^*) = 1.716594e+05, rel_eval = 5.309298e-02
+Iteration 45:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.452716e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.335017e+06, rel_obj = 7.550220e-05, TOL_EPS, iter = 38
+  prox nuclear norm: rank= 39, |x|_* = 5.114616e+03
+  f(x^*) = 1.623091e+05, rel_eval = 5.760809e-02
+Iteration 46:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.468371e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.422552e+06, rel_obj = 8.087684e-05, TOL_EPS, iter = 38
+  prox nuclear norm: rank= 40, |x|_* = 5.235008e+03
+  f(x^*) = 1.533614e+05, rel_eval = 5.834393e-02
+Iteration 47:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.515908e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.492867e+06, rel_obj = 8.736880e-05, TOL_EPS, iter = 37
+  prox nuclear norm: rank= 40, |x|_* = 5.327772e+03
+  f(x^*) = 1.452565e+05, rel_eval = 5.579716e-02
+Iteration 48:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.457538e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.543791e+06, rel_obj = 8.274710e-05, TOL_EPS, iter = 37
+  prox nuclear norm: rank= 40, |x|_* = 5.394323e+03
+  f(x^*) = 1.382368e+05, rel_eval = 5.078070e-02
+Iteration 49:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.550845e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.576460e+06, rel_obj = 9.539536e-05, TOL_EPS, iter = 37
+  prox nuclear norm: rank= 40, |x|_* = 5.438755e+03
+  f(x^*) = 1.324124e+05, rel_eval = 4.398688e-02
+Iteration 50:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.501193e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.593314e+06, rel_obj = 8.231817e-05, TOL_EPS, iter = 37
+  prox nuclear norm: rank= 40, |x|_* = 5.466960e+03
+  f(x^*) = 1.278305e+05, rel_eval = 3.584285e-02
+Iteration 51:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.510601e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.598031e+06, rel_obj = 8.724944e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.485240e+03
+  f(x^*) = 1.245170e+05, rel_eval = 2.661126e-02
+Iteration 52:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.458232e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.593848e+06, rel_obj = 8.521372e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.499504e+03
+  f(x^*) = 1.224015e+05, rel_eval = 1.728306e-02
+Iteration 53:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.656213e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.583886e+06, rel_obj = 7.450254e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.514577e+03
+  f(x^*) = 1.213713e+05, rel_eval = 8.488289e-03
+Iteration 54:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.487112e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.571394e+06, rel_obj = 9.064194e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.534066e+03
+  f(x^*) = 1.212193e+05, rel_eval = 1.254086e-03
+Iteration 55:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.665698e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.559174e+06, rel_obj = 9.714914e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.559353e+03
+  f(x^*) = 1.217254e+05, rel_eval = 4.157708e-03
+Iteration 56:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.539372e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.548652e+06, rel_obj = 6.023967e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.590217e+03
+  f(x^*) = 1.226535e+05, rel_eval = 7.566865e-03
+Iteration 57:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.622635e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.541921e+06, rel_obj = 8.880361e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.625608e+03
+  f(x^*) = 1.237461e+05, rel_eval = 8.829706e-03
+Iteration 58:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.519401e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.538573e+06, rel_obj = 8.093693e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.663135e+03
+  f(x^*) = 1.247416e+05, rel_eval = 7.980615e-03
+Iteration 59:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.538042e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.539615e+06, rel_obj = 9.852079e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.699679e+03
+  f(x^*) = 1.254515e+05, rel_eval = 5.658288e-03
+Iteration 60:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.613615e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.544683e+06, rel_obj = 9.799737e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.733156e+03
+  f(x^*) = 1.257682e+05, rel_eval = 2.518096e-03
+Iteration 61:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.588914e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.553109e+06, rel_obj = 6.764513e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.760872e+03
+  f(x^*) = 1.256422e+05, rel_eval = 1.002161e-03
+Iteration 62:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.585528e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.564270e+06, rel_obj = 9.508985e-05, TOL_EPS, iter = 36
+  prox nuclear norm: rank= 40, |x|_* = 5.781136e+03
+  f(x^*) = 1.250952e+05, rel_eval = 4.372825e-03
+Iteration 63:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.566323e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.577787e+06, rel_obj = 9.715108e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.792028e+03
+  f(x^*) = 1.242120e+05, rel_eval = 7.110294e-03
+Iteration 64:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.631257e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.592069e+06, rel_obj = 8.670898e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.793046e+03
+  f(x^*) = 1.230974e+05, rel_eval = 9.054560e-03
+Iteration 65:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.572073e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.606813e+06, rel_obj = 9.803649e-05, TOL_EPS, iter = 35
+  prox nuclear norm: rank= 40, |x|_* = 5.783477e+03
+  f(x^*) = 1.218768e+05, rel_eval = 1.001576e-02
+Iteration 66:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.547993e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.621821e+06, rel_obj = 8.207776e-05, TOL_EPS, iter = 34
+  prox nuclear norm: rank= 40, |x|_* = 5.763896e+03
+  f(x^*) = 1.207016e+05, rel_eval = 9.735815e-03
+Iteration 67:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.552840e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.636476e+06, rel_obj = 6.760795e-05, TOL_EPS, iter = 33
+  prox nuclear norm: rank= 40, |x|_* = 5.735738e+03
+  f(x^*) = 1.197168e+05, rel_eval = 8.226268e-03
+Iteration 68:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.550964e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.650151e+06, rel_obj = 6.748157e-05, TOL_EPS, iter = 33
+  prox nuclear norm: rank= 40, |x|_* = 5.700421e+03
+  f(x^*) = 1.189998e+05, rel_eval = 6.025441e-03
+Iteration 69:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.568179e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.663576e+06, rel_obj = 8.328503e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.659313e+03
+  f(x^*) = 1.186125e+05, rel_eval = 3.264921e-03
+Iteration 70:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.557648e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.676493e+06, rel_obj = 4.546034e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.615159e+03
+  f(x^*) = 1.186065e+05, rel_eval = 5.092092e-05
+Iteration 71:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.521406e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.689074e+06, rel_obj = 6.777518e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.569980e+03
+  f(x^*) = 1.189546e+05, rel_eval = 2.926267e-03
+Iteration 72:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.536842e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.702079e+06, rel_obj = 6.814881e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.525970e+03
+  f(x^*) = 1.196247e+05, rel_eval = 5.601797e-03
+Iteration 73:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.544984e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.715616e+06, rel_obj = 7.385723e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.485206e+03
+  f(x^*) = 1.205415e+05, rel_eval = 7.605399e-03
+Iteration 74:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.541502e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.729881e+06, rel_obj = 8.813308e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.449157e+03
+  f(x^*) = 1.216004e+05, rel_eval = 8.708142e-03
+Iteration 75:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.523321e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.742271e+06, rel_obj = 9.324665e-05, TOL_EPS, iter = 38
+  prox nuclear norm: rank= 40, |x|_* = 5.418919e+03
+  f(x^*) = 1.224785e+05, rel_eval = 7.170075e-03
+Iteration 76:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.548469e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.761768e+06, rel_obj = 9.634748e-05, TOL_EPS, iter = 33
+  prox nuclear norm: rank= 40, |x|_* = 5.392431e+03
+  f(x^*) = 1.235536e+05, rel_eval = 8.701145e-03
+Iteration 77:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.548451e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.779178e+06, rel_obj = 6.661902e-05, TOL_EPS, iter = 33
+  prox nuclear norm: rank= 40, |x|_* = 5.378192e+03
+  f(x^*) = 1.245044e+05, rel_eval = 7.636862e-03
+Iteration 78:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.555750e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.797808e+06, rel_obj = 7.497647e-05, TOL_EPS, iter = 33
+  prox nuclear norm: rank= 40, |x|_* = 5.368834e+03
+  f(x^*) = 1.251997e+05, rel_eval = 5.553212e-03
+Iteration 79:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.574499e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.817186e+06, rel_obj = 9.488219e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.364934e+03
+  f(x^*) = 1.255999e+05, rel_eval = 3.186204e-03
+Iteration 80:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.522576e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.836488e+06, rel_obj = 5.956875e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.366328e+03
+  f(x^*) = 1.257286e+05, rel_eval = 1.023496e-03
+Iteration 81:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.546398e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.855506e+06, rel_obj = 4.500453e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.372094e+03
+  f(x^*) = 1.255748e+05, rel_eval = 1.224777e-03
+Iteration 82:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.505826e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.873904e+06, rel_obj = 4.818038e-05, TOL_EPS, iter = 32
+  prox nuclear norm: rank= 40, |x|_* = 5.381216e+03
+  f(x^*) = 1.251676e+05, rel_eval = 3.253145e-03
+Iteration 83:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.514986e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.891656e+06, rel_obj = 9.874064e-05, TOL_EPS, iter = 31
+  prox nuclear norm: rank= 40, |x|_* = 5.392921e+03
+  f(x^*) = 1.245378e+05, rel_eval = 5.056744e-03
+Iteration 84:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.546133e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.908396e+06, rel_obj = 2.180643e-05, TOL_EPS, iter = 31
+  prox nuclear norm: rank= 40, |x|_* = 5.406375e+03
+  f(x^*) = 1.237741e+05, rel_eval = 6.170412e-03
+Iteration 85:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.549314e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.923603e+06, rel_obj = 1.601092e-05, TOL_EPS, iter = 31
+  prox nuclear norm: rank= 40, |x|_* = 5.421055e+03
+  f(x^*) = 1.228834e+05, rel_eval = 7.248211e-03
+Iteration 86:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.536351e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.937414e+06, rel_obj = 2.758609e-05, TOL_EPS, iter = 31
+  prox nuclear norm: rank= 40, |x|_* = 5.436086e+03
+  f(x^*) = 1.219183e+05, rel_eval = 7.915763e-03
+Iteration 87:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.578796e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.949867e+06, rel_obj = 2.159854e-05, TOL_EPS, iter = 31
+  prox nuclear norm: rank= 40, |x|_* = 5.451290e+03
+  f(x^*) = 1.209320e+05, rel_eval = 8.155895e-03
+Iteration 88:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.527502e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.961005e+06, rel_obj = 9.156149e-05, TOL_EPS, iter = 30
+  prox nuclear norm: rank= 40, |x|_* = 5.466303e+03
+  f(x^*) = 1.199373e+05, rel_eval = 8.293786e-03
+Iteration 89:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.531017e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.970981e+06, rel_obj = 7.652752e-05, TOL_EPS, iter = 30
+  prox nuclear norm: rank= 40, |x|_* = 5.480909e+03
+  f(x^*) = 1.190544e+05, rel_eval = 7.415298e-03
+Iteration 90:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.541923e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.979599e+06, rel_obj = 9.318229e-05, TOL_EPS, iter = 30
+  prox nuclear norm: rank= 40, |x|_* = 5.495435e+03
+  f(x^*) = 1.182567e+05, rel_eval = 6.745770e-03
+Iteration 91:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.545768e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.987302e+06, rel_obj = 7.631387e-05, TOL_EPS, iter = 30
+  prox nuclear norm: rank= 40, |x|_* = 5.509433e+03
+  f(x^*) = 1.175556e+05, rel_eval = 5.963707e-03
+Iteration 92:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.660747e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.994156e+06, rel_obj = 4.934699e-05, TOL_EPS, iter = 30
+  prox nuclear norm: rank= 40, |x|_* = 5.522865e+03
+  f(x^*) = 1.169634e+05, rel_eval = 5.063803e-03
+Iteration 93:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.534469e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.000245e+06, rel_obj = 3.744006e-05, TOL_EPS, iter = 30
+  prox nuclear norm: rank= 40, |x|_* = 5.535708e+03
+  f(x^*) = 1.164815e+05, rel_eval = 4.136564e-03
+Iteration 94:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.531163e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.005875e+06, rel_obj = 9.543556e-05, TOL_EPS, iter = 29
+  prox nuclear norm: rank= 40, |x|_* = 5.547968e+03
+  f(x^*) = 1.160598e+05, rel_eval = 3.633960e-03
+Iteration 95:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.601177e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.011205e+06, rel_obj = 5.161526e-05, TOL_EPS, iter = 29
+  prox nuclear norm: rank= 40, |x|_* = 5.559313e+03
+  f(x^*) = 1.158030e+05, rel_eval = 2.217683e-03
+Iteration 96:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.549004e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.016089e+06, rel_obj = 2.595063e-05, TOL_EPS, iter = 29
+  prox nuclear norm: rank= 40, |x|_* = 5.570283e+03
+  f(x^*) = 1.156252e+05, rel_eval = 1.537706e-03
+Iteration 97:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.578200e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.020792e+06, rel_obj = 2.120644e-05, TOL_EPS, iter = 29
+  prox nuclear norm: rank= 40, |x|_* = 5.580208e+03
+  f(x^*) = 1.155002e+05, rel_eval = 1.081888e-03
+Iteration 98:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.560184e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.025344e+06, rel_obj = 6.374132e-07, TOL_EPS, iter = 29
+  prox nuclear norm: rank= 40, |x|_* = 5.588895e+03
+  f(x^*) = 1.154237e+05, rel_eval = 6.630634e-04
+Iteration 99:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.591616e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.029656e+06, rel_obj = 9.397768e-05, TOL_EPS, iter = 28
+  prox nuclear norm: rank= 40, |x|_* = 5.596183e+03
+  f(x^*) = 1.153211e+05, rel_eval = 8.895556e-04
+Iteration 100:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.587710e-12, TOL_EPS, iter = 0
+  Prox_TV: obj = 4.034148e+06, rel_obj = 3.029285e-05, TOL_EPS, iter = 28
+  prox nuclear norm: rank= 40, |x|_* = 5.601715e+03
+  f(x^*) = 1.153413e+05, rel_eval = 1.752511e-04
+
+ PPXA:
+  f(x^*) = 1.153413e+05, rel_eval = 1.752511e-04
+ 100 iterations
+ Stopping criterion: MAX_IT
+
+The relative reconstruction error is: 11.6072 percent for a compression of 8
+</pre>
+</div>
+<H2>References:</H2>
+
+
+
+<p><a name="golbabaee2010multichannel"></a>
+
+M.&nbsp;Golbabaee, S.&nbsp;Arberet, P.&nbsp;Vandergheynst, et&nbsp;al.
+ Multichannel compressed sensing via source separation for
+  hyperspectral images.
+ In <em>Eusipco 2010</em>, 2010.
+
+</p>
+
+<p><a name="golbabaee2012compressed"></a>
+
+M.&nbsp;Golbabaee and P.&nbsp;Vandergheynst.
+ Compressed sensing of simultaneous low-rank and joint-sparse
+  matrices.
+ In <em>Infoscience - EPFL</em>, 2012.
+
+</p>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

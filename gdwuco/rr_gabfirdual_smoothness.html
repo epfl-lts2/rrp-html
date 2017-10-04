@@ -1,0 +1,1857 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_GABFIRDUAL_SMOOTHNESS - Optimization of dual gabor windows with support constraint</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_gabfirdual_smoothness_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_GABFIRDUAL_SMOOTHNESS - Optimization of dual gabor windows with support constraint</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-optimization-of-dual-gabor-windows">
+<h2>Reproducible research addendum for optimization of dual gabor windows</h2>
+<p>DESIGNING GABOR DUAL WINDOWS USING CONVEX OPTIMIZATION</p>
+<p>Paper: Nathanael Perraudin, Nicki Holighaus, Peter L. Sondergaard and Peter Balazs</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- January 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a> and the LTFAT
+toolbox. You can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+</div>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>In this experiment, we simultaneously optimize TF concentration of the
+dual window. This is either achieved by a single prior on the TF
+representation of the dual window <span class="math">\(h\)</span> (S0 and weighted S0 norm),
+or by applying the time and frequency  versions of one prior, with
+equal weights (gradient and variance). Generally, we write our problem:</p>
+<!-- gd  = argmin_x    f(x) -->
+<!-- such that    x is a dual windows of g and compactly supported -->
+<div class="math">
+\begin{equation*}
+\begin{split}  \text{gd}  =  \text{arg} \min_x   &amp; f(x) \\\\     \text{such that }&amp; x \text{ is a dual windows of }g \\\\     \text{such that }&amp; x \text{ is compactly supported}  \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(x\)</span>     :  Optimization variable</li>
+<li><span class="math">\(f(x)\)</span>  :  Functional to optimize.</li>
+</ul>
+</dd>
+</dl>
+<p>For this experiment, we have chosen a Tukey window with a transition area
+ratio of <span class="math">\(3/5\)</span> (see figure below, with <span class="math">\(L_g = 240\)</span>, <span class="math">\(a = 50\)</span> and
+<span class="math">\(M=300\)</span>. The support of the dual window candidates was restricted to
+<span class="math">\(L_h = 600\)</span>.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness_1.png" src="rr_gabfirdual_smoothness_1.png" />
+<p class="caption">Analysis window in time domain</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness_2.png" src="rr_gabfirdual_smoothness_2.png" />
+<p class="caption">Analysis windows in frequency domain</p>
+</div>
+<p>We apply 3 different methods for measuring joint time- frequency
+localization:</p>
+<ul>
+<li><p class="first">We combine the l2-norms of the gradient of <span class="math">\(x\)</span> and of <span class="math">\(Fx\)</span> (F beeing
+the Fourier transform), to optimize the smoothness in the time and the
+frequency domain. In that case:</p>
+<!-- f(x) = ||nabla x||_2^2 + ||nabla Fx||_2^2 -->
+<div class="math">
+\begin{equation*}
+f(x) = \|\nabla x\|_2^2 + \|\nabla Fx\|_2^2
+\end{equation*}
+</div>
+</li>
+<li><p class="first">Variance is associated with the Heisenberg uncertainty principle, a
+classical measure for time-frequency localiza- tion. While we cannot
+directly optimize the Heisenberg uncertainty (the product
+var(x) var(Fx) ), the sum of variances provides a very similar measure.
+We consider both the magnitude variance, as in Heisenberg?s
+uncertainty, as well as energy variance. In that case <span class="math">\(f(x)\)</span> can be
+too different things</p>
+<!-- f(x)= var(x) + var(Fx) -->
+<div class="math">
+\begin{equation*}
+f(x)= \text{var}(x) + \text{var}(Fx)
+\end{equation*}
+</div>
+<p>or</p>
+<!-- f(x)= var(x^2) + var((Fx)^2) -->
+<div class="math">
+\begin{equation*}
+f(x)= \text{var}(x^2) + \text{var}((Fx)^2)
+\end{equation*}
+</div>
+</li>
+<li><p class="first">The S0-norm of <span class="math">\(x\)</span>, or equivalently l1-norm of its STFT, is widely
+used in Gabor analysis to measure the spread of x in the
+time-frequency plane. Since truly sparse short-time Fourier
+transforms do not exist, it promotes functions that are concentrated
+around few points in the time-frequency plane. Since concentrated
+windows have small spread, they also have a small S0-norm. However,
+small spread is not a guarantee for concentration. To further improve
+the concentration, we also consider to weight the S0-norm as with the
+following:</p>
+<!-- W(f,t)= ln( 1 + x(t)^2 + y(f)^2 ) -->
+<div class="math">
+\begin{equation*}
+W(f,t)= \sqrt{ x(t)^2 + y(f)^2 }
+\end{equation*}
+</div>
+<p>with <span class="math">\(x(i) = y(i)\)</span> being the i-th entry of the vector</p>
+<!-- 1/sqrt(L) [-L/2,L/2+1,....,0,1,...,L/2]. -->
+<div class="math">
+\begin{equation*}
+\frac{1}{\sqrt(L)} [-L/2,L/2+1,....,0,1,...,L/2].
+\end{equation*}
+</div>
+<p>In that case, we have:</p>
+<!-- f(x) = ||x||_S0 = || G x ||_1 -->
+<div class="math">
+\begin{equation*}
+f(x) = \|x\|_{S_0} = \|Gx\|_1
+\end{equation*}
+</div>
+<p>with <span class="math">\(G\)</span> a full STFT with a Gaussian window. If the weighted case is
+considered, we have:</p>
+<!-- f(x) = || W G x ||_1 -->
+<div class="math">
+\begin{equation*}
+f(x) =  \|WGx\|_1
+\end{equation*}
+</div>
+</li>
+</ul>
+<p>The figures below shows time and frequency representations, as well as
+the ambiguity function of the results. We see that all the
+criteria provide (visually) nicely concentrated dual Gabor windows,
+improved over the canonical dual. In particular, we see that the
+gradient and energy variance optimal windows are very similar around
+the origin, whereas the latter shows worse decay. The variance induces
+the best concentration of large values in an almost rectangular TF
+area, but similar to the energy variance, no good decay is achieved.
+Both <span class="math">\(S_0\)</span> and weighted <span class="math">\(S_0\)</span> priors perform very well, but the weight
+induces a more symmetric TF concentration and slightly better decay.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness_3.png" src="rr_gabfirdual_smoothness_3.png" />
+<p class="caption">Windows in time domain</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness_4.png" src="rr_gabfirdual_smoothness_4.png" />
+<p class="caption">Windows in frequency domain</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness_5.png" src="rr_gabfirdual_smoothness_5.png" />
+<p class="caption">Ambiguity functions of the obtained windows</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<p>Note that, while the shape of this experiment's results is quite
+characteristic, their quality cannot be representative for any
+arbitrary setup. In fact the results are highly dependent on the
+quality of the original Gabor frame, its redundancy and the choice of
+support constraint.</p>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Compute the canonical dual
+  Reconstruction error of the canonical dual 2.33697e-16
+Solve the optimization problem : Smoothness
+  Reconstruction error of optimization problem: 3.39665e-16
+Solve the optimization problem : Variance
+  Reconstruction error of optimization problem: 4.66604e-16
+Solve the optimization problem : energy variance
+  Reconstruction error of optimization problem: 4.5656e-16
+Solve the optimization problem : S0
+Iteration 1:
+  Proj. dual windows: ||y-Ax||_2 = 3.551561e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.388281e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 9.478721e-01, rel_obj = 2.068772e-01
+   Iter 2, ||A x||_1 = 9.377202e-01, rel_obj = 5.063338e-04
+  prox_L1: ||A (x-y)||_1 = 9.377202e-01, REL_OB, iter = 2
+Current objective function : 2.499644e-02      relative norm : 1.000000e+00
+Iteration 2:
+  Proj. dual windows: ||y-Ax||_2 = 8.345960e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.388281e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 9.478721e-01, rel_obj = 2.068772e-01
+   Iter 2, ||A x||_1 = 9.377202e-01, rel_obj = 5.063338e-04
+  prox_L1: ||A (x-y)||_1 = 9.377202e-01, REL_OB, iter = 2
+Current objective function : 2.524640e-02      relative norm : 9.900990e-03
+Iteration 3:
+  Proj. dual windows: ||y-Ax||_2 = 1.260137e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.580093e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.140751e+00, rel_obj = 1.751754e-01
+   Iter 2, ||A x||_1 = 1.131781e+00, rel_obj = 3.465862e-04
+  prox_L1: ||A (x-y)||_1 = 1.131781e+00, REL_OB, iter = 2
+Current objective function : 1.309709e-02      relative norm : 9.276338e-01
+Iteration 4:
+  Proj. dual windows: ||y-Ax||_2 = 1.285317e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.775283e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.336522e+00, rel_obj = 1.517200e-01
+   Iter 2, ||A x||_1 = 1.328477e+00, rel_obj = 2.555822e-04
+  prox_L1: ||A (x-y)||_1 = 1.328477e+00, REL_OB, iter = 2
+Current objective function : 1.042923e-03      relative norm : 1.155807e+01
+Iteration 5:
+  Proj. dual windows: ||y-Ax||_2 = 1.496894e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.872626e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.435803e+00, rel_obj = 1.417122e-01
+   Iter 2, ||A x||_1 = 1.428193e+00, rel_obj = 2.299158e-04
+  prox_L1: ||A (x-y)||_1 = 1.428193e+00, REL_OB, iter = 2
+Current objective function : 5.961648e-03      relative norm : 8.250614e-01
+Iteration 6:
+  Proj. dual windows: ||y-Ax||_2 = 8.506174e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.869564e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.436413e+00, rel_obj = 1.408418e-01
+   Iter 2, ||A x||_1 = 1.428913e+00, rel_obj = 2.332861e-04
+  prox_L1: ||A (x-y)||_1 = 1.428913e+00, REL_OB, iter = 2
+Current objective function : 6.400192e-03      relative norm : 6.852041e-02
+Iteration 7:
+  Proj. dual windows: ||y-Ax||_2 = 7.178147e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.814456e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.385933e+00, rel_obj = 1.444784e-01
+   Iter 2, ||A x||_1 = 1.378406e+00, rel_obj = 2.480533e-04
+  prox_L1: ||A (x-y)||_1 = 1.378406e+00, REL_OB, iter = 2
+Current objective function : 3.628461e-03      relative norm : 7.638859e-01
+Iteration 8:
+  Proj. dual windows: ||y-Ax||_2 = 1.113251e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.757048e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.332950e+00, rel_obj = 1.487227e-01
+   Iter 2, ||A x||_1 = 1.325395e+00, rel_obj = 2.661723e-04
+  prox_L1: ||A (x-y)||_1 = 1.325395e+00, REL_OB, iter = 2
+Current objective function : 6.370080e-04      relative norm : 4.696100e+00
+Iteration 9:
+  Proj. dual windows: ||y-Ax||_2 = 9.370735e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.723254e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.302499e+00, rel_obj = 1.511951e-01
+   Iter 2, ||A x||_1 = 1.295016e+00, rel_obj = 2.704608e-04
+  prox_L1: ||A (x-y)||_1 = 1.295016e+00, REL_OB, iter = 2
+Current objective function : 1.103936e-03      relative norm : 4.229667e-01
+Iteration 10:
+  Proj. dual windows: ||y-Ax||_2 = 8.083669e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.714661e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.296010e+00, rel_obj = 1.515368e-01
+   Iter 2, ||A x||_1 = 1.288651e+00, rel_obj = 2.674359e-04
+  prox_L1: ||A (x-y)||_1 = 1.288651e+00, REL_OB, iter = 2
+Current objective function : 1.338934e-03      relative norm : 1.755113e-01
+Iteration 11:
+  Proj. dual windows: ||y-Ax||_2 = 1.158240e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.720187e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.302847e+00, rel_obj = 1.506637e-01
+   Iter 2, ||A x||_1 = 1.295639e+00, rel_obj = 2.611572e-04
+  prox_L1: ||A (x-y)||_1 = 1.295639e+00, REL_OB, iter = 2
+Current objective function : 7.750653e-04      relative norm : 7.275117e-01
+Iteration 12:
+  Proj. dual windows: ||y-Ax||_2 = 9.072863e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.727841e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.311684e+00, rel_obj = 1.495794e-01
+   Iter 2, ||A x||_1 = 1.304629e+00, rel_obj = 2.530479e-04
+  prox_L1: ||A (x-y)||_1 = 1.304629e+00, REL_OB, iter = 2
+Current objective function : 2.128079e-04      relative norm : 2.642090e+00
+Iteration 13:
+  Proj. dual windows: ||y-Ax||_2 = 8.424647e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.730908e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.316248e+00, rel_obj = 1.488108e-01
+   Iter 2, ||A x||_1 = 1.309336e+00, rel_obj = 2.456247e-04
+  prox_L1: ||A (x-y)||_1 = 1.309336e+00, REL_OB, iter = 2
+Current objective function : 4.204110e-04      relative norm : 4.938100e-01
+Iteration 14:
+  Proj. dual windows: ||y-Ax||_2 = 8.837884e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.728478e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.315672e+00, rel_obj = 1.484460e-01
+   Iter 2, ||A x||_1 = 1.308882e+00, rel_obj = 2.398311e-04
+  prox_L1: ||A (x-y)||_1 = 1.308882e+00, REL_OB, iter = 2
+Current objective function : 4.990866e-04      relative norm : 1.576391e-01
+Iteration 15:
+  Proj. dual windows: ||y-Ax||_2 = 1.619216e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.722893e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.312075e+00, rel_obj = 1.483516e-01
+   Iter 2, ||A x||_1 = 1.305397e+00, rel_obj = 2.348086e-04
+  prox_L1: ||A (x-y)||_1 = 1.305397e+00, REL_OB, iter = 2
+Current objective function : 3.982606e-04      relative norm : 2.531658e-01
+Iteration 16:
+  Proj. dual windows: ||y-Ax||_2 = 2.343140e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.716942e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.307995e+00, rel_obj = 1.483583e-01
+   Iter 2, ||A x||_1 = 1.301414e+00, rel_obj = 2.301567e-04
+  prox_L1: ||A (x-y)||_1 = 1.301414e+00, REL_OB, iter = 2
+Current objective function : 2.754347e-04      relative norm : 4.459349e-01
+Iteration 17:
+  Proj. dual windows: ||y-Ax||_2 = 1.124856e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.712294e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.304933e+00, rel_obj = 1.483631e-01
+   Iter 2, ||A x||_1 = 1.298448e+00, rel_obj = 2.250450e-04
+  prox_L1: ||A (x-y)||_1 = 1.298448e+00, REL_OB, iter = 2
+Current objective function : 2.175371e-04      relative norm : 2.661503e-01
+Iteration 18:
+  Proj. dual windows: ||y-Ax||_2 = 8.483334e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.709283e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.303200e+00, rel_obj = 1.483396e-01
+   Iter 2, ||A x||_1 = 1.296802e+00, rel_obj = 2.201319e-04
+  prox_L1: ||A (x-y)||_1 = 1.296802e+00, REL_OB, iter = 2
+Current objective function : 1.995277e-04      relative norm : 9.026049e-02
+Iteration 19:
+  Proj. dual windows: ||y-Ax||_2 = 9.797391e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.707436e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.302372e+00, rel_obj = 1.483071e-01
+   Iter 2, ||A x||_1 = 1.296057e+00, rel_obj = 2.155849e-04
+  prox_L1: ||A (x-y)||_1 = 1.296057e+00, REL_OB, iter = 2
+Current objective function : 1.884868e-04      relative norm : 5.857614e-02
+Iteration 20:
+  Proj. dual windows: ||y-Ax||_2 = 8.098080e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.706109e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.301891e+00, rel_obj = 1.482959e-01
+   Iter 2, ||A x||_1 = 1.295650e+00, rel_obj = 2.118369e-04
+  prox_L1: ||A (x-y)||_1 = 1.295650e+00, REL_OB, iter = 2
+Current objective function : 1.819971e-04      relative norm : 3.565829e-02
+Iteration 21:
+  Proj. dual windows: ||y-Ax||_2 = 1.169055e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.704869e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.301375e+00, rel_obj = 1.483258e-01
+   Iter 2, ||A x||_1 = 1.295202e+00, rel_obj = 2.085562e-04
+  prox_L1: ||A (x-y)||_1 = 1.295202e+00, REL_OB, iter = 2
+Current objective function : 1.765245e-04      relative norm : 3.100207e-02
+Iteration 22:
+  Proj. dual windows: ||y-Ax||_2 = 9.503881e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.703573e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.300710e+00, rel_obj = 1.484018e-01
+   Iter 2, ||A x||_1 = 1.294599e+00, rel_obj = 2.056926e-04
+  prox_L1: ||A (x-y)||_1 = 1.294599e+00, REL_OB, iter = 2
+Current objective function : 1.667683e-04      relative norm : 5.850125e-02
+Iteration 23:
+  Proj. dual windows: ||y-Ax||_2 = 8.356845e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.702275e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.299947e+00, rel_obj = 1.485195e-01
+   Iter 2, ||A x||_1 = 1.293897e+00, rel_obj = 2.026515e-04
+  prox_L1: ||A (x-y)||_1 = 1.293897e+00, REL_OB, iter = 2
+Current objective function : 1.530193e-04      relative norm : 8.985153e-02
+Iteration 24:
+  Proj. dual windows: ||y-Ax||_2 = 1.400710e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.701085e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.299195e+00, rel_obj = 1.486701e-01
+   Iter 2, ||A x||_1 = 1.293195e+00, rel_obj = 1.998771e-04
+  prox_L1: ||A (x-y)||_1 = 1.293195e+00, REL_OB, iter = 2
+Current objective function : 1.381114e-04      relative norm : 1.079416e-01
+Iteration 25:
+  Proj. dual windows: ||y-Ax||_2 = 7.602008e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.700079e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.298525e+00, rel_obj = 1.488459e-01
+   Iter 2, ||A x||_1 = 1.292571e+00, rel_obj = 1.969408e-04
+  prox_L1: ||A (x-y)||_1 = 1.292571e+00, REL_OB, iter = 2
+Current objective function : 1.249783e-04      relative norm : 1.050824e-01
+Iteration 26:
+  Proj. dual windows: ||y-Ax||_2 = 9.060970e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.699275e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.297961e+00, rel_obj = 1.490411e-01
+   Iter 2, ||A x||_1 = 1.292053e+00, rel_obj = 1.936954e-04
+  prox_L1: ||A (x-y)||_1 = 1.292053e+00, REL_OB, iter = 2
+Current objective function : 1.143978e-04      relative norm : 9.248914e-02
+Iteration 27:
+  Proj. dual windows: ||y-Ax||_2 = 2.611956e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.698646e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.297493e+00, rel_obj = 1.492515e-01
+   Iter 2, ||A x||_1 = 1.291628e+00, rel_obj = 1.907220e-04
+  prox_L1: ||A (x-y)||_1 = 1.291628e+00, REL_OB, iter = 2
+Current objective function : 1.058851e-04      relative norm : 8.039548e-02
+Iteration 28:
+  Proj. dual windows: ||y-Ax||_2 = 1.155658e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.698152e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.297093e+00, rel_obj = 1.494747e-01
+   Iter 2, ||A x||_1 = 1.291268e+00, rel_obj = 1.880711e-04
+  prox_L1: ||A (x-y)||_1 = 1.291268e+00, REL_OB, iter = 2
+Current objective function : 9.871966e-05      relative norm : 7.258370e-02
+Iteration 29:
+  Proj. dual windows: ||y-Ax||_2 = 1.909890e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697756e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.296736e+00, rel_obj = 1.497098e-01
+   Iter 2, ||A x||_1 = 1.290947e+00, rel_obj = 1.856997e-04
+  prox_L1: ||A (x-y)||_1 = 1.290947e+00, REL_OB, iter = 2
+Current objective function : 9.247504e-05      relative norm : 6.752759e-02
+Iteration 30:
+  Proj. dual windows: ||y-Ax||_2 = 1.358721e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697436e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.296407e+00, rel_obj = 1.499555e-01
+   Iter 2, ||A x||_1 = 1.290651e+00, rel_obj = 1.838743e-04
+  prox_L1: ||A (x-y)||_1 = 1.290651e+00, REL_OB, iter = 2
+Current objective function : 8.667255e-05      relative norm : 6.694728e-02
+Iteration 31:
+  Proj. dual windows: ||y-Ax||_2 = 1.148860e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697182e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.296102e+00, rel_obj = 1.502110e-01
+   Iter 2, ||A x||_1 = 1.290375e+00, rel_obj = 1.822778e-04
+  prox_L1: ||A (x-y)||_1 = 1.290375e+00, REL_OB, iter = 2
+Current objective function : 8.135635e-05      relative norm : 6.534463e-02
+Iteration 32:
+  Proj. dual windows: ||y-Ax||_2 = 9.490457e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696992e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.295821e+00, rel_obj = 1.504751e-01
+   Iter 2, ||A x||_1 = 1.290122e+00, rel_obj = 1.806720e-04
+  prox_L1: ||A (x-y)||_1 = 1.290122e+00, REL_OB, iter = 2
+Current objective function : 7.663675e-05      relative norm : 6.158400e-02
+Iteration 33:
+  Proj. dual windows: ||y-Ax||_2 = 7.869140e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696864e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.295566e+00, rel_obj = 1.507464e-01
+   Iter 2, ||A x||_1 = 1.289892e+00, rel_obj = 1.792674e-04
+  prox_L1: ||A (x-y)||_1 = 1.289892e+00, REL_OB, iter = 2
+Current objective function : 7.251586e-05      relative norm : 5.682748e-02
+Iteration 34:
+  Proj. dual windows: ||y-Ax||_2 = 8.827406e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696793e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.295336e+00, rel_obj = 1.510234e-01
+   Iter 2, ||A x||_1 = 1.289686e+00, rel_obj = 1.779269e-04
+  prox_L1: ||A (x-y)||_1 = 1.289686e+00, REL_OB, iter = 2
+Current objective function : 6.899751e-05      relative norm : 5.099245e-02
+Iteration 35:
+  Proj. dual windows: ||y-Ax||_2 = 8.228552e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696774e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.295129e+00, rel_obj = 1.513052e-01
+   Iter 2, ||A x||_1 = 1.289504e+00, rel_obj = 1.764975e-04
+  prox_L1: ||A (x-y)||_1 = 1.289504e+00, REL_OB, iter = 2
+Current objective function : 6.606723e-05      relative norm : 4.435302e-02
+Iteration 36:
+  Proj. dual windows: ||y-Ax||_2 = 9.729784e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696800e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294943e+00, rel_obj = 1.515908e-01
+   Iter 2, ||A x||_1 = 1.289341e+00, rel_obj = 1.751978e-04
+  prox_L1: ||A (x-y)||_1 = 1.289341e+00, REL_OB, iter = 2
+Current objective function : 6.354724e-05      relative norm : 3.965535e-02
+Iteration 37:
+  Proj. dual windows: ||y-Ax||_2 = 1.124810e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696864e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294774e+00, rel_obj = 1.518796e-01
+   Iter 2, ||A x||_1 = 1.289193e+00, rel_obj = 1.739691e-04
+  prox_L1: ||A (x-y)||_1 = 1.289193e+00, REL_OB, iter = 2
+Current objective function : 6.131910e-05      relative norm : 3.633670e-02
+Iteration 38:
+  Proj. dual windows: ||y-Ax||_2 = 9.336911e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.696961e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294619e+00, rel_obj = 1.521709e-01
+   Iter 2, ||A x||_1 = 1.289058e+00, rel_obj = 1.728257e-04
+  prox_L1: ||A (x-y)||_1 = 1.289058e+00, REL_OB, iter = 2
+Current objective function : 5.930104e-05      relative norm : 3.403093e-02
+Iteration 39:
+  Proj. dual windows: ||y-Ax||_2 = 7.928729e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697088e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294478e+00, rel_obj = 1.524645e-01
+   Iter 2, ||A x||_1 = 1.288934e+00, rel_obj = 1.716501e-04
+  prox_L1: ||A (x-y)||_1 = 1.288934e+00, REL_OB, iter = 2
+Current objective function : 5.742795e-05      relative norm : 3.261634e-02
+Iteration 40:
+  Proj. dual windows: ||y-Ax||_2 = 1.408311e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697243e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294349e+00, rel_obj = 1.527599e-01
+   Iter 2, ||A x||_1 = 1.288821e+00, rel_obj = 1.705320e-04
+  prox_L1: ||A (x-y)||_1 = 1.288821e+00, REL_OB, iter = 2
+Current objective function : 5.572752e-05      relative norm : 3.051330e-02
+Iteration 41:
+  Proj. dual windows: ||y-Ax||_2 = 1.372431e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697422e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294231e+00, rel_obj = 1.530563e-01
+   Iter 2, ||A x||_1 = 1.288719e+00, rel_obj = 1.694031e-04
+  prox_L1: ||A (x-y)||_1 = 1.288719e+00, REL_OB, iter = 2
+Current objective function : 5.422036e-05      relative norm : 2.779685e-02
+Iteration 42:
+  Proj. dual windows: ||y-Ax||_2 = 8.140515e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697624e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294124e+00, rel_obj = 1.533535e-01
+   Iter 2, ||A x||_1 = 1.288627e+00, rel_obj = 1.682908e-04
+  prox_L1: ||A (x-y)||_1 = 1.288627e+00, REL_OB, iter = 2
+Current objective function : 5.285588e-05      relative norm : 2.581515e-02
+Iteration 43:
+  Proj. dual windows: ||y-Ax||_2 = 1.135663e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.697845e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.294027e+00, rel_obj = 1.536512e-01
+   Iter 2, ||A x||_1 = 1.288543e+00, rel_obj = 1.671531e-04
+  prox_L1: ||A (x-y)||_1 = 1.288543e+00, REL_OB, iter = 2
+Current objective function : 5.159294e-05      relative norm : 2.447896e-02
+Iteration 44:
+  Proj. dual windows: ||y-Ax||_2 = 8.561051e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.698084e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293937e+00, rel_obj = 1.539492e-01
+   Iter 2, ||A x||_1 = 1.288467e+00, rel_obj = 1.660446e-04
+  prox_L1: ||A (x-y)||_1 = 1.288467e+00, REL_OB, iter = 2
+Current objective function : 5.043432e-05      relative norm : 2.297281e-02
+Iteration 45:
+  Proj. dual windows: ||y-Ax||_2 = 8.088212e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.698339e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293854e+00, rel_obj = 1.542473e-01
+   Iter 2, ||A x||_1 = 1.288396e+00, rel_obj = 1.648755e-04
+  prox_L1: ||A (x-y)||_1 = 1.288396e+00, REL_OB, iter = 2
+Current objective function : 4.935606e-05      relative norm : 2.184651e-02
+Iteration 46:
+  Proj. dual windows: ||y-Ax||_2 = 8.461475e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.698607e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293777e+00, rel_obj = 1.545453e-01
+   Iter 2, ||A x||_1 = 1.288333e+00, rel_obj = 1.637240e-04
+  prox_L1: ||A (x-y)||_1 = 1.288333e+00, REL_OB, iter = 2
+Current objective function : 4.835841e-05      relative norm : 2.063042e-02
+Iteration 47:
+  Proj. dual windows: ||y-Ax||_2 = 1.062184e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.698889e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293707e+00, rel_obj = 1.548430e-01
+   Iter 2, ||A x||_1 = 1.288274e+00, rel_obj = 1.626659e-04
+  prox_L1: ||A (x-y)||_1 = 1.288274e+00, REL_OB, iter = 2
+Current objective function : 4.742962e-05      relative norm : 1.958244e-02
+Iteration 48:
+  Proj. dual windows: ||y-Ax||_2 = 8.172289e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.699181e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293642e+00, rel_obj = 1.551402e-01
+   Iter 2, ||A x||_1 = 1.288220e+00, rel_obj = 1.616620e-04
+  prox_L1: ||A (x-y)||_1 = 1.288220e+00, REL_OB, iter = 2
+Current objective function : 4.655610e-05      relative norm : 1.876261e-02
+Iteration 49:
+  Proj. dual windows: ||y-Ax||_2 = 1.596360e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.699484e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293581e+00, rel_obj = 1.554372e-01
+   Iter 2, ||A x||_1 = 1.288170e+00, rel_obj = 1.606788e-04
+  prox_L1: ||A (x-y)||_1 = 1.288170e+00, REL_OB, iter = 2
+Current objective function : 4.572059e-05      relative norm : 1.827426e-02
+Iteration 50:
+  Proj. dual windows: ||y-Ax||_2 = 8.085173e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.699797e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293525e+00, rel_obj = 1.557337e-01
+   Iter 2, ||A x||_1 = 1.288124e+00, rel_obj = 1.597391e-04
+  prox_L1: ||A (x-y)||_1 = 1.288124e+00, REL_OB, iter = 2
+Current objective function : 4.493406e-05      relative norm : 1.750426e-02
+Iteration 51:
+  Proj. dual windows: ||y-Ax||_2 = 1.402398e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.700119e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293474e+00, rel_obj = 1.560296e-01
+   Iter 2, ||A x||_1 = 1.288081e+00, rel_obj = 1.588515e-04
+  prox_L1: ||A (x-y)||_1 = 1.288081e+00, REL_OB, iter = 2
+Current objective function : 4.421251e-05      relative norm : 1.631999e-02
+Iteration 52:
+  Proj. dual windows: ||y-Ax||_2 = 1.006415e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.700450e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293426e+00, rel_obj = 1.563249e-01
+   Iter 2, ||A x||_1 = 1.288043e+00, rel_obj = 1.579783e-04
+  prox_L1: ||A (x-y)||_1 = 1.288043e+00, REL_OB, iter = 2
+Current objective function : 4.353370e-05      relative norm : 1.559281e-02
+Iteration 53:
+  Proj. dual windows: ||y-Ax||_2 = 1.159173e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.700787e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293382e+00, rel_obj = 1.566194e-01
+   Iter 2, ||A x||_1 = 1.288007e+00, rel_obj = 1.571132e-04
+  prox_L1: ||A (x-y)||_1 = 1.288007e+00, REL_OB, iter = 2
+Current objective function : 4.288627e-05      relative norm : 1.509626e-02
+Iteration 54:
+  Proj. dual windows: ||y-Ax||_2 = 8.702961e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.701131e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293341e+00, rel_obj = 1.569133e-01
+   Iter 2, ||A x||_1 = 1.287975e+00, rel_obj = 1.562612e-04
+  prox_L1: ||A (x-y)||_1 = 1.287975e+00, REL_OB, iter = 2
+Current objective function : 4.227096e-05      relative norm : 1.455630e-02
+Iteration 55:
+  Proj. dual windows: ||y-Ax||_2 = 1.006558e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.701482e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293303e+00, rel_obj = 1.572064e-01
+   Iter 2, ||A x||_1 = 1.287944e+00, rel_obj = 1.554832e-04
+  prox_L1: ||A (x-y)||_1 = 1.287944e+00, REL_OB, iter = 2
+Current objective function : 4.169261e-05      relative norm : 1.387180e-02
+Iteration 56:
+  Proj. dual windows: ||y-Ax||_2 = 9.846125e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.701837e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293268e+00, rel_obj = 1.574986e-01
+   Iter 2, ||A x||_1 = 1.287916e+00, rel_obj = 1.547465e-04
+  prox_L1: ||A (x-y)||_1 = 1.287916e+00, REL_OB, iter = 2
+Current objective function : 4.113909e-05      relative norm : 1.345494e-02
+Iteration 57:
+  Proj. dual windows: ||y-Ax||_2 = 1.419706e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.702197e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293235e+00, rel_obj = 1.577900e-01
+   Iter 2, ||A x||_1 = 1.287890e+00, rel_obj = 1.540144e-04
+  prox_L1: ||A (x-y)||_1 = 1.287890e+00, REL_OB, iter = 2
+Current objective function : 4.059963e-05      relative norm : 1.328721e-02
+Iteration 58:
+  Proj. dual windows: ||y-Ax||_2 = 1.606307e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.702562e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293205e+00, rel_obj = 1.580806e-01
+   Iter 2, ||A x||_1 = 1.287866e+00, rel_obj = 1.533141e-04
+  prox_L1: ||A (x-y)||_1 = 1.287866e+00, REL_OB, iter = 2
+Current objective function : 4.008450e-05      relative norm : 1.285126e-02
+Iteration 59:
+  Proj. dual windows: ||y-Ax||_2 = 8.037623e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.702932e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293177e+00, rel_obj = 1.583702e-01
+   Iter 2, ||A x||_1 = 1.287844e+00, rel_obj = 1.526566e-04
+  prox_L1: ||A (x-y)||_1 = 1.287844e+00, REL_OB, iter = 2
+Current objective function : 3.959681e-05      relative norm : 1.231644e-02
+Iteration 60:
+  Proj. dual windows: ||y-Ax||_2 = 8.533510e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.703305e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293151e+00, rel_obj = 1.586589e-01
+   Iter 2, ||A x||_1 = 1.287824e+00, rel_obj = 1.520508e-04
+  prox_L1: ||A (x-y)||_1 = 1.287824e+00, REL_OB, iter = 2
+Current objective function : 3.913785e-05      relative norm : 1.172659e-02
+Iteration 61:
+  Proj. dual windows: ||y-Ax||_2 = 1.403732e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.703681e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293127e+00, rel_obj = 1.589467e-01
+   Iter 2, ||A x||_1 = 1.287805e+00, rel_obj = 1.514580e-04
+  prox_L1: ||A (x-y)||_1 = 1.287805e+00, REL_OB, iter = 2
+Current objective function : 3.869749e-05      relative norm : 1.137958e-02
+Iteration 62:
+  Proj. dual windows: ||y-Ax||_2 = 9.134932e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.704060e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293104e+00, rel_obj = 1.592336e-01
+   Iter 2, ||A x||_1 = 1.287787e+00, rel_obj = 1.508914e-04
+  prox_L1: ||A (x-y)||_1 = 1.287787e+00, REL_OB, iter = 2
+Current objective function : 3.827752e-05      relative norm : 1.097182e-02
+Iteration 63:
+  Proj. dual windows: ||y-Ax||_2 = 1.855227e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.704443e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293083e+00, rel_obj = 1.595196e-01
+   Iter 2, ||A x||_1 = 1.287771e+00, rel_obj = 1.503600e-04
+  prox_L1: ||A (x-y)||_1 = 1.287771e+00, REL_OB, iter = 2
+Current objective function : 3.787955e-05      relative norm : 1.050624e-02
+Iteration 64:
+  Proj. dual windows: ||y-Ax||_2 = 9.940574e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.704827e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293064e+00, rel_obj = 1.598047e-01
+   Iter 2, ||A x||_1 = 1.287756e+00, rel_obj = 1.498344e-04
+  prox_L1: ||A (x-y)||_1 = 1.287756e+00, REL_OB, iter = 2
+Current objective function : 3.749681e-05      relative norm : 1.020714e-02
+Iteration 65:
+  Proj. dual windows: ||y-Ax||_2 = 7.929221e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.705214e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293046e+00, rel_obj = 1.600889e-01
+   Iter 2, ||A x||_1 = 1.287742e+00, rel_obj = 1.493292e-04
+  prox_L1: ||A (x-y)||_1 = 1.287742e+00, REL_OB, iter = 2
+Current objective function : 3.712917e-05      relative norm : 9.901797e-03
+Iteration 66:
+  Proj. dual windows: ||y-Ax||_2 = 1.615148e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.705603e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293029e+00, rel_obj = 1.603721e-01
+   Iter 2, ||A x||_1 = 1.287729e+00, rel_obj = 1.488403e-04
+  prox_L1: ||A (x-y)||_1 = 1.287729e+00, REL_OB, iter = 2
+Current objective function : 3.677504e-05      relative norm : 9.629416e-03
+Iteration 67:
+  Proj. dual windows: ||y-Ax||_2 = 2.359587e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.705994e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.293013e+00, rel_obj = 1.606545e-01
+   Iter 2, ||A x||_1 = 1.287718e+00, rel_obj = 1.483680e-04
+  prox_L1: ||A (x-y)||_1 = 1.287718e+00, REL_OB, iter = 2
+Current objective function : 3.643364e-05      relative norm : 9.370565e-03
+Iteration 68:
+  Proj. dual windows: ||y-Ax||_2 = 2.901839e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.706386e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292998e+00, rel_obj = 1.609359e-01
+   Iter 2, ||A x||_1 = 1.287706e+00, rel_obj = 1.479124e-04
+  prox_L1: ||A (x-y)||_1 = 1.287706e+00, REL_OB, iter = 2
+Current objective function : 3.610256e-05      relative norm : 9.170637e-03
+Iteration 69:
+  Proj. dual windows: ||y-Ax||_2 = 9.642530e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.706779e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292984e+00, rel_obj = 1.612163e-01
+   Iter 2, ||A x||_1 = 1.287696e+00, rel_obj = 1.474756e-04
+  prox_L1: ||A (x-y)||_1 = 1.287696e+00, REL_OB, iter = 2
+Current objective function : 3.578181e-05      relative norm : 8.964005e-03
+Iteration 70:
+  Proj. dual windows: ||y-Ax||_2 = 2.160293e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.707174e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292972e+00, rel_obj = 1.614958e-01
+   Iter 2, ||A x||_1 = 1.287687e+00, rel_obj = 1.470351e-04
+  prox_L1: ||A (x-y)||_1 = 1.287687e+00, REL_OB, iter = 2
+Current objective function : 3.546795e-05      relative norm : 8.848998e-03
+Iteration 71:
+  Proj. dual windows: ||y-Ax||_2 = 2.374124e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.707569e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292960e+00, rel_obj = 1.617744e-01
+   Iter 2, ||A x||_1 = 1.287678e+00, rel_obj = 1.466003e-04
+  prox_L1: ||A (x-y)||_1 = 1.287678e+00, REL_OB, iter = 2
+Current objective function : 3.516179e-05      relative norm : 8.707267e-03
+Iteration 72:
+  Proj. dual windows: ||y-Ax||_2 = 1.348846e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.707966e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292949e+00, rel_obj = 1.620520e-01
+   Iter 2, ||A x||_1 = 1.287670e+00, rel_obj = 1.461767e-04
+  prox_L1: ||A (x-y)||_1 = 1.287670e+00, REL_OB, iter = 2
+Current objective function : 3.486459e-05      relative norm : 8.524397e-03
+Iteration 73:
+  Proj. dual windows: ||y-Ax||_2 = 7.724290e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.708363e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292938e+00, rel_obj = 1.623286e-01
+   Iter 2, ||A x||_1 = 1.287662e+00, rel_obj = 1.457590e-04
+  prox_L1: ||A (x-y)||_1 = 1.287662e+00, REL_OB, iter = 2
+Current objective function : 3.457571e-05      relative norm : 8.354910e-03
+Iteration 74:
+  Proj. dual windows: ||y-Ax||_2 = 2.894939e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.708760e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292928e+00, rel_obj = 1.626042e-01
+   Iter 2, ||A x||_1 = 1.287656e+00, rel_obj = 1.453490e-04
+  prox_L1: ||A (x-y)||_1 = 1.287656e+00, REL_OB, iter = 2
+Current objective function : 3.429499e-05      relative norm : 8.185508e-03
+Iteration 75:
+  Proj. dual windows: ||y-Ax||_2 = 8.750807e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.709158e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292919e+00, rel_obj = 1.628789e-01
+   Iter 2, ||A x||_1 = 1.287649e+00, rel_obj = 1.449464e-04
+  prox_L1: ||A (x-y)||_1 = 1.287649e+00, REL_OB, iter = 2
+Current objective function : 3.402212e-05      relative norm : 8.020406e-03
+Iteration 76:
+  Proj. dual windows: ||y-Ax||_2 = 2.379168e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.709556e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292911e+00, rel_obj = 1.631526e-01
+   Iter 2, ||A x||_1 = 1.287643e+00, rel_obj = 1.445511e-04
+  prox_L1: ||A (x-y)||_1 = 1.287643e+00, REL_OB, iter = 2
+Current objective function : 3.375673e-05      relative norm : 7.861824e-03
+Iteration 77:
+  Proj. dual windows: ||y-Ax||_2 = 1.018070e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.709955e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292903e+00, rel_obj = 1.634253e-01
+   Iter 2, ||A x||_1 = 1.287638e+00, rel_obj = 1.441629e-04
+  prox_L1: ||A (x-y)||_1 = 1.287638e+00, REL_OB, iter = 2
+Current objective function : 3.349855e-05      relative norm : 7.707284e-03
+Iteration 78:
+  Proj. dual windows: ||y-Ax||_2 = 9.714949e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.710353e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292896e+00, rel_obj = 1.636971e-01
+   Iter 2, ||A x||_1 = 1.287633e+00, rel_obj = 1.437806e-04
+  prox_L1: ||A (x-y)||_1 = 1.287633e+00, REL_OB, iter = 2
+Current objective function : 3.324779e-05      relative norm : 7.542043e-03
+Iteration 79:
+  Proj. dual windows: ||y-Ax||_2 = 8.915662e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.710752e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292889e+00, rel_obj = 1.639679e-01
+   Iter 2, ||A x||_1 = 1.287628e+00, rel_obj = 1.434053e-04
+  prox_L1: ||A (x-y)||_1 = 1.287628e+00, REL_OB, iter = 2
+Current objective function : 3.300363e-05      relative norm : 7.397885e-03
+Iteration 80:
+  Proj. dual windows: ||y-Ax||_2 = 1.162578e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.711150e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292882e+00, rel_obj = 1.642377e-01
+   Iter 2, ||A x||_1 = 1.287624e+00, rel_obj = 1.430367e-04
+  prox_L1: ||A (x-y)||_1 = 1.287624e+00, REL_OB, iter = 2
+Current objective function : 3.276579e-05      relative norm : 7.258773e-03
+Iteration 81:
+  Proj. dual windows: ||y-Ax||_2 = 9.428297e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.711549e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292876e+00, rel_obj = 1.645066e-01
+   Iter 2, ||A x||_1 = 1.287620e+00, rel_obj = 1.426733e-04
+  prox_L1: ||A (x-y)||_1 = 1.287620e+00, REL_OB, iter = 2
+Current objective function : 3.253434e-05      relative norm : 7.114113e-03
+Iteration 82:
+  Proj. dual windows: ||y-Ax||_2 = 9.359590e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.711947e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292871e+00, rel_obj = 1.647746e-01
+   Iter 2, ||A x||_1 = 1.287616e+00, rel_obj = 1.423159e-04
+  prox_L1: ||A (x-y)||_1 = 1.287616e+00, REL_OB, iter = 2
+Current objective function : 3.230875e-05      relative norm : 6.982370e-03
+Iteration 83:
+  Proj. dual windows: ||y-Ax||_2 = 8.055317e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.712344e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292866e+00, rel_obj = 1.650416e-01
+   Iter 2, ||A x||_1 = 1.287613e+00, rel_obj = 1.419648e-04
+  prox_L1: ||A (x-y)||_1 = 1.287613e+00, REL_OB, iter = 2
+Current objective function : 3.208885e-05      relative norm : 6.852691e-03
+Iteration 84:
+  Proj. dual windows: ||y-Ax||_2 = 1.368558e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.712742e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292861e+00, rel_obj = 1.653077e-01
+   Iter 2, ||A x||_1 = 1.287610e+00, rel_obj = 1.416199e-04
+  prox_L1: ||A (x-y)||_1 = 1.287610e+00, REL_OB, iter = 2
+Current objective function : 3.187451e-05      relative norm : 6.724643e-03
+Iteration 85:
+  Proj. dual windows: ||y-Ax||_2 = 8.039684e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.713139e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292856e+00, rel_obj = 1.655728e-01
+   Iter 2, ||A x||_1 = 1.287607e+00, rel_obj = 1.412800e-04
+  prox_L1: ||A (x-y)||_1 = 1.287607e+00, REL_OB, iter = 2
+Current objective function : 3.166533e-05      relative norm : 6.606090e-03
+Iteration 86:
+  Proj. dual windows: ||y-Ax||_2 = 1.003038e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.713536e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292852e+00, rel_obj = 1.658371e-01
+   Iter 2, ||A x||_1 = 1.287604e+00, rel_obj = 1.409466e-04
+  prox_L1: ||A (x-y)||_1 = 1.287604e+00, REL_OB, iter = 2
+Current objective function : 3.146143e-05      relative norm : 6.480946e-03
+Iteration 87:
+  Proj. dual windows: ||y-Ax||_2 = 1.627426e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.713932e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292848e+00, rel_obj = 1.661004e-01
+   Iter 2, ||A x||_1 = 1.287602e+00, rel_obj = 1.406203e-04
+  prox_L1: ||A (x-y)||_1 = 1.287602e+00, REL_OB, iter = 2
+Current objective function : 3.126273e-05      relative norm : 6.355798e-03
+Iteration 88:
+  Proj. dual windows: ||y-Ax||_2 = 1.606956e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.714327e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292844e+00, rel_obj = 1.663628e-01
+   Iter 2, ||A x||_1 = 1.287600e+00, rel_obj = 1.402995e-04
+  prox_L1: ||A (x-y)||_1 = 1.287600e+00, REL_OB, iter = 2
+Current objective function : 3.106897e-05      relative norm : 6.236220e-03
+Iteration 89:
+  Proj. dual windows: ||y-Ax||_2 = 1.843133e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.714722e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292841e+00, rel_obj = 1.666243e-01
+   Iter 2, ||A x||_1 = 1.287598e+00, rel_obj = 1.399834e-04
+  prox_L1: ||A (x-y)||_1 = 1.287598e+00, REL_OB, iter = 2
+Current objective function : 3.087994e-05      relative norm : 6.121495e-03
+Iteration 90:
+  Proj. dual windows: ||y-Ax||_2 = 1.026078e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.715117e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292838e+00, rel_obj = 1.668849e-01
+   Iter 2, ||A x||_1 = 1.287596e+00, rel_obj = 1.396698e-04
+  prox_L1: ||A (x-y)||_1 = 1.287596e+00, REL_OB, iter = 2
+Current objective function : 3.069527e-05      relative norm : 6.016382e-03
+Iteration 91:
+  Proj. dual windows: ||y-Ax||_2 = 9.388490e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.715511e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292835e+00, rel_obj = 1.671447e-01
+   Iter 2, ||A x||_1 = 1.287594e+00, rel_obj = 1.393633e-04
+  prox_L1: ||A (x-y)||_1 = 1.287594e+00, REL_OB, iter = 2
+Current objective function : 3.051552e-05      relative norm : 5.890308e-03
+Iteration 92:
+  Proj. dual windows: ||y-Ax||_2 = 8.439126e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.715904e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292832e+00, rel_obj = 1.674035e-01
+   Iter 2, ||A x||_1 = 1.287593e+00, rel_obj = 1.390616e-04
+  prox_L1: ||A (x-y)||_1 = 1.287593e+00, REL_OB, iter = 2
+Current objective function : 3.034019e-05      relative norm : 5.778778e-03
+Iteration 93:
+  Proj. dual windows: ||y-Ax||_2 = 8.331441e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.716296e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292829e+00, rel_obj = 1.676615e-01
+   Iter 2, ||A x||_1 = 1.287592e+00, rel_obj = 1.387641e-04
+  prox_L1: ||A (x-y)||_1 = 1.287592e+00, REL_OB, iter = 2
+Current objective function : 3.016916e-05      relative norm : 5.669210e-03
+Iteration 94:
+  Proj. dual windows: ||y-Ax||_2 = 1.621024e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.716688e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292827e+00, rel_obj = 1.679186e-01
+   Iter 2, ||A x||_1 = 1.287590e+00, rel_obj = 1.384706e-04
+  prox_L1: ||A (x-y)||_1 = 1.287590e+00, REL_OB, iter = 2
+Current objective function : 3.000231e-05      relative norm : 5.561298e-03
+Iteration 95:
+  Proj. dual windows: ||y-Ax||_2 = 1.366530e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.717079e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292825e+00, rel_obj = 1.681749e-01
+   Iter 2, ||A x||_1 = 1.287589e+00, rel_obj = 1.381818e-04
+  prox_L1: ||A (x-y)||_1 = 1.287589e+00, REL_OB, iter = 2
+Current objective function : 2.983953e-05      relative norm : 5.455028e-03
+Iteration 96:
+  Proj. dual windows: ||y-Ax||_2 = 9.795757e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.717469e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292823e+00, rel_obj = 1.684303e-01
+   Iter 2, ||A x||_1 = 1.287589e+00, rel_obj = 1.378975e-04
+  prox_L1: ||A (x-y)||_1 = 1.287589e+00, REL_OB, iter = 2
+Current objective function : 2.968073e-05      relative norm : 5.350392e-03
+Iteration 97:
+  Proj. dual windows: ||y-Ax||_2 = 8.888916e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.717858e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292821e+00, rel_obj = 1.686849e-01
+   Iter 2, ||A x||_1 = 1.287588e+00, rel_obj = 1.376176e-04
+  prox_L1: ||A (x-y)||_1 = 1.287588e+00, REL_OB, iter = 2
+Current objective function : 2.952579e-05      relative norm : 5.247327e-03
+Iteration 98:
+  Proj. dual windows: ||y-Ax||_2 = 8.745464e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.718247e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292819e+00, rel_obj = 1.689386e-01
+   Iter 2, ||A x||_1 = 1.287587e+00, rel_obj = 1.373421e-04
+  prox_L1: ||A (x-y)||_1 = 1.287587e+00, REL_OB, iter = 2
+Current objective function : 2.937464e-05      relative norm : 5.145915e-03
+Iteration 99:
+  Proj. dual windows: ||y-Ax||_2 = 1.110749e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.718635e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292817e+00, rel_obj = 1.691916e-01
+   Iter 2, ||A x||_1 = 1.287586e+00, rel_obj = 1.370709e-04
+  prox_L1: ||A (x-y)||_1 = 1.287586e+00, REL_OB, iter = 2
+Current objective function : 2.922716e-05      relative norm : 5.045925e-03
+Iteration 100:
+  Proj. dual windows: ||y-Ax||_2 = 9.511036e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.719022e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292816e+00, rel_obj = 1.694437e-01
+   Iter 2, ||A x||_1 = 1.287586e+00, rel_obj = 1.368039e-04
+  prox_L1: ||A (x-y)||_1 = 1.287586e+00, REL_OB, iter = 2
+Current objective function : 2.908325e-05      relative norm : 4.948156e-03
+Iteration 101:
+  Proj. dual windows: ||y-Ax||_2 = 8.225306e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.719408e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292814e+00, rel_obj = 1.696950e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.365410e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.894285e-05      relative norm : 4.850960e-03
+Iteration 102:
+  Proj. dual windows: ||y-Ax||_2 = 7.608996e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.719794e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292813e+00, rel_obj = 1.699455e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.362822e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.880588e-05      relative norm : 4.754932e-03
+Iteration 103:
+  Proj. dual windows: ||y-Ax||_2 = 1.163206e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.720178e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292812e+00, rel_obj = 1.701953e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.360273e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.867226e-05      relative norm : 4.660336e-03
+Iteration 104:
+  Proj. dual windows: ||y-Ax||_2 = 8.250725e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.720562e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292811e+00, rel_obj = 1.704442e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.357764e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.854190e-05      relative norm : 4.567182e-03
+Iteration 105:
+  Proj. dual windows: ||y-Ax||_2 = 9.506529e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.720945e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292810e+00, rel_obj = 1.706925e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.355324e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.841544e-05      relative norm : 4.450328e-03
+Iteration 106:
+  Proj. dual windows: ||y-Ax||_2 = 9.957013e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.721327e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292809e+00, rel_obj = 1.709399e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.352922e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.829208e-05      relative norm : 4.360285e-03
+Iteration 107:
+  Proj. dual windows: ||y-Ax||_2 = 1.214977e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.721708e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292808e+00, rel_obj = 1.711866e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.350556e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.817172e-05      relative norm : 4.272409e-03
+Iteration 108:
+  Proj. dual windows: ||y-Ax||_2 = 1.646402e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.722088e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292807e+00, rel_obj = 1.714326e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.348225e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.805429e-05      relative norm : 4.185862e-03
+Iteration 109:
+  Proj. dual windows: ||y-Ax||_2 = 8.158748e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.722468e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292807e+00, rel_obj = 1.716778e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.345929e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.793972e-05      relative norm : 4.100606e-03
+Iteration 110:
+  Proj. dual windows: ||y-Ax||_2 = 8.604694e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.722846e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292806e+00, rel_obj = 1.719224e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.343667e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.782794e-05      relative norm : 4.016631e-03
+Iteration 111:
+  Proj. dual windows: ||y-Ax||_2 = 1.419367e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.723224e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292805e+00, rel_obj = 1.721662e-01
+   Iter 2, ||A x||_1 = 1.287584e+00, rel_obj = 1.341438e-04
+  prox_L1: ||A (x-y)||_1 = 1.287584e+00, REL_OB, iter = 2
+Current objective function : 2.771890e-05      relative norm : 3.933932e-03
+Iteration 112:
+  Proj. dual windows: ||y-Ax||_2 = 9.725278e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.723601e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292805e+00, rel_obj = 1.724094e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.339242e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.761252e-05      relative norm : 3.852505e-03
+Iteration 113:
+  Proj. dual windows: ||y-Ax||_2 = 9.396236e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.723977e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292804e+00, rel_obj = 1.726519e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.337079e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.750875e-05      relative norm : 3.772342e-03
+Iteration 114:
+  Proj. dual windows: ||y-Ax||_2 = 1.374089e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.724352e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292804e+00, rel_obj = 1.728937e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.334947e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.740752e-05      relative norm : 3.693433e-03
+Iteration 115:
+  Proj. dual windows: ||y-Ax||_2 = 9.788810e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.724727e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.731348e-01
+   Iter 2, ||A x||_1 = 1.287585e+00, rel_obj = 1.332845e-04
+  prox_L1: ||A (x-y)||_1 = 1.287585e+00, REL_OB, iter = 2
+Current objective function : 2.730878e-05      relative norm : 3.615765e-03
+Iteration 116:
+  Proj. dual windows: ||y-Ax||_2 = 9.341605e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.725100e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.733753e-01
+   Iter 2, ||A x||_1 = 1.287586e+00, rel_obj = 1.330775e-04
+  prox_L1: ||A (x-y)||_1 = 1.287586e+00, REL_OB, iter = 2
+Current objective function : 2.721247e-05      relative norm : 3.539331e-03
+Iteration 117:
+  Proj. dual windows: ||y-Ax||_2 = 1.164826e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.725473e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.736151e-01
+   Iter 2, ||A x||_1 = 1.287586e+00, rel_obj = 1.328734e-04
+  prox_L1: ||A (x-y)||_1 = 1.287586e+00, REL_OB, iter = 2
+Current objective function : 2.711852e-05      relative norm : 3.464119e-03
+Iteration 118:
+  Proj. dual windows: ||y-Ax||_2 = 7.873025e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.725845e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.738543e-01
+   Iter 2, ||A x||_1 = 1.287586e+00, rel_obj = 1.326722e-04
+  prox_L1: ||A (x-y)||_1 = 1.287586e+00, REL_OB, iter = 2
+Current objective function : 2.702690e-05      relative norm : 3.390123e-03
+Iteration 119:
+  Proj. dual windows: ||y-Ax||_2 = 9.973946e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.726217e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.740929e-01
+   Iter 2, ||A x||_1 = 1.287587e+00, rel_obj = 1.324739e-04
+  prox_L1: ||A (x-y)||_1 = 1.287587e+00, REL_OB, iter = 2
+Current objective function : 2.693754e-05      relative norm : 3.317336e-03
+Iteration 120:
+  Proj. dual windows: ||y-Ax||_2 = 9.911989e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.726587e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.743308e-01
+   Iter 2, ||A x||_1 = 1.287587e+00, rel_obj = 1.322784e-04
+  prox_L1: ||A (x-y)||_1 = 1.287587e+00, REL_OB, iter = 2
+Current objective function : 2.685039e-05      relative norm : 3.245751e-03
+Iteration 121:
+  Proj. dual windows: ||y-Ax||_2 = 1.366231e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.726957e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.745681e-01
+   Iter 2, ||A x||_1 = 1.287587e+00, rel_obj = 1.320857e-04
+  prox_L1: ||A (x-y)||_1 = 1.287587e+00, REL_OB, iter = 2
+Current objective function : 2.676540e-05      relative norm : 3.175361e-03
+Iteration 122:
+  Proj. dual windows: ||y-Ax||_2 = 7.499657e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.727326e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.748049e-01
+   Iter 2, ||A x||_1 = 1.287588e+00, rel_obj = 1.318956e-04
+  prox_L1: ||A (x-y)||_1 = 1.287588e+00, REL_OB, iter = 2
+Current objective function : 2.668252e-05      relative norm : 3.106159e-03
+Iteration 123:
+  Proj. dual windows: ||y-Ax||_2 = 8.754764e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.727694e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.750410e-01
+   Iter 2, ||A x||_1 = 1.287588e+00, rel_obj = 1.317082e-04
+  prox_L1: ||A (x-y)||_1 = 1.287588e+00, REL_OB, iter = 2
+Current objective function : 2.660170e-05      relative norm : 3.038139e-03
+Iteration 124:
+  Proj. dual windows: ||y-Ax||_2 = 7.544435e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.728061e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.752766e-01
+   Iter 2, ||A x||_1 = 1.287589e+00, rel_obj = 1.315234e-04
+  prox_L1: ||A (x-y)||_1 = 1.287589e+00, REL_OB, iter = 2
+Current objective function : 2.652289e-05      relative norm : 2.971291e-03
+Iteration 125:
+  Proj. dual windows: ||y-Ax||_2 = 9.639177e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.728427e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.755116e-01
+   Iter 2, ||A x||_1 = 1.287589e+00, rel_obj = 1.313412e-04
+  prox_L1: ||A (x-y)||_1 = 1.287589e+00, REL_OB, iter = 2
+Current objective function : 2.644605e-05      relative norm : 2.905608e-03
+Iteration 126:
+  Proj. dual windows: ||y-Ax||_2 = 1.642053e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.728793e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.757460e-01
+   Iter 2, ||A x||_1 = 1.287589e+00, rel_obj = 1.311602e-04
+  prox_L1: ||A (x-y)||_1 = 1.287589e+00, REL_OB, iter = 2
+Current objective function : 2.637084e-05      relative norm : 2.852146e-03
+Iteration 127:
+  Proj. dual windows: ||y-Ax||_2 = 2.119451e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.729158e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.759798e-01
+   Iter 2, ||A x||_1 = 1.287590e+00, rel_obj = 1.309817e-04
+  prox_L1: ||A (x-y)||_1 = 1.287590e+00, REL_OB, iter = 2
+Current objective function : 2.629749e-05      relative norm : 2.789089e-03
+Iteration 128:
+  Proj. dual windows: ||y-Ax||_2 = 1.443424e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.729523e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.762131e-01
+   Iter 2, ||A x||_1 = 1.287590e+00, rel_obj = 1.308070e-04
+  prox_L1: ||A (x-y)||_1 = 1.287590e+00, REL_OB, iter = 2
+Current objective function : 2.622616e-05      relative norm : 2.719715e-03
+Iteration 129:
+  Proj. dual windows: ||y-Ax||_2 = 1.412591e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.729886e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.764459e-01
+   Iter 2, ||A x||_1 = 1.287591e+00, rel_obj = 1.306350e-04
+  prox_L1: ||A (x-y)||_1 = 1.287591e+00, REL_OB, iter = 2
+Current objective function : 2.615665e-05      relative norm : 2.657460e-03
+Iteration 130:
+  Proj. dual windows: ||y-Ax||_2 = 1.198487e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.730249e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.766781e-01
+   Iter 2, ||A x||_1 = 1.287591e+00, rel_obj = 1.304654e-04
+  prox_L1: ||A (x-y)||_1 = 1.287591e+00, REL_OB, iter = 2
+Current objective function : 2.608889e-05      relative norm : 2.597243e-03
+Iteration 131:
+  Proj. dual windows: ||y-Ax||_2 = 1.577507e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.730611e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.769098e-01
+   Iter 2, ||A x||_1 = 1.287592e+00, rel_obj = 1.302982e-04
+  prox_L1: ||A (x-y)||_1 = 1.287592e+00, REL_OB, iter = 2
+Current objective function : 2.602284e-05      relative norm : 2.538129e-03
+Iteration 132:
+  Proj. dual windows: ||y-Ax||_2 = 1.615574e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.730973e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.771410e-01
+   Iter 2, ||A x||_1 = 1.287592e+00, rel_obj = 1.301335e-04
+  prox_L1: ||A (x-y)||_1 = 1.287592e+00, REL_OB, iter = 2
+Current objective function : 2.595846e-05      relative norm : 2.480127e-03
+Iteration 133:
+  Proj. dual windows: ||y-Ax||_2 = 1.199100e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.731334e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292801e+00, rel_obj = 1.773716e-01
+   Iter 2, ||A x||_1 = 1.287593e+00, rel_obj = 1.299711e-04
+  prox_L1: ||A (x-y)||_1 = 1.287593e+00, REL_OB, iter = 2
+Current objective function : 2.589571e-05      relative norm : 2.423245e-03
+Iteration 134:
+  Proj. dual windows: ||y-Ax||_2 = 9.900519e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.731694e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.776018e-01
+   Iter 2, ||A x||_1 = 1.287593e+00, rel_obj = 1.298110e-04
+  prox_L1: ||A (x-y)||_1 = 1.287593e+00, REL_OB, iter = 2
+Current objective function : 2.583455e-05      relative norm : 2.367472e-03
+Iteration 135:
+  Proj. dual windows: ||y-Ax||_2 = 1.863631e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.732053e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.778314e-01
+   Iter 2, ||A x||_1 = 1.287594e+00, rel_obj = 1.296533e-04
+  prox_L1: ||A (x-y)||_1 = 1.287594e+00, REL_OB, iter = 2
+Current objective function : 2.577494e-05      relative norm : 2.312788e-03
+Iteration 136:
+  Proj. dual windows: ||y-Ax||_2 = 1.109588e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.732412e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.780606e-01
+   Iter 2, ||A x||_1 = 1.287594e+00, rel_obj = 1.294977e-04
+  prox_L1: ||A (x-y)||_1 = 1.287594e+00, REL_OB, iter = 2
+Current objective function : 2.571684e-05      relative norm : 2.259175e-03
+Iteration 137:
+  Proj. dual windows: ||y-Ax||_2 = 1.354195e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.732770e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.782892e-01
+   Iter 2, ||A x||_1 = 1.287595e+00, rel_obj = 1.293444e-04
+  prox_L1: ||A (x-y)||_1 = 1.287595e+00, REL_OB, iter = 2
+Current objective function : 2.566022e-05      relative norm : 2.206614e-03
+Iteration 138:
+  Proj. dual windows: ||y-Ax||_2 = 1.006683e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.733127e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.785174e-01
+   Iter 2, ||A x||_1 = 1.287595e+00, rel_obj = 1.291933e-04
+  prox_L1: ||A (x-y)||_1 = 1.287595e+00, REL_OB, iter = 2
+Current objective function : 2.560503e-05      relative norm : 2.155111e-03
+Iteration 139:
+  Proj. dual windows: ||y-Ax||_2 = 1.133853e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.733484e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.787452e-01
+   Iter 2, ||A x||_1 = 1.287596e+00, rel_obj = 1.290443e-04
+  prox_L1: ||A (x-y)||_1 = 1.287596e+00, REL_OB, iter = 2
+Current objective function : 2.555126e-05      relative norm : 2.104669e-03
+Iteration 140:
+  Proj. dual windows: ||y-Ax||_2 = 1.626073e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.733840e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.789724e-01
+   Iter 2, ||A x||_1 = 1.287596e+00, rel_obj = 1.288975e-04
+  prox_L1: ||A (x-y)||_1 = 1.287596e+00, REL_OB, iter = 2
+Current objective function : 2.549885e-05      relative norm : 2.055188e-03
+Iteration 141:
+  Proj. dual windows: ||y-Ax||_2 = 1.143208e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.734196e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.791993e-01
+   Iter 2, ||A x||_1 = 1.287597e+00, rel_obj = 1.287526e-04
+  prox_L1: ||A (x-y)||_1 = 1.287597e+00, REL_OB, iter = 2
+Current objective function : 2.544777e-05      relative norm : 2.007479e-03
+Iteration 142:
+  Proj. dual windows: ||y-Ax||_2 = 2.378109e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.734551e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292802e+00, rel_obj = 1.794256e-01
+   Iter 2, ||A x||_1 = 1.287597e+00, rel_obj = 1.286098e-04
+  prox_L1: ||A (x-y)||_1 = 1.287597e+00, REL_OB, iter = 2
+Current objective function : 2.539799e-05      relative norm : 1.960013e-03
+Iteration 143:
+  Proj. dual windows: ||y-Ax||_2 = 1.848141e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.734905e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.796516e-01
+   Iter 2, ||A x||_1 = 1.287598e+00, rel_obj = 1.284690e-04
+  prox_L1: ||A (x-y)||_1 = 1.287598e+00, REL_OB, iter = 2
+Current objective function : 2.534948e-05      relative norm : 1.913489e-03
+Iteration 144:
+  Proj. dual windows: ||y-Ax||_2 = 1.358034e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.735259e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.798771e-01
+   Iter 2, ||A x||_1 = 1.287598e+00, rel_obj = 1.283302e-04
+  prox_L1: ||A (x-y)||_1 = 1.287598e+00, REL_OB, iter = 2
+Current objective function : 2.530222e-05      relative norm : 1.867929e-03
+Iteration 145:
+  Proj. dual windows: ||y-Ax||_2 = 9.102044e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.735612e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.801022e-01
+   Iter 2, ||A x||_1 = 1.287599e+00, rel_obj = 1.281933e-04
+  prox_L1: ||A (x-y)||_1 = 1.287599e+00, REL_OB, iter = 2
+Current objective function : 2.525617e-05      relative norm : 1.823314e-03
+Iteration 146:
+  Proj. dual windows: ||y-Ax||_2 = 9.867100e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.735965e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.803269e-01
+   Iter 2, ||A x||_1 = 1.287599e+00, rel_obj = 1.280584e-04
+  prox_L1: ||A (x-y)||_1 = 1.287599e+00, REL_OB, iter = 2
+Current objective function : 2.521130e-05      relative norm : 1.779630e-03
+Iteration 147:
+  Proj. dual windows: ||y-Ax||_2 = 1.354897e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.736317e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.805511e-01
+   Iter 2, ||A x||_1 = 1.287600e+00, rel_obj = 1.279255e-04
+  prox_L1: ||A (x-y)||_1 = 1.287600e+00, REL_OB, iter = 2
+Current objective function : 2.516759e-05      relative norm : 1.736868e-03
+Iteration 148:
+  Proj. dual windows: ||y-Ax||_2 = 1.161891e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.736668e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292803e+00, rel_obj = 1.807750e-01
+   Iter 2, ||A x||_1 = 1.287600e+00, rel_obj = 1.277944e-04
+  prox_L1: ||A (x-y)||_1 = 1.287600e+00, REL_OB, iter = 2
+Current objective function : 2.512500e-05      relative norm : 1.695017e-03
+Iteration 149:
+  Proj. dual windows: ||y-Ax||_2 = 8.520349e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.737019e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292804e+00, rel_obj = 1.809984e-01
+   Iter 2, ||A x||_1 = 1.287601e+00, rel_obj = 1.276651e-04
+  prox_L1: ||A (x-y)||_1 = 1.287601e+00, REL_OB, iter = 2
+Current objective function : 2.508351e-05      relative norm : 1.654065e-03
+Iteration 150:
+  Proj. dual windows: ||y-Ax||_2 = 9.968106e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.737369e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.292804e+00, rel_obj = 1.812215e-01
+   Iter 2, ||A x||_1 = 1.287601e+00, rel_obj = 1.275377e-04
+  prox_L1: ||A (x-y)||_1 = 1.287601e+00, REL_OB, iter = 2
+
+ Solution found:
+ Final relative norm: 1.614001e-03
+ 150 iterations
+ Stopping criterion: MAX_IT
+
+  Proj. dual windows: ||y-Ax||_2 = 8.843291e-17, TOL_EPS, iter = 0
+  Reconstruction error of optimization problem: 2.9837e-16
+Solve the optimization problem : Weigted S0
+Iteration 1:
+  Proj. dual windows: ||y-Ax||_2 = 3.551561e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.485862e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 4.678771e-02, rel_obj = 1.317254e+01
+   Iter 2, ||A x||_1 = 1.769529e-02, rel_obj = 3.036121e-01
+   Iter 3, ||A x||_1 = 7.203125e-03, rel_obj = 1.200993e-01
+   Iter 4, ||A x||_1 = 3.025835e-03, rel_obj = 4.981451e-02
+   Iter 5, ||A x||_1 = 1.280196e-03, rel_obj = 2.120107e-02
+  prox_L1: ||A (x-y)||_1 = 1.280196e-03, MAX_IT, iter = 5
+Current objective function : 1.083512e-01      relative norm : 5.249542e-01
+Iteration 2:
+  Proj. dual windows: ||y-Ax||_2 = 2.914104e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.485862e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.085745e-01, rel_obj = 4.785836e+00
+   Iter 2, ||A x||_1 = 7.825481e-02, rel_obj = 8.082908e-02
+   Iter 3, ||A x||_1 = 6.067694e-02, rel_obj = 4.346304e-02
+   Iter 4, ||A x||_1 = 4.888787e-02, rel_obj = 2.801154e-02
+   Iter 5, ||A x||_1 = 4.033396e-02, rel_obj = 1.978970e-02
+  prox_L1: ||A (x-y)||_1 = 4.033396e-02, MAX_IT, iter = 5
+Current objective function : 1.044548e-01      relative norm : 3.730209e-02
+Iteration 3:
+  Proj. dual windows: ||y-Ax||_2 = 3.782565e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 2.211707e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 3.343621e-01, rel_obj = 2.002136e+00
+   Iter 2, ||A x||_1 = 3.033214e-01, rel_obj = 1.790893e-02
+   Iter 3, ||A x||_1 = 2.846737e-01, rel_obj = 8.289097e-03
+  prox_L1: ||A (x-y)||_1 = 2.846737e-01, REL_OB, iter = 3
+Current objective function : 7.840654e-02      relative norm : 3.322205e-01
+Iteration 4:
+  Proj. dual windows: ||y-Ax||_2 = 4.846662e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 2.872026e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.886183e-01, rel_obj = 1.055858e+00
+   Iter 2, ||A x||_1 = 7.455033e-01, rel_obj = 8.085413e-03
+  prox_L1: ||A (x-y)||_1 = 7.455033e-01, REL_OB, iter = 2
+Current objective function : 3.884581e-02      relative norm : 1.018404e+00
+Iteration 5:
+  Proj. dual windows: ||y-Ax||_2 = 3.616412e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 3.124834e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.215452e+00, rel_obj = 6.986556e-01
+   Iter 2, ||A x||_1 = 1.172236e+00, rel_obj = 4.814770e-03
+  prox_L1: ||A (x-y)||_1 = 1.172236e+00, REL_OB, iter = 2
+Current objective function : 6.155840e-02      relative norm : 3.689601e-01
+Iteration 6:
+  Proj. dual windows: ||y-Ax||_2 = 3.409052e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 2.872234e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.350191e+00, rel_obj = 5.432823e-01
+   Iter 2, ||A x||_1 = 1.319935e+00, rel_obj = 3.078670e-03
+  prox_L1: ||A (x-y)||_1 = 1.319935e+00, REL_OB, iter = 2
+Current objective function : 8.407004e-02      relative norm : 2.677725e-01
+Iteration 7:
+  Proj. dual windows: ||y-Ax||_2 = 1.848216e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 2.310361e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.253041e+00, rel_obj = 4.408821e-01
+   Iter 2, ||A x||_1 = 1.235659e+00, rel_obj = 2.065811e-03
+  prox_L1: ||A (x-y)||_1 = 1.235659e+00, REL_OB, iter = 2
+Current objective function : 8.639967e-02      relative norm : 2.696337e-02
+Iteration 8:
+  Proj. dual windows: ||y-Ax||_2 = 1.075530e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.709620e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 1.088289e+00, rel_obj = 3.212532e-01
+   Iter 2, ||A x||_1 = 1.077043e+00, rel_obj = 1.537674e-03
+  prox_L1: ||A (x-y)||_1 = 1.077043e+00, REL_OB, iter = 2
+Current objective function : 7.566731e-02      relative norm : 1.418362e-01
+Iteration 9:
+  Proj. dual windows: ||y-Ax||_2 = 5.595614e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.328197e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 9.472328e-01, rel_obj = 2.436521e-01
+   Iter 2, ||A x||_1 = 9.379810e-01, rel_obj = 1.294544e-03
+  prox_L1: ||A (x-y)||_1 = 9.379810e-01, REL_OB, iter = 2
+Current objective function : 6.046073e-02      relative norm : 2.515117e-01
+Iteration 10:
+  Proj. dual windows: ||y-Ax||_2 = 6.166897e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.168656e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 8.405243e-01, rel_obj = 2.594235e-01
+   Iter 2, ||A x||_1 = 8.330406e-01, rel_obj = 1.146136e-03
+  prox_L1: ||A (x-y)||_1 = 8.330406e-01, REL_OB, iter = 2
+Current objective function : 4.561718e-02      relative norm : 3.253938e-01
+Iteration 11:
+  Proj. dual windows: ||y-Ax||_2 = 7.489296e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.036740e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.589167e-01, rel_obj = 2.506754e-01
+   Iter 2, ||A x||_1 = 7.531506e-01, rel_obj = 9.585849e-04
+  prox_L1: ||A (x-y)||_1 = 7.531506e-01, REL_OB, iter = 2
+Current objective function : 3.361737e-02      relative norm : 3.569528e-01
+Iteration 12:
+  Proj. dual windows: ||y-Ax||_2 = 1.115011e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.935167e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.990493e-01, rel_obj = 1.874005e-01
+   Iter 2, ||A x||_1 = 6.943388e-01, rel_obj = 8.142411e-04
+  prox_L1: ||A (x-y)||_1 = 6.943388e-01, REL_OB, iter = 2
+Current objective function : 2.661498e-02      relative norm : 2.630997e-01
+Iteration 13:
+  Proj. dual windows: ||y-Ax||_2 = 2.018936e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.121931e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.614172e-01, rel_obj = 1.541950e-01
+   Iter 2, ||A x||_1 = 6.573300e-01, rel_obj = 7.337829e-04
+  prox_L1: ||A (x-y)||_1 = 6.573300e-01, REL_OB, iter = 2
+Current objective function : 2.797044e-02      relative norm : 4.846069e-02
+Iteration 14:
+  Proj. dual windows: ||y-Ax||_2 = 9.729371e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.300975e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.449369e-01, rel_obj = 2.069988e-01
+   Iter 2, ||A x||_1 = 6.415398e-01, rel_obj = 6.139311e-04
+  prox_L1: ||A (x-y)||_1 = 6.415398e-01, REL_OB, iter = 2
+Current objective function : 2.954123e-02      relative norm : 5.317276e-02
+Iteration 15:
+  Proj. dual windows: ||y-Ax||_2 = 8.692056e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 9.002411e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.460117e-01, rel_obj = 2.860855e-01
+   Iter 2, ||A x||_1 = 6.436516e-01, rel_obj = 3.569193e-04
+  prox_L1: ||A (x-y)||_1 = 6.436516e-01, REL_OB, iter = 2
+Current objective function : 2.922857e-02      relative norm : 1.069718e-02
+Iteration 16:
+  Proj. dual windows: ||y-Ax||_2 = 6.888770e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 9.684124e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.593517e-01, rel_obj = 3.312618e-01
+   Iter 2, ||A x||_1 = 6.581843e-01, rel_obj = 9.852298e-05
+  prox_L1: ||A (x-y)||_1 = 6.581843e-01, REL_OB, iter = 2
+Current objective function : 2.759022e-02      relative norm : 5.938140e-02
+Iteration 17:
+  Proj. dual windows: ||y-Ax||_2 = 9.134582e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.012085e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.784908e-01, rel_obj = 3.396547e-01
+   Iter 2, ||A x||_1 = 6.782327e-01, rel_obj = 7.256753e-05
+  prox_L1: ||A (x-y)||_1 = 6.782327e-01, REL_OB, iter = 2
+Current objective function : 2.565756e-02      relative norm : 7.532537e-02
+Iteration 18:
+  Proj. dual windows: ||y-Ax||_2 = 1.231823e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.024761e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.969647e-01, rel_obj = 3.236002e-01
+   Iter 2, ||A x||_1 = 6.970152e-01, rel_obj = 1.458404e-04
+  prox_L1: ||A (x-y)||_1 = 6.970152e-01, REL_OB, iter = 2
+Current objective function : 2.552682e-02      relative norm : 5.121783e-03
+Iteration 19:
+  Proj. dual windows: ||y-Ax||_2 = 1.035502e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 1.009646e+00, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.103378e-01, rel_obj = 2.932879e-01
+   Iter 2, ||A x||_1 = 7.101798e-01, rel_obj = 1.507265e-04
+  prox_L1: ||A (x-y)||_1 = 7.101798e-01, REL_OB, iter = 2
+Current objective function : 2.700695e-02      relative norm : 5.480555e-02
+Iteration 20:
+  Proj. dual windows: ||y-Ax||_2 = 2.329457e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 9.755175e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.170973e-01, rel_obj = 2.553756e-01
+   Iter 2, ||A x||_1 = 7.164696e-01, rel_obj = 1.032770e-04
+  prox_L1: ||A (x-y)||_1 = 7.164696e-01, REL_OB, iter = 2
+Current objective function : 2.802754e-02      relative norm : 3.641411e-02
+Iteration 21:
+  Proj. dual windows: ||y-Ax||_2 = 1.208837e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 9.330394e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.178175e-01, rel_obj = 2.155908e-01
+   Iter 2, ||A x||_1 = 7.167344e-01, rel_obj = 3.115806e-05
+  prox_L1: ||A (x-y)||_1 = 7.167344e-01, REL_OB, iter = 2
+Current objective function : 2.820077e-02      relative norm : 6.142510e-03
+Iteration 22:
+  Proj. dual windows: ||y-Ax||_2 = 8.557552e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.916913e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.140778e-01, rel_obj = 1.798238e-01
+   Iter 2, ||A x||_1 = 7.126897e-01, rel_obj = 4.713575e-05
+  prox_L1: ||A (x-y)||_1 = 7.126897e-01, REL_OB, iter = 2
+Current objective function : 2.767227e-02      relative norm : 1.909844e-02
+Iteration 23:
+  Proj. dual windows: ||y-Ax||_2 = 5.583284e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.578577e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.077660e-01, rel_obj = 1.529439e-01
+   Iter 2, ||A x||_1 = 7.062544e-01, rel_obj = 1.008954e-04
+  prox_L1: ||A (x-y)||_1 = 7.062544e-01, REL_OB, iter = 2
+Current objective function : 2.672727e-02      relative norm : 3.535732e-02
+Iteration 24:
+  Proj. dual windows: ||y-Ax||_2 = 1.597267e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.343202e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 7.007117e-01, rel_obj = 1.370427e-01
+   Iter 2, ||A x||_1 = 6.992131e-01, rel_obj = 1.215614e-04
+  prox_L1: ||A (x-y)||_1 = 6.992131e-01, REL_OB, iter = 2
+Current objective function : 2.566986e-02      relative norm : 4.119245e-02
+Iteration 25:
+  Proj. dual windows: ||y-Ax||_2 = 5.320776e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.209963e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.943835e-01, rel_obj = 1.311709e-01
+   Iter 2, ||A x||_1 = 6.930055e-01, rel_obj = 9.942349e-05
+  prox_L1: ||A (x-y)||_1 = 6.930055e-01, REL_OB, iter = 2
+Current objective function : 2.476906e-02      relative norm : 3.636796e-02
+Iteration 26:
+  Proj. dual windows: ||y-Ax||_2 = 1.338589e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.160498e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.897253e-01, rel_obj = 1.323711e-01
+   Iter 2, ||A x||_1 = 6.885304e-01, rel_obj = 5.024300e-05
+  prox_L1: ||A (x-y)||_1 = 6.885304e-01, REL_OB, iter = 2
+Current objective function : 2.415260e-02      relative norm : 2.552358e-02
+Iteration 27:
+  Proj. dual windows: ||y-Ax||_2 = 7.766709e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.168387e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.870889e-01, rel_obj = 1.371239e-01
+   Iter 2, ||A x||_1 = 6.861112e-01, rel_obj = 1.294932e-05
+  prox_L1: ||A (x-y)||_1 = 6.861112e-01, REL_OB, iter = 2
+Current objective function : 2.384985e-02      relative norm : 1.269384e-02
+Iteration 28:
+  Proj. dual windows: ||y-Ax||_2 = 2.177173e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.205372e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.863181e-01, rel_obj = 1.423666e-01
+   Iter 2, ||A x||_1 = 6.855707e-01, rel_obj = 8.366043e-05
+  prox_L1: ||A (x-y)||_1 = 6.855707e-01, REL_OB, iter = 2
+Current objective function : 2.388577e-02      relative norm : 1.503780e-03
+Iteration 29:
+  Proj. dual windows: ||y-Ax||_2 = 1.082051e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.246098e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.869291e-01, rel_obj = 1.459920e-01
+   Iter 2, ||A x||_1 = 6.863825e-01, rel_obj = 1.411968e-04
+  prox_L1: ||A (x-y)||_1 = 6.863825e-01, REL_OB, iter = 2
+Current objective function : 2.393836e-02      relative norm : 2.196808e-03
+Iteration 30:
+  Proj. dual windows: ||y-Ax||_2 = 5.529451e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.271852e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.882926e-01, rel_obj = 1.469514e-01
+   Iter 2, ||A x||_1 = 6.879031e-01, rel_obj = 1.859058e-04
+  prox_L1: ||A (x-y)||_1 = 6.879031e-01, REL_OB, iter = 2
+Current objective function : 2.404672e-02      relative norm : 4.506394e-03
+Iteration 31:
+  Proj. dual windows: ||y-Ax||_2 = 1.650538e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.272982e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.898187e-01, rel_obj = 1.451252e-01
+   Iter 2, ||A x||_1 = 6.895300e-01, rel_obj = 2.147159e-04
+  prox_L1: ||A (x-y)||_1 = 6.895300e-01, REL_OB, iter = 2
+Current objective function : 2.419964e-02      relative norm : 6.319097e-03
+Iteration 32:
+  Proj. dual windows: ||y-Ax||_2 = 1.241512e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.248313e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.910830e-01, rel_obj = 1.409987e-01
+   Iter 2, ||A x||_1 = 6.908385e-01, rel_obj = 2.260690e-04
+  prox_L1: ||A (x-y)||_1 = 6.908385e-01, REL_OB, iter = 2
+Current objective function : 2.434059e-02      relative norm : 5.790707e-03
+Iteration 33:
+  Proj. dual windows: ||y-Ax||_2 = 1.166300e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.202923e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.918536e-01, rel_obj = 1.353712e-01
+   Iter 2, ||A x||_1 = 6.916187e-01, rel_obj = 2.294823e-04
+  prox_L1: ||A (x-y)||_1 = 6.916187e-01, REL_OB, iter = 2
+Current objective function : 2.443406e-02      relative norm : 3.825392e-03
+Iteration 34:
+  Proj. dual windows: ||y-Ax||_2 = 1.440231e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.145171e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.920847e-01, rel_obj = 1.291238e-01
+   Iter 2, ||A x||_1 = 6.918334e-01, rel_obj = 2.203912e-04
+  prox_L1: ||A (x-y)||_1 = 6.918334e-01, REL_OB, iter = 2
+Current objective function : 2.446530e-02      relative norm : 1.276947e-03
+Iteration 35:
+  Proj. dual windows: ||y-Ax||_2 = 3.387595e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.083748e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.918540e-01, rel_obj = 1.230319e-01
+   Iter 2, ||A x||_1 = 6.915831e-01, rel_obj = 2.090363e-04
+  prox_L1: ||A (x-y)||_1 = 6.915831e-01, REL_OB, iter = 2
+Current objective function : 2.443853e-02      relative norm : 1.095712e-03
+Iteration 36:
+  Proj. dual windows: ||y-Ax||_2 = 8.946306e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 8.025775e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.913088e-01, rel_obj = 1.176552e-01
+   Iter 2, ||A x||_1 = 6.910280e-01, rel_obj = 2.001439e-04
+  prox_L1: ||A (x-y)||_1 = 6.910280e-01, REL_OB, iter = 2
+Current objective function : 2.437050e-02      relative norm : 2.791424e-03
+Iteration 37:
+  Proj. dual windows: ||y-Ax||_2 = 7.224710e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.975784e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.906144e-01, rel_obj = 1.132833e-01
+   Iter 2, ||A x||_1 = 6.903369e-01, rel_obj = 1.956990e-04
+  prox_L1: ||A (x-y)||_1 = 6.903369e-01, REL_OB, iter = 2
+Current objective function : 2.428222e-02      relative norm : 3.635343e-03
+Iteration 38:
+  Proj. dual windows: ||y-Ax||_2 = 3.874425e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.935566e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.899178e-01, rel_obj = 1.099414e-01
+   Iter 2, ||A x||_1 = 6.896527e-01, rel_obj = 1.924777e-04
+  prox_L1: ||A (x-y)||_1 = 6.896527e-01, REL_OB, iter = 2
+Current objective function : 2.419296e-02      relative norm : 3.689728e-03
+Iteration 39:
+  Proj. dual windows: ||y-Ax||_2 = 1.720224e-16, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.904776e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.893218e-01, rel_obj = 1.074751e-01
+   Iter 2, ||A x||_1 = 6.890808e-01, rel_obj = 1.934250e-04
+  prox_L1: ||A (x-y)||_1 = 6.890808e-01, REL_OB, iter = 2
+Current objective function : 2.411767e-02      relative norm : 3.121633e-03
+Iteration 40:
+  Proj. dual windows: ||y-Ax||_2 = 7.276622e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.881688e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.888837e-01, rel_obj = 1.056346e-01
+   Iter 2, ||A x||_1 = 6.886735e-01, rel_obj = 1.976541e-04
+  prox_L1: ||A (x-y)||_1 = 6.886735e-01, REL_OB, iter = 2
+Current objective function : 2.406441e-02      relative norm : 2.213345e-03
+Iteration 41:
+  Proj. dual windows: ||y-Ax||_2 = 4.368067e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.863892e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.886123e-01, rel_obj = 1.041496e-01
+   Iter 2, ||A x||_1 = 6.884356e-01, rel_obj = 2.019105e-04
+  prox_L1: ||A (x-y)||_1 = 6.884356e-01, REL_OB, iter = 2
+Current objective function : 2.403384e-02      relative norm : 1.272126e-03
+Iteration 42:
+  Proj. dual windows: ||y-Ax||_2 = 9.353807e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.848914e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.884831e-01, rel_obj = 1.027864e-01
+   Iter 2, ||A x||_1 = 6.883380e-01, rel_obj = 2.063557e-04
+  prox_L1: ||A (x-y)||_1 = 6.883380e-01, REL_OB, iter = 2
+Current objective function : 2.402117e-02      relative norm : 5.271878e-04
+Iteration 43:
+  Proj. dual windows: ||y-Ax||_2 = 7.093449e-17, TOL_EPS, iter = 0
+  Proximal l1 operator:
+   Iter 0, ||A x||_1 = 7.834715e-01, rel_obj = 1.000000e+00
+   Iter 1, ||A x||_1 = 6.884529e-01, rel_obj = 1.013808e-01
+   Iter 2, ||A x||_1 = 6.883364e-01, rel_obj = 2.105874e-04
+  prox_L1: ||A (x-y)||_1 = 6.883364e-01, REL_OB, iter = 2
+
+ Solution found:
+ Final relative norm: 4.787219e-05
+ 43 iterations
+ Stopping criterion: REL_NORM
+
+  Proj. dual windows: ||y-Ax||_2 = 1.714318e-16, TOL_EPS, iter = 0
+  Reconstruction error of optimization problem: 4.04768e-16
+
+crit =
+
+    0.2074    3.2155   40.0898    0.3523   17.7331    1.1433    1.3883    1.4859    1.3638    1.8670    0.5422
+    0.6638    1.4988    8.2516    0.8612    8.2638    3.6602    1.4294    0.7527    1.9182    1.6855    1.1069
+    0.7912    1.5039    4.4824    3.2367    8.2919    4.3634    1.5041    0.7274    2.0841    1.6722    1.2593
+    0.6663    1.4977    8.2067    0.9961    8.2578    3.6739    1.4310    0.7535    1.9214    1.6852    1.1097
+    0.2796    2.1551   18.1214    0.2434   11.8833    1.5418    1.2881    0.9455    1.4952    1.7094    0.6397
+    0.6498    1.5361    5.8810    0.8149    8.4695    3.5830    1.4092    0.6866    1.9418    1.6681    1.0987
+
+
+crit2 =
+
+   27.5000    1.2292  295.8398   16.3689  106.0177
+    8.5000    3.9792  295.6575   31.5146  124.6016
+    8.1667    4.0208  304.5363   26.6813   60.9215
+    8.5000    3.9792  295.6575   31.5041   78.7453
+   16.1667    2.1042  293.9675   30.0840  109.6085
+    8.8333    4.0208  281.5524   33.9670  120.2623
+
+
+ans =
+
+\begin{table}[thb]
+\begin{center}\begin{tabular}{ |c|ccccccccccc|}
+ \hline
+ &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp; \\\\
+ \hline
+ &amp; :math:`   0.2074 ` &amp; :math:`   3.2155 ` &amp; :math:`  40.0898 ` &amp; :math:`   0.3523 ` &amp; :math:`  17.7331 ` &amp; :math:`   1.1433 ` &amp; :math:`   1.3883 ` &amp; :math:`   1.4859 ` &amp; :math:`   1.3638 ` &amp; :math:`   1.8670 ` &amp; :math:`   0.5422 ` \\\\
+ &amp; :math:`   0.6638 ` &amp; :math:`   1.4988 ` &amp; :math:`   8.2516 ` &amp; :math:`   0.8612 ` &amp; :math:`   8.2638 ` &amp; :math:`   3.6602 ` &amp; :math:`   1.4294 ` &amp; :math:`   0.7527 ` &amp; :math:`   1.9182 ` &amp; :math:`   1.6855 ` &amp; :math:`   1.1069 ` \\\\
+ &amp; :math:`   0.7912 ` &amp; :math:`   1.5039 ` &amp; :math:`   4.4824 ` &amp; :math:`   3.2367 ` &amp; :math:`   8.2919 ` &amp; :math:`   4.3634 ` &amp; :math:`   1.5041 ` &amp; :math:`   0.7274 ` &amp; :math:`   2.0841 ` &amp; :math:`   1.6722 ` &amp; :math:`   1.2593 ` \\\\
+ &amp; :math:`   0.6663 ` &amp; :math:`   1.4977 ` &amp; :math:`   8.2067 ` &amp; :math:`   0.9961 ` &amp; :math:`   8.2578 ` &amp; :math:`   3.6739 ` &amp; :math:`   1.4310 ` &amp; :math:`   0.7535 ` &amp; :math:`   1.9214 ` &amp; :math:`   1.6852 ` &amp; :math:`   1.1097 ` \\\\
+ &amp; :math:`   0.2796 ` &amp; :math:`   2.1551 ` &amp; :math:`  18.1214 ` &amp; :math:`   0.2434 ` &amp; :math:`  11.8833 ` &amp; :math:`   1.5418 ` &amp; :math:`   1.2881 ` &amp; :math:`   0.9455 ` &amp; :math:`   1.4952 ` &amp; :math:`   1.7094 ` &amp; :math:`   0.6397 ` \\\\
+ &amp; :math:`   0.6498 ` &amp; :math:`   1.5361 ` &amp; :math:`   5.8810 ` &amp; :math:`   0.8149 ` &amp; :math:`   8.4695 ` &amp; :math:`   3.5830 ` &amp; :math:`   1.4092 ` &amp; :math:`   0.6866 ` &amp; :math:`   1.9418 ` &amp; :math:`   1.6681 ` &amp; :math:`   1.0987 ` \\\\
+ \hline
+ \end{tabular}\end{center}
+ \caption{ }
+\end{table}
+
+
+
+ans =
+
+\begin{table}[thb]
+\begin{center}\begin{tabular}{ |c|ccccc|}
+ \hline
+ &amp;  &amp;  &amp;  &amp;  &amp; \\\\
+ \hline
+ &amp; :math:`  27.5000 ` &amp; :math:`   1.2292 ` &amp; :math:` 295.8398 ` &amp; :math:`  16.3689 ` &amp; :math:` 106.0177 ` \\\\
+ &amp; :math:`   8.5000 ` &amp; :math:`   3.9792 ` &amp; :math:` 295.6575 ` &amp; :math:`  31.5146 ` &amp; :math:` 124.6016 ` \\\\
+ &amp; :math:`   8.1667 ` &amp; :math:`   4.0208 ` &amp; :math:` 304.5363 ` &amp; :math:`  26.6813 ` &amp; :math:`  60.9215 ` \\\\
+ &amp; :math:`   8.5000 ` &amp; :math:`   3.9792 ` &amp; :math:` 295.6575 ` &amp; :math:`  31.5041 ` &amp; :math:`  78.7453 ` \\\\
+ &amp; :math:`  16.1667 ` &amp; :math:`   2.1042 ` &amp; :math:` 293.9675 ` &amp; :math:`  30.0840 ` &amp; :math:` 109.6085 ` \\\\
+ &amp; :math:`   8.8333 ` &amp; :math:`   4.0208 ` &amp; :math:` 281.5524 ` &amp; :math:`  33.9670 ` &amp; :math:` 120.2623 ` \\\\
+ \hline
+ \end{tabular}\end{center}
+ \caption{ }
+\end{table}
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

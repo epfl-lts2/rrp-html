@@ -1,0 +1,221 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_GABFIRDUAL - Optimization of dual gabor windows with support constraint</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_gabfirdual_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_GABFIRDUAL - Optimization of dual gabor windows with support constraint</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-optimization-of-dual-gabor-windows">
+<h2>Reproducible research addendum for optimization of dual gabor windows</h2>
+<p>DESIGNING GABOR DUAL WINDOWS USING CONVEX OPTIMIZATION</p>
+<p>Paper: Nathanael Perraudin, Nicki Holighaus, Peter L. Sondergaard and
+Peter Balazs</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- January 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a> and the LTFAT
+toolbox. You can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+</div>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>In this this experiment, we will present a dual Gabor window with short
+support in a nonpainless setup, i.e. for a system with few frequency
+channels. This has previously been attempted by Stromer (see the paper
+for more information). However, the solutions obtained by the
+truncation method proposed by him are often badly localized in
+frequency due to the tendency of the truncation method to yield
+nonsmooth solutions, i.e.  solutions with 'jumps' or discontinuity-like
+behavior in time.</p>
+<p>Here, we present the construction of a dual window that combines short
+support with reasonable smoothness and therefore frequency
+concentration. We start from a Gabor system <span class="math">\(G(g,30,60)\)</span> with
+redundancy <span class="math">\(2\)</span>. The analysis window <span class="math">\(g\)</span> is chosen as a Nuttall window
+of length <span class="math">\(L_g=120\)</span> samples.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_1.png" src="rr_gabfirdual_1.png" />
+<p class="caption">Analysis window in time domain</p>
+<div class="legend">
+The chosen windows is 'Nuttall'</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_2.png" src="rr_gabfirdual_2.png" />
+<p class="caption">Analysis window in frequency domain</p>
+<div class="legend">
+The 'Nuttall' window is very well localized in the frequency domain.</div>
+</div>
+<p>We desire a dual window <span class="math">\(h\)</span> with the same support as <span class="math">\(g\)</span>, i.e.
+L_g = 120</p>
+<!-- h  = argmin_x   alpha ||x||_1 + beta ||F x||_1 -->
+<!-- +  mu || nabla x ||_2^2 + gamma || nabla F x ||_2^2 -->
+<!-- such that    x is a dual windows of g and is compaclty supported -->
+<div class="math">
+\begin{equation*}
+\begin{split}  \text{h}  =  \text{arg} \min_x   &amp; \alpha \|x\|_1 + \beta \|Fx\|_1 + \mu \| \nabla x \|_2^2 + \gamma \| \nabla \mathcal{F} x \|_2^2 \\\\     \text{such that }&amp; x \text{ is a dual windows of }g  \\\\     \text{and }&amp; x \text{ is compaclty supported } \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(\mu\)</span>   :  Smoothing parameter</li>
+<li><span class="math">\(\gamma\)</span>:  Concentration parameter</li>
+<li><span class="math">\(\alpha\)</span>:  Weight of the L1 norm in time</li>
+<li><span class="math">\(\beta\)</span> :  Weight of the L1 norm in frequency</li>
+<li><span class="math">\(x\)</span>     :  Optimization variable</li>
+<li><span class="math">\(F\)</span>     :  The Fourier matrix</li>
+</ul>
+</dd>
+</dl>
+<p>We minimize the norm of the gradient of x in order to have a smooth
+windows. The L1 norms help the dual windows to be concentrated in time
+and frequency.</p>
+<p>The results in Figure below (c,d) show the optimal dual window with
+regards to the regularization parameters: <span class="math">\(\alpha_1=\beta_{2}=0.001\)</span>
+and <span class="math">\(\mu_{3}=\gamma_{4}=1\)</span>. Those values were chosen experimentally.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_3.png" src="rr_gabfirdual_3.png" />
+<p class="caption">Dual synthesis window in time domain</p>
+<div class="legend">
+The optmain dual windows is quite smooth and is compactly supported.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_4.png" src="rr_gabfirdual_4.png" />
+<p class="caption">Dual synthesis window in frequency domain</p>
+<div class="legend">
+The dual windows is smooth. As a consequence it is confined in low
+frequencies.</div>
+</div>
+<p>For comparison, we include the least-squares solution provided by the
+truncation method below(e,f).</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_5.png" src="rr_gabfirdual_5.png" />
+<p class="caption">Dual synthesis window (Matrix pseudo inversion) in time domain</p>
+<div class="legend">
+The optmain dual windows is not smooth but is compactly supported.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_6.png" src="rr_gabfirdual_6.png" />
+<p class="caption">Dual synthesis window (Matrix pseudo inversion) in frequency domain</p>
+<div class="legend">
+The dual windows is not really smooth. It is not really well
+concentrated.</div>
+</div>
+<p>Minimizing the selected regularization functions improves upon the
+desired features, in particular smoothness and localization by means of
+minimizing the gradient. The addition of the sparsity terms is
+supposed to suppress the tendency of the solution to have M-like
+shape, i.e. multiple peaks. This is unwanted as it leads to windows
+with ambiguous temporal or frequency position. Heuristically,
+minimizing the <span class="math">\(l_1\)</span>-norm pushes all big coefficients to similar
+values, therefore achieving the suppression of multiple significant
+peaks.</p>
+<p>The solution provided is assumed to perform perfect reconstruction on
+any signal with admissible length greater or equal to <span class="math">\(L\)</span>. As in the
+previous experiments, the maximum relative reconstruction error
+(<span class="math">\(4.5e^{-14}\)</span>) is of the order of the machine precision.</p>
+<p>To guarantee the canonical dual window to be supported on <span class="math">\(L_h=L_g\)</span>,
+we would be required to increase the number of frequency channels to
+<span class="math">\(M &gt;= 120\)</span>, putting us in the painless case. Therefore the redundancy is
+increased twofold, which is an unwanted side effect. Alternatively, in
+this setting, we could decide to keep the parameters <span class="math">\(a = 30\)</span>, <span class="math">\(M = 60\)</span>
+fixed, but decrease the window size to <span class="math">\(L_g &lt; =60\)</span>. However, this
+construction provides a system with a more than <span class="math">\(8\)</span> times larger frame
+bound ratio. Consequently, the resulting canonical dual window <span class="math">\(h\)</span>,
+shown in the figure bellow, shows bad frequency behavior and an
+undesirable, M-like shape in time. In contrast, the method proposed in
+the paper allows the use of nicely shaped,compactly supported dual
+Gabor windows at low redundancies,  without the strong restrictions of
+the painless case.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_7.png" src="rr_gabfirdual_7.png" />
+<p class="caption">Painless synthesis window in time domain</p>
+<div class="legend">
+The painless window has also a bad time localisation</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_8.png" src="rr_gabfirdual_8.png" />
+<p class="caption">Painless synthesis window in frequency domain</p>
+<div class="legend">
+The painless windows has a bad frequency localisation.</div>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Solve the optimization problem
+  Reconstruction error of optimization problem: 2.96488e-15
+Reconstruction error of the matrix inversion method.
+  Reconstruction error of the matrix pseudo-inversion method: 1.73389e-14
+
+ans =
+
+\begin{table}[thb]
+\begin{center}\begin{tabular}{ |c|ccccccccc|}
+ \hline
+ &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp; \\\\
+ \hline
+ &amp; :math:`  34.1667 ` &amp; :math:`   4.6875 ` &amp; :math:`  62.4390 ` &amp; :math:`  24.6729 ` &amp; :math:`  20.3697 ` &amp; :math:`   0.6156 ` &amp; :math:`   2.8254 ` &amp; :math:`   0.9092 ` &amp; :math:`   0.6774 ` \\\\
+ &amp; :math:`  29.1667 ` &amp; :math:`   5.7292 ` &amp; :math:`  59.8442 ` &amp; :math:`  19.4349 ` &amp; :math:`  69.4470 ` &amp; :math:`   0.5579 ` &amp; :math:`   2.3705 ` &amp; :math:`   0.9278 ` &amp; :math:`   0.6188 ` \\\\
+ \hline
+ \end{tabular}\end{center}
+ \caption{ }
+\end{table}
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

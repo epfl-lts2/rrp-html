@@ -1,0 +1,201 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_ALPHA - Sensitivity of the alpha parameter</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_alpha_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_ALPHA - Sensitivity of the alpha parameter</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-phase-recovery-problem">
+<h2>Reproducible research addendum for phase recovery problem</h2>
+<p>AN EXTENDED GRIFFIN LIM ALGORTITHM</p>
+<p>Paper: Perraudin Nathanael, Balazs Peter</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- April 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the LTFAT toolbox. You
+can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+</div>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>From a spectrogram <em>S</em>, we would like to recover the signal with the
+closest spectrogram.</p>
+<p>The problem could be written in the form:</p>
+<!-- minimize_x   || |Gx| - S ||_2 -->
+<div class="math">
+\begin{equation*}
+\| |Gx| - S \|_2
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(S\)</span> :  The original spectrogram</li>
+<li><span class="math">\(G\)</span> :  A frame</li>
+<li><span class="math">\(x\)</span> :  The signal we would like to recover</li>
+</ul>
+</dd>
+</dl>
+<p>Note that for these simulations, we know that it exist one x such that
+<span class="math">\(|Gx|=S\)</span>.</p>
+</div>
+<div class="section" id="algorithms-for-solving-the-problem">
+<h2>Algorithms for solving the problem</h2>
+<p>We will compare 2 different algorithms to solve the problem</p>
+<ul class="simple">
+<li>Griffin-Lim : Original algorithm designed by griffin and Lim</li>
+<li>Forward-PBL : A modification of the Griffin-Lim</li>
+</ul>
+</div>
+<div class="section" id="goal-of-these-simulations">
+<h2>Goal of these simulations</h2>
+<p>Observe the role of the parameter 'alpha' in th Foward-PBL algorithm.</p>
+<ul class="simple">
+<li>For 'alpha'=0, we recover the Griffin lim algorithm</li>
+<li>For 'alpha'&gt;1, the algorithm is usually unstable</li>
+<li>The optimum seems to be 'alpha'close to 1.</li>
+</ul>
+</div>
+<div class="section" id="results">
+<h2>Results</h2>
+<div class="figure align-center">
+<img alt="rr_alpha_1.png" src="rr_alpha_1.png" />
+<p class="caption">Different values of 'alpha' on 'gspi'</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_alpha_2.png" src="rr_alpha_2.png" />
+<p class="caption">Different values of 'alpha' on 'bat'</p>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+LTFAT version 2.1.1. Copyright 2005-2015 Peter L. Søndergaard. For help, please type &quot;ltfathelp&quot;. LTFAT is using the MEX backend.
+(Your global and persistent variables have just been cleared. Sorry.)
+R2p started
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 29.0263
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 30.3708
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.7
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 46.7171
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.9
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 15.2788
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 62.8824
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 1
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 34.256
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 1.05
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 12.335
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 1.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 6.66295
+-- Reconstruction done
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 8.06796
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 8.16456
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.7
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 8.47719
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.9
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 9.13363
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 11.1692
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 1
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 13.1296
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 1.05
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 7.93617
+-- Reconstruction done
+-- Reconstruction method:FGLA  with alpha = 1.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 6.58507
+-- Reconstruction done
+-- Display the results...  Done
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

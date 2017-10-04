@@ -1,0 +1,245 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_SPECTRO_MULT - Phase recovery problem for modified spectrograms</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_spectro_mult.html">View the help</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_SPECTRO_MULT - Phase recovery problem for modified spectrograms</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="c">%RR_SPECTRO_MULT Phase recovery problem for modified spectrograms</span>
+<span class="c">%</span>
+<span class="c">%   Reproducible research addendum for phase recovery problem</span>
+<span class="c">%   ---------------------------------------------------------</span>
+<span class="c">%   </span>
+<span class="c">%   AN EXTENDED GRIFFIN LIM ALGORTITHM</span>
+<span class="c">%</span>
+<span class="c">%   Paper: Perraudin Nathanael, Balazs Peter</span>
+<span class="c">%   </span>
+<span class="c">%   Demonstration matlab file:  Perraudin Nathanael</span>
+<span class="c">%</span>
+<span class="c">%   ARI -- April 2013</span>
+<span class="c">%   </span>
+<span class="c">%   Dependencies</span>
+<span class="c">%   ------------</span>
+<span class="c">%</span>
+<span class="c">%   In order to use this matlab file you need the LTFAT toolbox. You</span>
+<span class="c">%   can download it on http://ltfat.sourceforge.net</span>
+<span class="c">%   </span>
+<span class="c">%   The problem</span>
+<span class="c">%   -----------</span>
+<span class="c">%</span>
+<span class="c">%   From a spectrogram S, we would like to recover the signal with the</span>
+<span class="c">%   closest spectrogram.</span>
+<span class="c">%</span>
+<span class="c">%   The problem could be written in the form:</span>
+<span class="c">%</span>
+<span class="c">%        minimize_x   || |Gx| - S ||_2</span>
+<span class="c">%</span>
+<span class="c">%   with </span>
+<span class="c">%         - S :  The original spectrogram</span>
+<span class="c">%         - G :  A frame</span>
+<span class="c">%         - x :  The signal we would like to recover</span>
+<span class="c">%</span>
+<span class="c">%   Note that for these simulations, there is usually no x such that</span>
+<span class="c">%   GX=S because S are spectrogram modified coefficients. </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Algorithms for solving the problem</span>
+<span class="c">%   ----------------------------------</span>
+<span class="c">%</span>
+<span class="c">%   We will compare 2 different algorithms to solve the problem  </span>
+<span class="c">%</span>
+<span class="c">%    Griffin-Lim : Original algorithm designed by griffin and Lim</span>
+<span class="c">%</span>
+<span class="c">%    Forward-PBL : A modification of the Griffin-Lim</span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Goal of these simulations</span>
+<span class="c">%   -------------------------</span>
+<span class="c">%</span>
+<span class="c">%   Test the robustenes of the Forward-PBL algorithm for reconstruction</span>
+<span class="c">%   signals from modified spectrogram.</span>
+<span class="c">%</span>
+<span class="c">%   We use a random spectrogram multiplier. The initial phase is the phase</span>
+<span class="c">%   of the initial short time Fourier transform.</span>
+<span class="c">%   </span>
+<span class="c">%</span>
+<span class="c">%   Results</span>
+<span class="c">%   -------</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Phase recovery problem on &#39;gspi&#39;</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 2: Phase recovery problem on &#39;traindoppler&#39;</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 3: Phase recovery problem on &#39;cocktailparty&#39;</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 4: Phase recovery problem on &#39;linus&#39;</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 5: Phase recovery problem on &#39;bat&#39;</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 6: Phase recovery problem on &#39;greasy&#39;</span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: https://epfl-lts2.github.io/rrp-html/fgla/rr_spectro_mult.html</span>
+
+<span class="c">% Copyright (C) 2012-2013 Nathanael Perraudin.</span>
+<span class="c">% This file is part of RRP version 0.2</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+
+<span class="c">% ----------------------------------------------------------------------- %</span>
+<span class="c">% Author: Nathanael Perraudin</span>
+<span class="c">% April 2013</span>
+<span class="c">% FLAME project, ARI (Acoustic research institute), Vienna</span>
+<span class="c">% ----------------------------------------------------------------------- %</span>
+
+<span class="c">%% Initialisation</span>
+<span class="n">clear</span><span class="p">;</span>
+<span class="n">close</span> <span class="n">all</span><span class="p">;</span>
+
+<span class="c">% The LTFAT toolbox is required for this demonstration file</span>
+<span class="n">ltfatstart</span> <span class="c">% if this line is a problem, add to path the LTFAT toolbox.</span>
+
+<span class="c">%% General Parameters</span>
+<span class="n">alpha</span><span class="p">=</span><span class="mf">0.99</span><span class="p">;</span> <span class="c">% Parameter for the proposed algorithm</span>
+                               
+<span class="c">% Frame parameter</span>
+<span class="n">a</span><span class="p">=</span><span class="mi">32</span><span class="p">;</span>                               <span class="c">% Size of the shift in time</span>
+<span class="n">M</span><span class="p">=</span><span class="mi">256</span><span class="p">;</span>                              <span class="c">% Number of frequencies     </span>
+<span class="n">window_type</span><span class="p">=</span><span class="s">&#39;gauss&#39;</span><span class="p">;</span>                <span class="c">% Type of window</span>
+
+<span class="n">real_signal</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span>                      <span class="c">% we work with real signal only</span>
+<span class="n">type_multiplier</span><span class="p">=</span><span class="s">&#39;rand&#39;</span><span class="p">;</span>
+
+
+<span class="c">% algorithm parameter</span>
+
+<span class="n">solving_method</span><span class="p">={</span><span class="s">&#39;GLA&#39;</span><span class="p">,</span><span class="s">&#39;FGLA&#39;</span><span class="p">};</span>   
+
+<span class="n">param</span><span class="p">.</span><span class="n">maxit</span><span class="p">=</span><span class="mi">1000</span><span class="p">;</span>                  <span class="c">% Maximal number of iteration</span>
+
+<span class="n">param</span><span class="p">.</span><span class="n">verbose</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                    <span class="c">% Display parameter</span>
+
+<span class="c">% Starting point</span>
+<span class="n">param</span><span class="p">.</span><span class="n">zero_phase</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                 <span class="c">% Starting with a zero phase</span>
+<span class="n">param</span><span class="p">.</span><span class="n">random_phase</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>               <span class="c">% Starting with a random phase</span>
+
+<span class="n">param</span><span class="p">.</span><span class="n">tol</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>                        <span class="c">% Tolerance to stop iterating </span>
+
+<span class="c">% Path for saving the figures</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">pathfigure</span><span class="p">=</span><span class="s">&#39;comparaison/&#39;</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">legendlocation</span><span class="p">=</span><span class="s">&#39;SouthEast&#39;</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">save</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">position</span><span class="p">=[</span><span class="mi">100</span> <span class="mi">100</span> <span class="mi">300</span> <span class="mi">225</span><span class="p">];</span>
+
+<span class="c">%% Lauch different simulations with different signals</span>
+
+<span class="c">%% gspi</span>
+<span class="n">sound_name</span><span class="p">=</span><span class="s">&#39;gspi&#39;</span><span class="p">;</span>                  <span class="c">% Sound name</span>
+<span class="n">main_flga</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">window_type</span><span class="p">,</span><span class="n">sound_name</span><span class="p">,</span><span class="n">real_signal</span><span class="p">,</span><span class="n">type_multiplier</span><span class="p">,</span><span class="c">...</span>
+                                      <span class="n">solving_method</span><span class="p">,</span><span class="n">param</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+
+                                        
+<span class="c">%% traindoppler                                        </span>
+<span class="n">sound_name</span><span class="p">=</span><span class="s">&#39;traindoppler&#39;</span><span class="p">;</span>          <span class="c">% Sound name</span>
+<span class="n">main_flga</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">window_type</span><span class="p">,</span><span class="n">sound_name</span><span class="p">,</span><span class="n">real_signal</span><span class="p">,</span><span class="n">type_multiplier</span><span class="p">,</span><span class="c">...</span>
+                                      <span class="n">solving_method</span><span class="p">,</span><span class="n">param</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>  
+                                        
+<span class="c">%% cocktailparty                                        </span>
+<span class="n">sound_name</span><span class="p">=</span><span class="s">&#39;cocktailparty&#39;</span><span class="p">;</span>          <span class="c">% Sound name</span>
+<span class="n">main_flga</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">window_type</span><span class="p">,</span><span class="n">sound_name</span><span class="p">,</span><span class="n">real_signal</span><span class="p">,</span><span class="n">type_multiplier</span><span class="p">,</span><span class="c">...</span>
+                                      <span class="n">solving_method</span><span class="p">,</span><span class="n">param</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+                                        
+<span class="c">%% linus                                        </span>
+<span class="n">sound_name</span><span class="p">=</span><span class="s">&#39;linus&#39;</span><span class="p">;</span>                 <span class="c">% Sound name</span>
+<span class="n">main_flga</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">window_type</span><span class="p">,</span><span class="n">sound_name</span><span class="p">,</span><span class="n">real_signal</span><span class="p">,</span><span class="n">type_multiplier</span><span class="p">,</span><span class="c">...</span>
+                                      <span class="n">solving_method</span><span class="p">,</span><span class="n">param</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+                                        
+<span class="c">%% bat                                        </span>
+<span class="n">sound_name</span><span class="p">=</span><span class="s">&#39;bat&#39;</span><span class="p">;</span>                   <span class="c">% Sound name               </span>
+<span class="n">main_flga</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">window_type</span><span class="p">,</span><span class="n">sound_name</span><span class="p">,</span><span class="n">real_signal</span><span class="p">,</span><span class="n">type_multiplier</span><span class="p">,</span><span class="c">...</span>
+                                      <span class="n">solving_method</span><span class="p">,</span><span class="n">param</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+                                        
+                                        
+<span class="c">%% greasy                                        </span>
+<span class="n">sound_name</span><span class="p">=</span><span class="s">&#39;greasy&#39;</span><span class="p">;</span>                <span class="c">% Sound name</span>
+<span class="n">main_flga</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">M</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">window_type</span><span class="p">,</span><span class="n">sound_name</span><span class="p">,</span><span class="n">real_signal</span><span class="p">,</span><span class="n">type_multiplier</span><span class="p">,</span><span class="c">...</span>
+                                      <span class="n">solving_method</span><span class="p">,</span><span class="n">param</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+                                  
+</pre></div>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

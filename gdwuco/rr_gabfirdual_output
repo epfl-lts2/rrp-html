@@ -1,0 +1,19 @@
+Solve the optimization problem 
+  Reconstruction error of optimization problem: 2.96488e-15 
+Reconstruction error of the matrix inversion method.
+  Reconstruction error of the matrix pseudo-inversion method: 1.73389e-14 
+
+ans =
+
+\begin{table}[thb] 
+\begin{center}\begin{tabular}{ |c|ccccccccc|} 
+ \hline 
+ &  &  &  &  &  &  &  &  & \\ 
+ \hline 
+ & $  34.1667 $ & $   4.6875 $ & $  62.4390 $ & $  24.6729 $ & $  20.3697 $ & $   0.6156 $ & $   2.8254 $ & $   0.9092 $ & $   0.6774 $ \\ 
+ & $  29.1667 $ & $   5.7292 $ & $  59.8442 $ & $  19.4349 $ & $  69.4470 $ & $   0.5579 $ & $   2.3705 $ & $   0.9278 $ & $   0.6188 $ \\ 
+ \hline 
+ \end{tabular}\end{center} 
+ \caption{ } 
+\end{table} 
+

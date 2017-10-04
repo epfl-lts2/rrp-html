@@ -1,0 +1,28 @@
+Solve the optimization problem 
+  Reconstruction error of optimization problem: 3.50375e-15 
+
+A =
+
+   54.1026
+
+
+B =
+
+   70.7394
+
+
+ans =
+
+\begin{table}[thb] 
+\begin{center}\begin{tabular}{ |c|ccccccc|} 
+ \hline 
+ &  &  &  &  &  &  & \\ 
+ \hline 
+ & $  10.2778 $ & $   5.5093 $ & $ 176.6069 $ & $  20.5903 $ & $  78.1948 $ & $   4.3278 $ & $   8.4892 $ \\ 
+ & $  11.3889 $ & $   6.7130 $ & $ 130.7990 $ & $  93.3292 $ & $  55.7800 $ & $   3.1292 $ & $  10.5630 $ \\ 
+ & $  11.9444 $ & $   4.7685 $ & $ 175.5701 $ & $  26.0021 $ & $  91.1066 $ & $   3.0412 $ & $   9.1353 $ \\ 
+ \hline 
+ \end{tabular}\end{center} 
+ \caption{ } 
+\end{table} 
+

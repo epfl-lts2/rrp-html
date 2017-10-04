@@ -1,0 +1,71 @@
+LTFAT version 2.1.1. Copyright 2005-2015 Peter L. Søndergaard. For help, please type "ltfathelp". LTFAT is using the MEX backend.
+(Your global and persistent variables have just been cleared. Sorry.)
+R2p started
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 29.0263
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 30.3708
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.7
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 46.7171
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.9
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 15.2788
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 62.8824
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 1
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 34.256
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 1.05
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 12.335
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 1.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 6.66295
+-- Reconstruction done 
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 8.06796
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 8.16456
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.7
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 8.47719
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.9
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 9.13363
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 11.1692
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 1
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 13.1296
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 1.05
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 7.93617
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 1.2
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 6.58507
+-- Reconstruction done 
+-- Display the results...  Done

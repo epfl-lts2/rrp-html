@@ -1,0 +1,2716 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_GABFIRDUAL_SMOOTHNESS3 - Optimization of dual gabor windows with support constraint</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_gabfirdual_smoothness3_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_GABFIRDUAL_SMOOTHNESS3 - Optimization of dual gabor windows with support constraint</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-optimization-of-dual-gabor-windows">
+<h2>Reproducible research addendum for optimization of dual gabor windows</h2>
+<p>DESIGNING GABOR DUAL WINDOWS USING CONVEX OPTIMIZATION</p>
+<p>Paper: Nathanael Perraudin, Nicki Holighaus, Peter L. Sondergaard and Peter Balazs</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- January 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a> and the LTFAT
+toolbox. You can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+</div>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>This experiment is very similar to rr_gabfirdual_smoothness, but we
+works with 10 times longer windows.</p>
+<p>In this experiment, we simultaneously optimize TF concentration of the
+dual window. This is either achieved by a single prior on the TF
+representation of the dual window <span class="math">\(h\)</span> (S0 and weighted S0 norm),
+or by applying the time and frequency  versions of one prior, with
+equal weights (gradient and variance). Generally, we write our problem:</p>
+<!-- gd  = argmin_x    f(x) -->
+<!-- such that    x is a dual windows of g and compactly supported -->
+<div class="math">
+\begin{equation*}
+\begin{split}  \text{gd}  =  \text{arg} \min_x   &amp; f(x) \\\\     \text{such that }&amp; x \text{ is a dual windows of }g \\\\     \text{such that }&amp; x \text{ is compactly supported}  \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(x\)</span>     :  Optimization variable</li>
+<li><span class="math">\(f(x)\)</span>  :  Functional to optimize.</li>
+</ul>
+</dd>
+</dl>
+<p>For this experiment, we have chosen an itersine window of length
+<span class="math">\(L_g = 2400\)</span> (see figure below , <span class="math">\(a = 500\)</span> and  <span class="math">\(M=3000\)</span>. The support
+of the dual window candidates was restricted to <span class="math">\(L_h = 6000\)</span>.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness3_1.png" src="rr_gabfirdual_smoothness3_1.png" />
+<p class="caption">Analysis window in time domain</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness3_2.png" src="rr_gabfirdual_smoothness3_2.png" />
+<p class="caption">Analysis windows in frequency domain</p>
+</div>
+<p>We apply 2 different methods for measuring joint time- frequency
+localization:</p>
+<ul>
+<li><p class="first">We combine the l2-norms of the gradient of <span class="math">\(x\)</span> and of <span class="math">\(Fx\)</span> (F beeing
+the Fourier transform), to optimize the smoothness in the time and the
+frequency domain. In that case:</p>
+<!-- f(x) = ||nabla x||_2^2 + ||nabla Fx||_2^2 -->
+<div class="math">
+\begin{equation*}
+f(x) = \|\nabla x\|_2^2 + \|\nabla Fx\|_2^2
+\end{equation*}
+</div>
+</li>
+<li><p class="first">Variance is associated with the Heisenberg uncertainty principle, a
+classical measure for time-frequency localiza- tion. While we cannot
+directly optimize the Heisenberg uncertainty (the product
+var(x) var(Fx) ), the sum of variances provides a very similar measure.
+We consider both the magnitude variance, as in Heisenberg's
+uncertainty, as well as energy variance. In that case <span class="math">\(f(x)\)</span> can be
+too different things</p>
+<!-- f(x)= var(x) + var(Fx) -->
+<div class="math">
+\begin{equation*}
+f(x)= \text{var}(x) + \text{var}(Fx)
+\end{equation*}
+</div>
+<p>or</p>
+<!-- f(x)= var(x^2) + var((Fx)^2) -->
+<div class="math">
+\begin{equation*}
+f(x)= \text{var}(x^2) + \text{var}((Fx)^2)
+\end{equation*}
+</div>
+</li>
+</ul>
+<p>The figures below shows time and frequency representations, as well as
+the ambiguity function of the results. We see that all the
+criteria provide (visually) nicely concentrated dual Gabor windows,
+improved over the canonical dual. In this case, we do not optimize the
+S0 norm because it will be to computationally expensive.</p>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness3_3.png" src="rr_gabfirdual_smoothness3_3.png" />
+<p class="caption">Windows in time domain</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness3_4.png" src="rr_gabfirdual_smoothness3_4.png" />
+<p class="caption">Windows in frequency domain</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gabfirdual_smoothness3_5.png" src="rr_gabfirdual_smoothness3_5.png" />
+<p class="caption">Ambiguity functions of the obtained windows</p>
+<div class="legend">
+Optimization of the concentration in time-frequency with different
+methods.</div>
+</div>
+<p>Note that, while the shape of this experiment's results is quite
+characteristic, their quality cannot be representative for any
+arbitrary setup. In fact the results are highly dependent on the
+quality of the original Gabor frame, its redundancy and the choice of
+support constraint.</p>
+<p>If you run the file, you'll notice that it takes a few second before
+the optimization algorithm starts. This is due to the fact, that we
+pseudo invert the WR matrix. Then each iteration is very quick.</p>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Compute the canonical dual
+  Reconstruction error of the canonical dual 5.58556e-16
+Solve the optimization problem : Smoothness
+Iteration 1:
+  Proj. dual windows: ||y-Ax||_2 = 3.801221e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.898e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=8.04951e-07
+Current objective function : 2.233226e-03      relative norm : 9.995697e-01
+Iteration 2:
+  Proj. dual windows: ||y-Ax||_2 = 1.242292e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.72956e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=8.49545e-07
+Current objective function : 3.054798e-03      relative norm : 2.689449e-01
+Iteration 3:
+  Proj. dual windows: ||y-Ax||_2 = 3.404608e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.84556e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=8.3618e-07
+Current objective function : 2.585248e-03      relative norm : 1.816268e-01
+Iteration 4:
+  Proj. dual windows: ||y-Ax||_2 = 4.491109e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.03175e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=8.29138e-07
+Current objective function : 1.415928e-03      relative norm : 8.258328e-01
+Iteration 5:
+  Proj. dual windows: ||y-Ax||_2 = 3.108251e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.23368e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=8.24343e-07
+Current objective function : 1.653942e-04      relative norm : 7.560932e+00
+Iteration 6:
+  Proj. dual windows: ||y-Ax||_2 = 5.024317e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.41321e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=8.15335e-07
+Current objective function : 7.410786e-04      relative norm : 7.768197e-01
+Iteration 7:
+  Proj. dual windows: ||y-Ax||_2 = 3.910112e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.55352e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=7.99451e-07
+Current objective function : 1.127518e-03      relative norm : 3.427344e-01
+Iteration 8:
+  Proj. dual windows: ||y-Ax||_2 = 1.450921e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.65804e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=7.77658e-07
+Current objective function : 1.051992e-03      relative norm : 7.179274e-02
+Iteration 9:
+  Proj. dual windows: ||y-Ax||_2 = 2.812116e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.74233e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=7.52933e-07
+Current objective function : 6.981326e-04      relative norm : 5.068659e-01
+Iteration 10:
+  Proj. dual windows: ||y-Ax||_2 = 6.672391e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.8246e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=7.28496e-07
+Current objective function : 2.748782e-04      relative norm : 1.539789e+00
+Iteration 11:
+  Proj. dual windows: ||y-Ax||_2 = 9.845741e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.91864e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=7.06621e-07
+Current objective function : 6.227506e-05      relative norm : 3.413936e+00
+Iteration 12:
+  Proj. dual windows: ||y-Ax||_2 = 3.105926e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.03086e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.88236e-07
+Current objective function : 2.318765e-04      relative norm : 7.314300e-01
+Iteration 13:
+  Proj. dual windows: ||y-Ax||_2 = 6.672565e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.16079e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.73105e-07
+Current objective function : 2.417665e-04      relative norm : 4.090753e-02
+Iteration 14:
+  Proj. dual windows: ||y-Ax||_2 = 7.797980e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.30358e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.60317e-07
+Current objective function : 1.448204e-04      relative norm : 6.694228e-01
+Iteration 15:
+  Proj. dual windows: ||y-Ax||_2 = 2.846550e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.45292e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.48796e-07
+Current objective function : 1.223820e-05      relative norm : 1.083347e+01
+Iteration 16:
+  Proj. dual windows: ||y-Ax||_2 = 7.781472e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.60351e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.37681e-07
+Current objective function : 1.073783e-04      relative norm : 8.860272e-01
+Iteration 17:
+  Proj. dual windows: ||y-Ax||_2 = 3.426508e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.75229e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.26505e-07
+Current objective function : 1.725757e-04      relative norm : 3.777901e-01
+Iteration 18:
+  Proj. dual windows: ||y-Ax||_2 = 5.298931e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.89862e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.15184e-07
+Current objective function : 1.833950e-04      relative norm : 5.899470e-02
+Iteration 19:
+  Proj. dual windows: ||y-Ax||_2 = 7.788773e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.04357e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=6.03892e-07
+Current objective function : 1.545239e-04      relative norm : 1.868393e-01
+Iteration 20:
+  Proj. dual windows: ||y-Ax||_2 = 5.289334e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.18894e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.92899e-07
+Current objective function : 1.082956e-04      relative norm : 4.268708e-01
+Iteration 21:
+  Proj. dual windows: ||y-Ax||_2 = 1.290873e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.3364e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.82434e-07
+Current objective function : 6.486102e-05      relative norm : 6.696564e-01
+Iteration 22:
+  Proj. dual windows: ||y-Ax||_2 = 6.067819e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.48697e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.7262e-07
+Current objective function : 3.649522e-05      relative norm : 7.772473e-01
+Iteration 23:
+  Proj. dual windows: ||y-Ax||_2 = 1.746014e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.64088e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.6346e-07
+Current objective function : 2.640848e-05      relative norm : 3.819505e-01
+Iteration 24:
+  Proj. dual windows: ||y-Ax||_2 = 2.860756e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.79778e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.54873e-07
+Current objective function : 3.089444e-05      relative norm : 1.452027e-01
+Iteration 25:
+  Proj. dual windows: ||y-Ax||_2 = 7.244513e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=7.95699e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.4674e-07
+Current objective function : 4.290003e-05      relative norm : 2.798504e-01
+Iteration 26:
+  Proj. dual windows: ||y-Ax||_2 = 6.971298e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=8.11785e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.38951e-07
+Current objective function : 5.543360e-05      relative norm : 2.261007e-01
+Iteration 27:
+  Proj. dual windows: ||y-Ax||_2 = 6.730780e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=8.27989e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.31427e-07
+Current objective function : 6.379310e-05      relative norm : 1.310407e-01
+Iteration 28:
+  Proj. dual windows: ||y-Ax||_2 = 9.818900e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=8.44289e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.24129e-07
+Current objective function : 6.627087e-05      relative norm : 3.738857e-02
+Iteration 29:
+  Proj. dual windows: ||y-Ax||_2 = 3.371879e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=8.60687e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.17049e-07
+Current objective function : 6.365646e-05      relative norm : 4.107063e-02
+Iteration 30:
+  Proj. dual windows: ||y-Ax||_2 = 4.214168e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=8.77196e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.10198e-07
+Current objective function : 5.811499e-05      relative norm : 9.535348e-02
+Iteration 31:
+  Proj. dual windows: ||y-Ax||_2 = 1.222548e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=8.93834e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=5.03588e-07
+Current objective function : 5.201519e-05      relative norm : 1.172697e-01
+Iteration 32:
+  Proj. dual windows: ||y-Ax||_2 = 3.093188e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=9.10613e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.97226e-07
+Current objective function : 4.709824e-05      relative norm : 1.043977e-01
+Iteration 33:
+  Proj. dual windows: ||y-Ax||_2 = 9.224627e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=9.27537e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.91106e-07
+Current objective function : 4.413601e-05      relative norm : 6.711590e-02
+Iteration 34:
+  Proj. dual windows: ||y-Ax||_2 = 9.290968e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=9.44605e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.85215e-07
+Current objective function : 4.302069e-05      relative norm : 2.592517e-02
+Iteration 35:
+  Proj. dual windows: ||y-Ax||_2 = 4.192499e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=9.61809e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.79533e-07
+Current objective function : 4.310701e-05      relative norm : 2.002445e-03
+Iteration 36:
+  Proj. dual windows: ||y-Ax||_2 = 1.547178e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=9.79141e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.74041e-07
+Current objective function : 4.360614e-05      relative norm : 1.144635e-02
+Iteration 37:
+  Proj. dual windows: ||y-Ax||_2 = 1.328711e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=9.96594e-11
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.68723e-07
+Current objective function : 4.388675e-05      relative norm : 6.393826e-03
+Iteration 38:
+  Proj. dual windows: ||y-Ax||_2 = 2.845566e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.01416e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.63565e-07
+Current objective function : 4.362094e-05      relative norm : 6.093630e-03
+Iteration 39:
+  Proj. dual windows: ||y-Ax||_2 = 4.233446e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.03185e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.58559e-07
+Current objective function : 4.278288e-05      relative norm : 1.958855e-02
+Iteration 40:
+  Proj. dual windows: ||y-Ax||_2 = 1.759684e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.04964e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.53699e-07
+Current objective function : 4.155126e-05      relative norm : 2.964115e-02
+Iteration 41:
+  Proj. dual windows: ||y-Ax||_2 = 7.671235e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.06755e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.48981e-07
+Current objective function : 4.017993e-05      relative norm : 3.412954e-02
+Iteration 42:
+  Proj. dual windows: ||y-Ax||_2 = 3.411228e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.08558e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.44401e-07
+Current objective function : 3.888959e-05      relative norm : 3.317975e-02
+Iteration 43:
+  Proj. dual windows: ||y-Ax||_2 = 6.680411e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.10372e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.39952e-07
+Current objective function : 3.780792e-05      relative norm : 2.860949e-02
+Iteration 44:
+  Proj. dual windows: ||y-Ax||_2 = 8.388296e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.12198e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.3563e-07
+Current objective function : 3.696085e-05      relative norm : 2.291814e-02
+Iteration 45:
+  Proj. dual windows: ||y-Ax||_2 = 1.634365e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.14035e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.31429e-07
+Current objective function : 3.629946e-05      relative norm : 1.822033e-02
+Iteration 46:
+  Proj. dual windows: ||y-Ax||_2 = 1.542349e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.15883e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.27342e-07
+Current objective function : 3.574147e-05      relative norm : 1.561174e-02
+Iteration 47:
+  Proj. dual windows: ||y-Ax||_2 = 3.117151e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.17742e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.23364e-07
+Current objective function : 3.520878e-05      relative norm : 1.512956e-02
+Iteration 48:
+  Proj. dual windows: ||y-Ax||_2 = 5.651859e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.19612e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.19489e-07
+Current objective function : 3.465053e-05      relative norm : 1.611086e-02
+Iteration 49:
+  Proj. dual windows: ||y-Ax||_2 = 3.062458e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.21492e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.15713e-07
+Current objective function : 3.404946e-05      relative norm : 1.765291e-02
+Iteration 50:
+  Proj. dual windows: ||y-Ax||_2 = 7.260195e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.23383e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.12033e-07
+Current objective function : 3.341527e-05      relative norm : 1.897897e-02
+Iteration 51:
+  Proj. dual windows: ||y-Ax||_2 = 3.133262e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.25284e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.08445e-07
+Current objective function : 3.277172e-05      relative norm : 1.963729e-02
+Iteration 52:
+  Proj. dual windows: ||y-Ax||_2 = 1.019090e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.27195e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.04945e-07
+Current objective function : 3.214374e-05      relative norm : 1.953680e-02
+Iteration 53:
+  Proj. dual windows: ||y-Ax||_2 = 1.245856e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.29117e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=4.0153e-07
+Current objective function : 3.154869e-05      relative norm : 1.886134e-02
+Iteration 54:
+  Proj. dual windows: ||y-Ax||_2 = 2.303363e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.31048e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.98197e-07
+Current objective function : 3.099318e-05      relative norm : 1.792338e-02
+Iteration 55:
+  Proj. dual windows: ||y-Ax||_2 = 3.412759e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.32989e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.94943e-07
+Current objective function : 3.047446e-05      relative norm : 1.702156e-02
+Iteration 56:
+  Proj. dual windows: ||y-Ax||_2 = 3.113718e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.3494e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.91766e-07
+Current objective function : 2.998428e-05      relative norm : 1.634789e-02
+Iteration 57:
+  Proj. dual windows: ||y-Ax||_2 = 6.181095e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.369e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.88662e-07
+Current objective function : 2.951324e-05      relative norm : 1.596036e-02
+Iteration 58:
+  Proj. dual windows: ||y-Ax||_2 = 5.055256e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.3887e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.85629e-07
+Current objective function : 2.905394e-05      relative norm : 1.580861e-02
+Iteration 59:
+  Proj. dual windows: ||y-Ax||_2 = 1.224179e-15, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.40849e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.82664e-07
+Current objective function : 2.860242e-05      relative norm : 1.578614e-02
+Iteration 60:
+  Proj. dual windows: ||y-Ax||_2 = 7.011601e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.42836e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.79765e-07
+Current objective function : 2.815800e-05      relative norm : 1.578308e-02
+Iteration 61:
+  Proj. dual windows: ||y-Ax||_2 = 3.940342e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.44833e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.76931e-07
+Current objective function : 2.772214e-05      relative norm : 1.572231e-02
+Iteration 62:
+  Proj. dual windows: ||y-Ax||_2 = 7.240047e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.46838e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.74158e-07
+Current objective function : 2.729703e-05      relative norm : 1.557329e-02
+Iteration 63:
+  Proj. dual windows: ||y-Ax||_2 = 2.118187e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.48851e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.71445e-07
+Current objective function : 2.688446e-05      relative norm : 1.534632e-02
+Iteration 64:
+  Proj. dual windows: ||y-Ax||_2 = 6.857146e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.50873e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.68791e-07
+Current objective function : 2.648517e-05      relative norm : 1.507573e-02
+Iteration 65:
+  Proj. dual windows: ||y-Ax||_2 = 3.962149e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.52902e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.66193e-07
+Current objective function : 2.609889e-05      relative norm : 1.480081e-02
+Iteration 66:
+  Proj. dual windows: ||y-Ax||_2 = 3.156151e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.5494e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.6365e-07
+Current objective function : 2.572456e-05      relative norm : 1.455152e-02
+Iteration 67:
+  Proj. dual windows: ||y-Ax||_2 = 3.650863e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.56985e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.6116e-07
+Current objective function : 2.536084e-05      relative norm : 1.434184e-02
+Iteration 68:
+  Proj. dual windows: ||y-Ax||_2 = 3.129707e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.59037e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.58722e-07
+Current objective function : 2.500648e-05      relative norm : 1.417056e-02
+Iteration 69:
+  Proj. dual windows: ||y-Ax||_2 = 3.112182e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.61097e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.56333e-07
+Current objective function : 2.466058e-05      relative norm : 1.402665e-02
+Iteration 70:
+  Proj. dual windows: ||y-Ax||_2 = 3.165219e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.63163e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.53994e-07
+Current objective function : 2.432259e-05      relative norm : 1.389596e-02
+Iteration 71:
+  Proj. dual windows: ||y-Ax||_2 = 6.151605e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.65236e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.51702e-07
+Current objective function : 2.399229e-05      relative norm : 1.376677e-02
+Iteration 72:
+  Proj. dual windows: ||y-Ax||_2 = 3.829958e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.67316e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.49456e-07
+Current objective function : 2.366961e-05      relative norm : 1.363261e-02
+Iteration 73:
+  Proj. dual windows: ||y-Ax||_2 = 2.021070e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.69402e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.47255e-07
+Current objective function : 2.335450e-05      relative norm : 1.349255e-02
+Iteration 74:
+  Proj. dual windows: ||y-Ax||_2 = 2.178884e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.71494e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.45097e-07
+Current objective function : 2.304684e-05      relative norm : 1.334957e-02
+Iteration 75:
+  Proj. dual windows: ||y-Ax||_2 = 5.433657e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.73591e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.42983e-07
+Current objective function : 2.274640e-05      relative norm : 1.320824e-02
+Iteration 76:
+  Proj. dual windows: ||y-Ax||_2 = 8.936756e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.75695e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.40909e-07
+Current objective function : 2.245288e-05      relative norm : 1.307265e-02
+Iteration 77:
+  Proj. dual windows: ||y-Ax||_2 = 1.853282e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.77803e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.38877e-07
+Current objective function : 2.216594e-05      relative norm : 1.294521e-02
+Iteration 78:
+  Proj. dual windows: ||y-Ax||_2 = 3.136740e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.79917e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.36883e-07
+Current objective function : 2.188523e-05      relative norm : 1.282638e-02
+Iteration 79:
+  Proj. dual windows: ||y-Ax||_2 = 9.175603e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.82036e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.34929e-07
+Current objective function : 2.161045e-05      relative norm : 1.271510e-02
+Iteration 80:
+  Proj. dual windows: ||y-Ax||_2 = 1.692067e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.84159e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.33011e-07
+Current objective function : 2.134134e-05      relative norm : 1.260961e-02
+Iteration 81:
+  Proj. dual windows: ||y-Ax||_2 = 1.929943e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.86287e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.31131e-07
+Current objective function : 2.107770e-05      relative norm : 1.250814e-02
+Iteration 82:
+  Proj. dual windows: ||y-Ax||_2 = 1.124970e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.88419e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.29286e-07
+Current objective function : 2.081934e-05      relative norm : 1.240950e-02
+Iteration 83:
+  Proj. dual windows: ||y-Ax||_2 = 7.524495e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.90555e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.27476e-07
+Current objective function : 2.056611e-05      relative norm : 1.231314e-02
+Iteration 84:
+  Proj. dual windows: ||y-Ax||_2 = 1.826332e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.92694e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.25701e-07
+Current objective function : 2.031784e-05      relative norm : 1.221912e-02
+Iteration 85:
+  Proj. dual windows: ||y-Ax||_2 = 4.715590e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.94837e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.23958e-07
+Current objective function : 2.007438e-05      relative norm : 1.212780e-02
+Iteration 86:
+  Proj. dual windows: ||y-Ax||_2 = 1.508878e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.96983e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.22249e-07
+Current objective function : 1.983557e-05      relative norm : 1.203960e-02
+Iteration 87:
+  Proj. dual windows: ||y-Ax||_2 = 5.339638e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=1.99132e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.20571e-07
+Current objective function : 1.960124e-05      relative norm : 1.195480e-02
+Iteration 88:
+  Proj. dual windows: ||y-Ax||_2 = 1.730324e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.01284e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.18924e-07
+Current objective function : 1.937124e-05      relative norm : 1.187344e-02
+Iteration 89:
+  Proj. dual windows: ||y-Ax||_2 = 4.768088e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.03439e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.17308e-07
+Current objective function : 1.914541e-05      relative norm : 1.179537e-02
+Iteration 90:
+  Proj. dual windows: ||y-Ax||_2 = 6.974769e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.05595e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.15722e-07
+Current objective function : 1.892362e-05      relative norm : 1.172030e-02
+Iteration 91:
+  Proj. dual windows: ||y-Ax||_2 = 4.510475e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.07754e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.14165e-07
+Current objective function : 1.870574e-05      relative norm : 1.164791e-02
+Iteration 92:
+  Proj. dual windows: ||y-Ax||_2 = 2.293616e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.09914e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.12637e-07
+Current objective function : 1.849164e-05      relative norm : 1.157795e-02
+Iteration 93:
+  Proj. dual windows: ||y-Ax||_2 = 3.204577e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.12077e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.11136e-07
+Current objective function : 1.828122e-05      relative norm : 1.151021e-02
+Iteration 94:
+  Proj. dual windows: ||y-Ax||_2 = 4.047421e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.1424e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.09663e-07
+Current objective function : 1.807437e-05      relative norm : 1.144459e-02
+Iteration 95:
+  Proj. dual windows: ||y-Ax||_2 = 2.401945e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.16405e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.08216e-07
+Current objective function : 1.787098e-05      relative norm : 1.138105e-02
+Iteration 96:
+  Proj. dual windows: ||y-Ax||_2 = 7.324745e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.1857e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.06796e-07
+Current objective function : 1.767095e-05      relative norm : 1.131956e-02
+Iteration 97:
+  Proj. dual windows: ||y-Ax||_2 = 1.783838e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.20736e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.05402e-07
+Current objective function : 1.747419e-05      relative norm : 1.126009e-02
+Iteration 98:
+  Proj. dual windows: ||y-Ax||_2 = 1.085380e-15, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.22903e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.04033e-07
+Current objective function : 1.728060e-05      relative norm : 1.120258e-02
+Iteration 99:
+  Proj. dual windows: ||y-Ax||_2 = 3.156403e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.25069e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.02688e-07
+Current objective function : 1.709010e-05      relative norm : 1.114696e-02
+Iteration 100:
+  Proj. dual windows: ||y-Ax||_2 = 4.276205e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.27236e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.01368e-07
+Current objective function : 1.690260e-05      relative norm : 1.109315e-02
+Iteration 101:
+  Proj. dual windows: ||y-Ax||_2 = 1.165559e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.29403e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=3.00071e-07
+Current objective function : 1.671801e-05      relative norm : 1.104104e-02
+Iteration 102:
+  Proj. dual windows: ||y-Ax||_2 = 2.661564e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.31569e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.98797e-07
+Current objective function : 1.653627e-05      relative norm : 1.099054e-02
+Iteration 103:
+  Proj. dual windows: ||y-Ax||_2 = 1.256819e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.33735e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.97547e-07
+Current objective function : 1.635730e-05      relative norm : 1.094156e-02
+Iteration 104:
+  Proj. dual windows: ||y-Ax||_2 = 5.895670e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.35899e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.96318e-07
+Current objective function : 1.618102e-05      relative norm : 1.089405e-02
+Iteration 105:
+  Proj. dual windows: ||y-Ax||_2 = 1.278979e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.38063e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.95111e-07
+Current objective function : 1.600737e-05      relative norm : 1.084794e-02
+Iteration 106:
+  Proj. dual windows: ||y-Ax||_2 = 2.365431e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.40225e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.93926e-07
+Current objective function : 1.583629e-05      relative norm : 1.080319e-02
+Iteration 107:
+  Proj. dual windows: ||y-Ax||_2 = 4.262721e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.42386e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.92762e-07
+Current objective function : 1.566771e-05      relative norm : 1.075973e-02
+Iteration 108:
+  Proj. dual windows: ||y-Ax||_2 = 1.881379e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.44546e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.91618e-07
+Current objective function : 1.550157e-05      relative norm : 1.071753e-02
+Iteration 109:
+  Proj. dual windows: ||y-Ax||_2 = 6.422155e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.46703e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.90495e-07
+Current objective function : 1.533782e-05      relative norm : 1.067653e-02
+Iteration 110:
+  Proj. dual windows: ||y-Ax||_2 = 3.883923e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.48859e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.89392e-07
+Current objective function : 1.517639e-05      relative norm : 1.063670e-02
+Iteration 111:
+  Proj. dual windows: ||y-Ax||_2 = 8.249103e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.51012e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.88308e-07
+Current objective function : 1.501724e-05      relative norm : 1.059797e-02
+Iteration 112:
+  Proj. dual windows: ||y-Ax||_2 = 1.086877e-15, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.53163e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.87243e-07
+Current objective function : 1.486031e-05      relative norm : 1.056030e-02
+Iteration 113:
+  Proj. dual windows: ||y-Ax||_2 = 4.251476e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.55311e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.86196e-07
+Current objective function : 1.470555e-05      relative norm : 1.052365e-02
+Iteration 114:
+  Proj. dual windows: ||y-Ax||_2 = 4.786705e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.57457e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.85168e-07
+Current objective function : 1.455292e-05      relative norm : 1.048797e-02
+Iteration 115:
+  Proj. dual windows: ||y-Ax||_2 = 2.626630e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.59599e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.84159e-07
+Current objective function : 1.440237e-05      relative norm : 1.045323e-02
+Iteration 116:
+  Proj. dual windows: ||y-Ax||_2 = 1.644057e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.61739e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.83166e-07
+Current objective function : 1.425385e-05      relative norm : 1.041940e-02
+Iteration 117:
+  Proj. dual windows: ||y-Ax||_2 = 2.662142e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.63875e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.82192e-07
+Current objective function : 1.410733e-05      relative norm : 1.038643e-02
+Iteration 118:
+  Proj. dual windows: ||y-Ax||_2 = 1.536214e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.66008e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.81234e-07
+Current objective function : 1.396275e-05      relative norm : 1.035429e-02
+Iteration 119:
+  Proj. dual windows: ||y-Ax||_2 = 8.275137e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.68137e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.80293e-07
+Current objective function : 1.382009e-05      relative norm : 1.032296e-02
+Iteration 120:
+  Proj. dual windows: ||y-Ax||_2 = 5.405214e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.70262e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.79368e-07
+Current objective function : 1.367930e-05      relative norm : 1.029241e-02
+Iteration 121:
+  Proj. dual windows: ||y-Ax||_2 = 1.696730e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.72383e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.78459e-07
+Current objective function : 1.354034e-05      relative norm : 1.026259e-02
+Iteration 122:
+  Proj. dual windows: ||y-Ax||_2 = 1.160037e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.74501e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.77567e-07
+Current objective function : 1.340318e-05      relative norm : 1.023350e-02
+Iteration 123:
+  Proj. dual windows: ||y-Ax||_2 = 8.123321e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.76614e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.76689e-07
+Current objective function : 1.326778e-05      relative norm : 1.020509e-02
+Iteration 124:
+  Proj. dual windows: ||y-Ax||_2 = 4.146176e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.78722e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.75827e-07
+Current objective function : 1.313411e-05      relative norm : 1.017735e-02
+Iteration 125:
+  Proj. dual windows: ||y-Ax||_2 = 3.143646e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.80827e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.7498e-07
+Current objective function : 1.300213e-05      relative norm : 1.015025e-02
+Iteration 126:
+  Proj. dual windows: ||y-Ax||_2 = 2.169897e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.82926e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.74148e-07
+Current objective function : 1.287182e-05      relative norm : 1.012377e-02
+Iteration 127:
+  Proj. dual windows: ||y-Ax||_2 = 1.283868e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.85021e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.7333e-07
+Current objective function : 1.274314e-05      relative norm : 1.009788e-02
+Iteration 128:
+  Proj. dual windows: ||y-Ax||_2 = 1.885233e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.8711e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.72526e-07
+Current objective function : 1.261607e-05      relative norm : 1.007256e-02
+Iteration 129:
+  Proj. dual windows: ||y-Ax||_2 = 4.019893e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.89195e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.71736e-07
+Current objective function : 1.249056e-05      relative norm : 1.004780e-02
+Iteration 130:
+  Proj. dual windows: ||y-Ax||_2 = 6.726061e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.91274e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.7096e-07
+Current objective function : 1.236661e-05      relative norm : 1.002358e-02
+Iteration 131:
+  Proj. dual windows: ||y-Ax||_2 = 4.777641e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.93348e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.70197e-07
+Current objective function : 1.224417e-05      relative norm : 9.999869e-03
+Iteration 132:
+  Proj. dual windows: ||y-Ax||_2 = 2.133505e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.95417e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.69447e-07
+Current objective function : 1.212322e-05      relative norm : 9.976660e-03
+Iteration 133:
+  Proj. dual windows: ||y-Ax||_2 = 7.619322e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.9748e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.6871e-07
+Current objective function : 1.200373e-05      relative norm : 9.953932e-03
+Iteration 134:
+  Proj. dual windows: ||y-Ax||_2 = 3.479171e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=2.99537e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.67986e-07
+Current objective function : 1.188569e-05      relative norm : 9.931670e-03
+Iteration 135:
+  Proj. dual windows: ||y-Ax||_2 = 3.116800e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.01588e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.67274e-07
+Current objective function : 1.176906e-05      relative norm : 9.909858e-03
+Iteration 136:
+  Proj. dual windows: ||y-Ax||_2 = 2.907784e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.03634e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.66575e-07
+Current objective function : 1.165382e-05      relative norm : 9.888481e-03
+Iteration 137:
+  Proj. dual windows: ||y-Ax||_2 = 1.925773e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.05673e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.65887e-07
+Current objective function : 1.153995e-05      relative norm : 9.867525e-03
+Iteration 138:
+  Proj. dual windows: ||y-Ax||_2 = 2.534425e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.07706e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.65212e-07
+Current objective function : 1.142742e-05      relative norm : 9.846977e-03
+Iteration 139:
+  Proj. dual windows: ||y-Ax||_2 = 3.468212e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.09733e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.64548e-07
+Current objective function : 1.131622e-05      relative norm : 9.826823e-03
+Iteration 140:
+  Proj. dual windows: ||y-Ax||_2 = 5.365993e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.11754e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.63895e-07
+Current objective function : 1.120632e-05      relative norm : 9.807050e-03
+Iteration 141:
+  Proj. dual windows: ||y-Ax||_2 = 5.601919e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.13768e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.63254e-07
+Current objective function : 1.109770e-05      relative norm : 9.787647e-03
+Iteration 142:
+  Proj. dual windows: ||y-Ax||_2 = 4.012002e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.15776e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.62623e-07
+Current objective function : 1.099034e-05      relative norm : 9.768602e-03
+Iteration 143:
+  Proj. dual windows: ||y-Ax||_2 = 4.802085e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.17777e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.62004e-07
+Current objective function : 1.088422e-05      relative norm : 9.749904e-03
+Iteration 144:
+  Proj. dual windows: ||y-Ax||_2 = 1.021796e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.19771e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.61394e-07
+Current objective function : 1.077932e-05      relative norm : 9.731542e-03
+Iteration 145:
+  Proj. dual windows: ||y-Ax||_2 = 1.659899e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.21758e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.60796e-07
+Current objective function : 1.067562e-05      relative norm : 9.713505e-03
+Iteration 146:
+  Proj. dual windows: ||y-Ax||_2 = 2.229816e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.23739e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.60207e-07
+Current objective function : 1.057311e-05      relative norm : 9.695784e-03
+Iteration 147:
+  Proj. dual windows: ||y-Ax||_2 = 4.550645e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.25712e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.59629e-07
+Current objective function : 1.047176e-05      relative norm : 9.678369e-03
+Iteration 148:
+  Proj. dual windows: ||y-Ax||_2 = 2.113555e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.27679e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.5906e-07
+Current objective function : 1.037156e-05      relative norm : 9.661251e-03
+Iteration 149:
+  Proj. dual windows: ||y-Ax||_2 = 1.986673e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.29638e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.58502e-07
+Current objective function : 1.027248e-05      relative norm : 9.644421e-03
+Iteration 150:
+  Proj. dual windows: ||y-Ax||_2 = 5.389299e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.3159e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.57952e-07
+Current objective function : 1.017452e-05      relative norm : 9.627871e-03
+Iteration 151:
+  Proj. dual windows: ||y-Ax||_2 = 6.730287e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.33535e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.57412e-07
+Current objective function : 1.007766e-05      relative norm : 9.611592e-03
+Iteration 152:
+  Proj. dual windows: ||y-Ax||_2 = 2.592440e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.35472e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.56882e-07
+Current objective function : 9.981880e-06      relative norm : 9.595577e-03
+Iteration 153:
+  Proj. dual windows: ||y-Ax||_2 = 1.939207e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.37402e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.5636e-07
+Current objective function : 9.887163e-06      relative norm : 9.579817e-03
+Iteration 154:
+  Proj. dual windows: ||y-Ax||_2 = 2.064745e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.39324e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.55847e-07
+Current objective function : 9.793495e-06      relative norm : 9.564305e-03
+Iteration 155:
+  Proj. dual windows: ||y-Ax||_2 = 3.962818e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.41239e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.55343e-07
+Current objective function : 9.700861e-06      relative norm : 9.549034e-03
+Iteration 156:
+  Proj. dual windows: ||y-Ax||_2 = 7.038103e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.43146e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.54848e-07
+Current objective function : 9.609247e-06      relative norm : 9.533998e-03
+Iteration 157:
+  Proj. dual windows: ||y-Ax||_2 = 2.141196e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.45046e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.54361e-07
+Current objective function : 9.518637e-06      relative norm : 9.519190e-03
+Iteration 158:
+  Proj. dual windows: ||y-Ax||_2 = 1.109907e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.46938e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.53882e-07
+Current objective function : 9.429018e-06      relative norm : 9.504602e-03
+Iteration 159:
+  Proj. dual windows: ||y-Ax||_2 = 1.157063e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.48822e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.53411e-07
+Current objective function : 9.340376e-06      relative norm : 9.490230e-03
+Iteration 160:
+  Proj. dual windows: ||y-Ax||_2 = 8.633652e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.50698e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.52948e-07
+Current objective function : 9.252696e-06      relative norm : 9.476066e-03
+Iteration 161:
+  Proj. dual windows: ||y-Ax||_2 = 1.664112e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.52566e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.52494e-07
+Current objective function : 9.165967e-06      relative norm : 9.462105e-03
+Iteration 162:
+  Proj. dual windows: ||y-Ax||_2 = 5.318619e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.54426e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.52046e-07
+Current objective function : 9.080175e-06      relative norm : 9.448342e-03
+Iteration 163:
+  Proj. dual windows: ||y-Ax||_2 = 2.890235e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.56279e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.51607e-07
+Current objective function : 8.995306e-06      relative norm : 9.434771e-03
+Iteration 164:
+  Proj. dual windows: ||y-Ax||_2 = 4.253059e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.58123e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.51175e-07
+Current objective function : 8.911349e-06      relative norm : 9.421387e-03
+Iteration 165:
+  Proj. dual windows: ||y-Ax||_2 = 1.528036e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.59959e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.5075e-07
+Current objective function : 8.828290e-06      relative norm : 9.408184e-03
+Iteration 166:
+  Proj. dual windows: ||y-Ax||_2 = 3.450247e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.61787e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.50332e-07
+Current objective function : 8.746119e-06      relative norm : 9.395158e-03
+Iteration 167:
+  Proj. dual windows: ||y-Ax||_2 = 4.524527e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.63607e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.49922e-07
+Current objective function : 8.664823e-06      relative norm : 9.382303e-03
+Iteration 168:
+  Proj. dual windows: ||y-Ax||_2 = 3.153980e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.65419e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.49518e-07
+Current objective function : 8.584391e-06      relative norm : 9.369616e-03
+Iteration 169:
+  Proj. dual windows: ||y-Ax||_2 = 1.313048e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.67223e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.49121e-07
+Current objective function : 8.504811e-06      relative norm : 9.357091e-03
+Iteration 170:
+  Proj. dual windows: ||y-Ax||_2 = 5.596706e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.69018e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.48731e-07
+Current objective function : 8.426071e-06      relative norm : 9.344725e-03
+Iteration 171:
+  Proj. dual windows: ||y-Ax||_2 = 2.070164e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.70805e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.48348e-07
+Current objective function : 8.348162e-06      relative norm : 9.332512e-03
+Iteration 172:
+  Proj. dual windows: ||y-Ax||_2 = 8.509220e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.72584e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.47971e-07
+Current objective function : 8.271072e-06      relative norm : 9.320449e-03
+Iteration 173:
+  Proj. dual windows: ||y-Ax||_2 = 6.753972e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.74354e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.476e-07
+Current objective function : 8.194790e-06      relative norm : 9.308532e-03
+Iteration 174:
+  Proj. dual windows: ||y-Ax||_2 = 4.582386e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.76117e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.47236e-07
+Current objective function : 8.119307e-06      relative norm : 9.296756e-03
+Iteration 175:
+  Proj. dual windows: ||y-Ax||_2 = 8.782617e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.7787e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.46878e-07
+Current objective function : 8.044612e-06      relative norm : 9.285119e-03
+Iteration 176:
+  Proj. dual windows: ||y-Ax||_2 = 1.695130e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.79615e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.46525e-07
+Current objective function : 7.970695e-06      relative norm : 9.273615e-03
+Iteration 177:
+  Proj. dual windows: ||y-Ax||_2 = 2.961653e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.81352e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.46179e-07
+Current objective function : 7.897546e-06      relative norm : 9.262243e-03
+Iteration 178:
+  Proj. dual windows: ||y-Ax||_2 = 1.706933e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.83081e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.45839e-07
+Current objective function : 7.825155e-06      relative norm : 9.250997e-03
+Iteration 179:
+  Proj. dual windows: ||y-Ax||_2 = 5.641626e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.84801e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.45504e-07
+Current objective function : 7.753514e-06      relative norm : 9.239875e-03
+Iteration 180:
+  Proj. dual windows: ||y-Ax||_2 = 8.902456e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.86512e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.45175e-07
+Current objective function : 7.682612e-06      relative norm : 9.228873e-03
+Iteration 181:
+  Proj. dual windows: ||y-Ax||_2 = 1.809142e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.88215e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.44851e-07
+Current objective function : 7.612441e-06      relative norm : 9.217989e-03
+Iteration 182:
+  Proj. dual windows: ||y-Ax||_2 = 6.201141e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.8991e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.44533e-07
+Current objective function : 7.542991e-06      relative norm : 9.207218e-03
+Iteration 183:
+  Proj. dual windows: ||y-Ax||_2 = 5.378320e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.91596e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.4422e-07
+Current objective function : 7.474253e-06      relative norm : 9.196558e-03
+Iteration 184:
+  Proj. dual windows: ||y-Ax||_2 = 1.842403e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.93273e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.43913e-07
+Current objective function : 7.406220e-06      relative norm : 9.186006e-03
+Iteration 185:
+  Proj. dual windows: ||y-Ax||_2 = 4.924804e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.94942e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.43611e-07
+Current objective function : 7.338881e-06      relative norm : 9.175559e-03
+Iteration 186:
+  Proj. dual windows: ||y-Ax||_2 = 3.893241e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.96602e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.43313e-07
+Current objective function : 7.272230e-06      relative norm : 9.165214e-03
+Iteration 187:
+  Proj. dual windows: ||y-Ax||_2 = 1.030297e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.98254e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.43021e-07
+Current objective function : 7.206257e-06      relative norm : 9.154968e-03
+Iteration 188:
+  Proj. dual windows: ||y-Ax||_2 = 2.057342e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=3.99898e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.42734e-07
+Current objective function : 7.140954e-06      relative norm : 9.144819e-03
+Iteration 189:
+  Proj. dual windows: ||y-Ax||_2 = 9.477441e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.01532e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.42451e-07
+Current objective function : 7.076313e-06      relative norm : 9.134764e-03
+Iteration 190:
+  Proj. dual windows: ||y-Ax||_2 = 6.080729e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.03158e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.42173e-07
+Current objective function : 7.012327e-06      relative norm : 9.124799e-03
+Iteration 191:
+  Proj. dual windows: ||y-Ax||_2 = 6.473522e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.04776e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.419e-07
+Current objective function : 6.948988e-06      relative norm : 9.114924e-03
+Iteration 192:
+  Proj. dual windows: ||y-Ax||_2 = 4.308155e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.06385e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.41632e-07
+Current objective function : 6.886287e-06      relative norm : 9.105135e-03
+Iteration 193:
+  Proj. dual windows: ||y-Ax||_2 = 6.492696e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.07986e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.41367e-07
+Current objective function : 6.824218e-06      relative norm : 9.095429e-03
+Iteration 194:
+  Proj. dual windows: ||y-Ax||_2 = 6.190323e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.09578e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.41108e-07
+Current objective function : 6.762773e-06      relative norm : 9.085805e-03
+Iteration 195:
+  Proj. dual windows: ||y-Ax||_2 = 1.066032e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.11161e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.40852e-07
+Current objective function : 6.701944e-06      relative norm : 9.076260e-03
+Iteration 196:
+  Proj. dual windows: ||y-Ax||_2 = 2.289121e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.12736e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.40601e-07
+Current objective function : 6.641725e-06      relative norm : 9.066792e-03
+Iteration 197:
+  Proj. dual windows: ||y-Ax||_2 = 4.230308e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.14302e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.40355e-07
+Current objective function : 6.582108e-06      relative norm : 9.057399e-03
+Iteration 198:
+  Proj. dual windows: ||y-Ax||_2 = 2.513675e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.1586e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.40112e-07
+Current objective function : 6.523087e-06      relative norm : 9.048078e-03
+Iteration 199:
+  Proj. dual windows: ||y-Ax||_2 = 2.611320e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.17409e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.39873e-07
+Current objective function : 6.464654e-06      relative norm : 9.038827e-03
+Iteration 200:
+  Proj. dual windows: ||y-Ax||_2 = 3.810302e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.1895e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.39638e-07
+Current objective function : 6.406803e-06      relative norm : 9.029645e-03
+Iteration 201:
+  Proj. dual windows: ||y-Ax||_2 = 2.823279e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.20482e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.39408e-07
+Current objective function : 6.349527e-06      relative norm : 9.020528e-03
+Iteration 202:
+  Proj. dual windows: ||y-Ax||_2 = 3.778000e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.22006e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.39181e-07
+Current objective function : 6.292819e-06      relative norm : 9.011476e-03
+Iteration 203:
+  Proj. dual windows: ||y-Ax||_2 = 2.440120e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.23521e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.38958e-07
+Current objective function : 6.236674e-06      relative norm : 9.002487e-03
+Iteration 204:
+  Proj. dual windows: ||y-Ax||_2 = 1.394036e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.25028e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.38738e-07
+Current objective function : 6.181084e-06      relative norm : 8.993558e-03
+Iteration 205:
+  Proj. dual windows: ||y-Ax||_2 = 4.176197e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.26526e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.38523e-07
+Current objective function : 6.126043e-06      relative norm : 8.984687e-03
+Iteration 206:
+  Proj. dual windows: ||y-Ax||_2 = 2.891809e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.28016e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.3831e-07
+Current objective function : 6.071546e-06      relative norm : 8.975873e-03
+Iteration 207:
+  Proj. dual windows: ||y-Ax||_2 = 2.385014e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.29498e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.38102e-07
+Current objective function : 6.017585e-06      relative norm : 8.967114e-03
+Iteration 208:
+  Proj. dual windows: ||y-Ax||_2 = 2.231259e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.30971e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.37897e-07
+Current objective function : 5.964156e-06      relative norm : 8.958408e-03
+Iteration 209:
+  Proj. dual windows: ||y-Ax||_2 = 7.881423e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.32435e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.37695e-07
+Current objective function : 5.911252e-06      relative norm : 8.949753e-03
+Iteration 210:
+  Proj. dual windows: ||y-Ax||_2 = 5.153507e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.33891e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.37496e-07
+Current objective function : 5.858867e-06      relative norm : 8.941148e-03
+Iteration 211:
+  Proj. dual windows: ||y-Ax||_2 = 4.575201e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.35339e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.37301e-07
+Current objective function : 5.806995e-06      relative norm : 8.932591e-03
+Iteration 212:
+  Proj. dual windows: ||y-Ax||_2 = 1.937490e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.36779e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.3711e-07
+Current objective function : 5.755632e-06      relative norm : 8.924081e-03
+Iteration 213:
+  Proj. dual windows: ||y-Ax||_2 = 1.695868e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.3821e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.36921e-07
+Current objective function : 5.704770e-06      relative norm : 8.915615e-03
+Iteration 214:
+  Proj. dual windows: ||y-Ax||_2 = 4.007337e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.39633e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.36735e-07
+Current objective function : 5.654405e-06      relative norm : 8.907193e-03
+Iteration 215:
+  Proj. dual windows: ||y-Ax||_2 = 1.754762e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.41047e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.36553e-07
+Current objective function : 5.604531e-06      relative norm : 8.898812e-03
+Iteration 216:
+  Proj. dual windows: ||y-Ax||_2 = 4.664771e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.42454e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.36374e-07
+Current objective function : 5.555144e-06      relative norm : 8.890471e-03
+Iteration 217:
+  Proj. dual windows: ||y-Ax||_2 = 8.711472e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.43852e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.36197e-07
+Current objective function : 5.506236e-06      relative norm : 8.882170e-03
+Iteration 218:
+  Proj. dual windows: ||y-Ax||_2 = 2.239632e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.45241e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.36024e-07
+Current objective function : 5.457804e-06      relative norm : 8.873905e-03
+Iteration 219:
+  Proj. dual windows: ||y-Ax||_2 = 1.180073e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.46623e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.35853e-07
+Current objective function : 5.409842e-06      relative norm : 8.865677e-03
+Iteration 220:
+  Proj. dual windows: ||y-Ax||_2 = 6.434561e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.47996e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.35685e-07
+Current objective function : 5.362345e-06      relative norm : 8.857483e-03
+Iteration 221:
+  Proj. dual windows: ||y-Ax||_2 = 2.497686e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.49362e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.3552e-07
+Current objective function : 5.315309e-06      relative norm : 8.849322e-03
+Iteration 222:
+  Proj. dual windows: ||y-Ax||_2 = 1.935574e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.50719e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.35358e-07
+Current objective function : 5.268727e-06      relative norm : 8.841193e-03
+Iteration 223:
+  Proj. dual windows: ||y-Ax||_2 = 3.130748e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.52068e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.35198e-07
+Current objective function : 5.222595e-06      relative norm : 8.833094e-03
+Iteration 224:
+  Proj. dual windows: ||y-Ax||_2 = 1.825218e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.53408e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.35042e-07
+Current objective function : 5.176909e-06      relative norm : 8.825024e-03
+Iteration 225:
+  Proj. dual windows: ||y-Ax||_2 = 3.971128e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.54741e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34887e-07
+Current objective function : 5.131663e-06      relative norm : 8.816982e-03
+Iteration 226:
+  Proj. dual windows: ||y-Ax||_2 = 4.355317e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.56066e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34735e-07
+Current objective function : 5.086853e-06      relative norm : 8.808967e-03
+Iteration 227:
+  Proj. dual windows: ||y-Ax||_2 = 1.938118e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.57383e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34586e-07
+Current objective function : 5.042474e-06      relative norm : 8.800977e-03
+Iteration 228:
+  Proj. dual windows: ||y-Ax||_2 = 5.179260e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.58691e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34439e-07
+Current objective function : 4.998522e-06      relative norm : 8.793011e-03
+Iteration 229:
+  Proj. dual windows: ||y-Ax||_2 = 1.190554e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.59992e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34295e-07
+Current objective function : 4.954992e-06      relative norm : 8.785068e-03
+Iteration 230:
+  Proj. dual windows: ||y-Ax||_2 = 2.432930e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.61285e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34153e-07
+Current objective function : 4.911880e-06      relative norm : 8.777147e-03
+Iteration 231:
+  Proj. dual windows: ||y-Ax||_2 = 4.203065e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.6257e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.34013e-07
+Current objective function : 4.869181e-06      relative norm : 8.769246e-03
+Iteration 232:
+  Proj. dual windows: ||y-Ax||_2 = 4.179160e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.63847e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33876e-07
+Current objective function : 4.826891e-06      relative norm : 8.761365e-03
+Iteration 233:
+  Proj. dual windows: ||y-Ax||_2 = 6.402610e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.65116e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33741e-07
+Current objective function : 4.785005e-06      relative norm : 8.753502e-03
+Iteration 234:
+  Proj. dual windows: ||y-Ax||_2 = 1.214590e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.66378e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33608e-07
+Current objective function : 4.743520e-06      relative norm : 8.745657e-03
+Iteration 235:
+  Proj. dual windows: ||y-Ax||_2 = 1.499572e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.67631e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33477e-07
+Current objective function : 4.702431e-06      relative norm : 8.737827e-03
+Iteration 236:
+  Proj. dual windows: ||y-Ax||_2 = 4.782931e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.68877e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33349e-07
+Current objective function : 4.661734e-06      relative norm : 8.730013e-03
+Iteration 237:
+  Proj. dual windows: ||y-Ax||_2 = 1.408991e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.70115e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33222e-07
+Current objective function : 4.621425e-06      relative norm : 8.722213e-03
+Iteration 238:
+  Proj. dual windows: ||y-Ax||_2 = 8.131685e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.71346e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.33098e-07
+Current objective function : 4.581500e-06      relative norm : 8.714426e-03
+Iteration 239:
+  Proj. dual windows: ||y-Ax||_2 = 3.206706e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.72568e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32976e-07
+Current objective function : 4.541955e-06      relative norm : 8.706650e-03
+Iteration 240:
+  Proj. dual windows: ||y-Ax||_2 = 1.486373e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.73783e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32856e-07
+Current objective function : 4.502785e-06      relative norm : 8.698886e-03
+Iteration 241:
+  Proj. dual windows: ||y-Ax||_2 = 1.479281e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.74991e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32737e-07
+Current objective function : 4.463988e-06      relative norm : 8.691132e-03
+Iteration 242:
+  Proj. dual windows: ||y-Ax||_2 = 2.555343e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.76191e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32621e-07
+Current objective function : 4.425559e-06      relative norm : 8.683387e-03
+Iteration 243:
+  Proj. dual windows: ||y-Ax||_2 = 4.067269e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.77383e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32507e-07
+Current objective function : 4.387495e-06      relative norm : 8.675650e-03
+Iteration 244:
+  Proj. dual windows: ||y-Ax||_2 = 3.701165e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.78568e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32394e-07
+Current objective function : 4.349791e-06      relative norm : 8.667920e-03
+Iteration 245:
+  Proj. dual windows: ||y-Ax||_2 = 2.331803e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.79745e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32283e-07
+Current objective function : 4.312445e-06      relative norm : 8.660196e-03
+Iteration 246:
+  Proj. dual windows: ||y-Ax||_2 = 6.086373e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.80915e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32175e-07
+Current objective function : 4.275452e-06      relative norm : 8.652478e-03
+Iteration 247:
+  Proj. dual windows: ||y-Ax||_2 = 3.326085e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.82077e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.32067e-07
+Current objective function : 4.238808e-06      relative norm : 8.644764e-03
+Iteration 248:
+  Proj. dual windows: ||y-Ax||_2 = 3.634712e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.83232e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31962e-07
+Current objective function : 4.202511e-06      relative norm : 8.637054e-03
+Iteration 249:
+  Proj. dual windows: ||y-Ax||_2 = 1.252224e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.8438e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31859e-07
+Current objective function : 4.166556e-06      relative norm : 8.629346e-03
+Iteration 250:
+  Proj. dual windows: ||y-Ax||_2 = 6.720371e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.85521e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31757e-07
+Current objective function : 4.130941e-06      relative norm : 8.621640e-03
+Iteration 251:
+  Proj. dual windows: ||y-Ax||_2 = 9.059393e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.86654e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31656e-07
+Current objective function : 4.095661e-06      relative norm : 8.613935e-03
+Iteration 252:
+  Proj. dual windows: ||y-Ax||_2 = 6.691705e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.87779e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31558e-07
+Current objective function : 4.060713e-06      relative norm : 8.606231e-03
+Iteration 253:
+  Proj. dual windows: ||y-Ax||_2 = 3.201659e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.88898e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31461e-07
+Current objective function : 4.026095e-06      relative norm : 8.598525e-03
+Iteration 254:
+  Proj. dual windows: ||y-Ax||_2 = 4.620365e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.90009e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31365e-07
+Current objective function : 3.991802e-06      relative norm : 8.590818e-03
+Iteration 255:
+  Proj. dual windows: ||y-Ax||_2 = 5.719003e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.91114e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31272e-07
+Current objective function : 3.957832e-06      relative norm : 8.583109e-03
+Iteration 256:
+  Proj. dual windows: ||y-Ax||_2 = 1.459182e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.92211e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31179e-07
+Current objective function : 3.924180e-06      relative norm : 8.575397e-03
+Iteration 257:
+  Proj. dual windows: ||y-Ax||_2 = 3.060624e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.93301e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.31089e-07
+Current objective function : 3.890845e-06      relative norm : 8.567681e-03
+Iteration 258:
+  Proj. dual windows: ||y-Ax||_2 = 3.188395e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.94384e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30999e-07
+Current objective function : 3.857822e-06      relative norm : 8.559961e-03
+Iteration 259:
+  Proj. dual windows: ||y-Ax||_2 = 2.691782e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.9546e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30911e-07
+Current objective function : 3.825109e-06      relative norm : 8.552235e-03
+Iteration 260:
+  Proj. dual windows: ||y-Ax||_2 = 1.345448e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.96529e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30825e-07
+Current objective function : 3.792702e-06      relative norm : 8.544503e-03
+Iteration 261:
+  Proj. dual windows: ||y-Ax||_2 = 2.636269e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.97591e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.3074e-07
+Current objective function : 3.760599e-06      relative norm : 8.536764e-03
+Iteration 262:
+  Proj. dual windows: ||y-Ax||_2 = 7.017151e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.98646e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30656e-07
+Current objective function : 3.728796e-06      relative norm : 8.529018e-03
+Iteration 263:
+  Proj. dual windows: ||y-Ax||_2 = 4.517612e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=4.99694e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30574e-07
+Current objective function : 3.697290e-06      relative norm : 8.521263e-03
+Iteration 264:
+  Proj. dual windows: ||y-Ax||_2 = 3.528976e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.00735e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30493e-07
+Current objective function : 3.666079e-06      relative norm : 8.513499e-03
+Iteration 265:
+  Proj. dual windows: ||y-Ax||_2 = 3.196802e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.0177e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30414e-07
+Current objective function : 3.635159e-06      relative norm : 8.505726e-03
+Iteration 266:
+  Proj. dual windows: ||y-Ax||_2 = 2.841301e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.02797e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30336e-07
+Current objective function : 3.604528e-06      relative norm : 8.497943e-03
+Iteration 267:
+  Proj. dual windows: ||y-Ax||_2 = 4.391322e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.03818e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30259e-07
+Current objective function : 3.574183e-06      relative norm : 8.490148e-03
+Iteration 268:
+  Proj. dual windows: ||y-Ax||_2 = 5.331359e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.04832e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30183e-07
+Current objective function : 3.544120e-06      relative norm : 8.482342e-03
+Iteration 269:
+  Proj. dual windows: ||y-Ax||_2 = 7.412178e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.0584e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30108e-07
+Current objective function : 3.514338e-06      relative norm : 8.474523e-03
+Iteration 270:
+  Proj. dual windows: ||y-Ax||_2 = 2.924698e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.06841e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.30035e-07
+Current objective function : 3.484833e-06      relative norm : 8.466691e-03
+Iteration 271:
+  Proj. dual windows: ||y-Ax||_2 = 1.805923e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.07835e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29963e-07
+Current objective function : 3.455603e-06      relative norm : 8.458847e-03
+Iteration 272:
+  Proj. dual windows: ||y-Ax||_2 = 1.420965e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.08823e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29892e-07
+Current objective function : 3.426644e-06      relative norm : 8.450987e-03
+Iteration 273:
+  Proj. dual windows: ||y-Ax||_2 = 2.943260e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.09804e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29822e-07
+Current objective function : 3.397955e-06      relative norm : 8.443113e-03
+Iteration 274:
+  Proj. dual windows: ||y-Ax||_2 = 1.951432e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.10779e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29753e-07
+Current objective function : 3.369532e-06      relative norm : 8.435223e-03
+Iteration 275:
+  Proj. dual windows: ||y-Ax||_2 = 1.579326e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.11747e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29686e-07
+Current objective function : 3.341373e-06      relative norm : 8.427317e-03
+Iteration 276:
+  Proj. dual windows: ||y-Ax||_2 = 1.690857e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.12709e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29619e-07
+Current objective function : 3.313476e-06      relative norm : 8.419394e-03
+Iteration 277:
+  Proj. dual windows: ||y-Ax||_2 = 2.256505e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.13664e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29554e-07
+Current objective function : 3.285837e-06      relative norm : 8.411454e-03
+Iteration 278:
+  Proj. dual windows: ||y-Ax||_2 = 2.082631e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.14613e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2949e-07
+Current objective function : 3.258455e-06      relative norm : 8.403496e-03
+Iteration 279:
+  Proj. dual windows: ||y-Ax||_2 = 4.046639e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.15556e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29427e-07
+Current objective function : 3.231326e-06      relative norm : 8.395520e-03
+Iteration 280:
+  Proj. dual windows: ||y-Ax||_2 = 2.507001e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.16492e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29364e-07
+Current objective function : 3.204449e-06      relative norm : 8.387525e-03
+Iteration 281:
+  Proj. dual windows: ||y-Ax||_2 = 5.323360e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.17422e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29303e-07
+Current objective function : 3.177820e-06      relative norm : 8.379510e-03
+Iteration 282:
+  Proj. dual windows: ||y-Ax||_2 = 3.935620e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.18346e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29243e-07
+Current objective function : 3.151438e-06      relative norm : 8.371475e-03
+Iteration 283:
+  Proj. dual windows: ||y-Ax||_2 = 6.225335e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.19263e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29184e-07
+Current objective function : 3.125300e-06      relative norm : 8.363419e-03
+Iteration 284:
+  Proj. dual windows: ||y-Ax||_2 = 2.066176e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.20175e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29125e-07
+Current objective function : 3.099403e-06      relative norm : 8.355342e-03
+Iteration 285:
+  Proj. dual windows: ||y-Ax||_2 = 1.955700e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.2108e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29068e-07
+Current objective function : 3.073746e-06      relative norm : 8.347243e-03
+Iteration 286:
+  Proj. dual windows: ||y-Ax||_2 = 3.422540e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.21979e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.29012e-07
+Current objective function : 3.048325e-06      relative norm : 8.339122e-03
+Iteration 287:
+  Proj. dual windows: ||y-Ax||_2 = 4.163400e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.22872e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28956e-07
+Current objective function : 3.023140e-06      relative norm : 8.330978e-03
+Iteration 288:
+  Proj. dual windows: ||y-Ax||_2 = 2.357232e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.2376e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28901e-07
+Current objective function : 2.998186e-06      relative norm : 8.322811e-03
+Iteration 289:
+  Proj. dual windows: ||y-Ax||_2 = 6.845324e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.24641e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28848e-07
+Current objective function : 2.973463e-06      relative norm : 8.314620e-03
+Iteration 290:
+  Proj. dual windows: ||y-Ax||_2 = 2.579789e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.25516e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28795e-07
+Current objective function : 2.948968e-06      relative norm : 8.306404e-03
+Iteration 291:
+  Proj. dual windows: ||y-Ax||_2 = 2.578759e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.26385e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28743e-07
+Current objective function : 2.924698e-06      relative norm : 8.298163e-03
+Iteration 292:
+  Proj. dual windows: ||y-Ax||_2 = 3.227641e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.27248e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28692e-07
+Current objective function : 2.900652e-06      relative norm : 8.289898e-03
+Iteration 293:
+  Proj. dual windows: ||y-Ax||_2 = 1.348701e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.28106e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28641e-07
+Current objective function : 2.876827e-06      relative norm : 8.281606e-03
+Iteration 294:
+  Proj. dual windows: ||y-Ax||_2 = 1.327953e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.28958e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28592e-07
+Current objective function : 2.853222e-06      relative norm : 8.273288e-03
+Iteration 295:
+  Proj. dual windows: ||y-Ax||_2 = 1.192968e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.29804e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28543e-07
+Current objective function : 2.829833e-06      relative norm : 8.264943e-03
+Iteration 296:
+  Proj. dual windows: ||y-Ax||_2 = 1.756357e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.30644e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28495e-07
+Current objective function : 2.806660e-06      relative norm : 8.256570e-03
+Iteration 297:
+  Proj. dual windows: ||y-Ax||_2 = 6.649515e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.31478e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28448e-07
+Current objective function : 2.783700e-06      relative norm : 8.248170e-03
+Iteration 298:
+  Proj. dual windows: ||y-Ax||_2 = 1.950894e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.32307e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28401e-07
+Current objective function : 2.760950e-06      relative norm : 8.239742e-03
+Iteration 299:
+  Proj. dual windows: ||y-Ax||_2 = 1.695864e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.3313e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28356e-07
+Current objective function : 2.738409e-06      relative norm : 8.231285e-03
+Iteration 300:
+  Proj. dual windows: ||y-Ax||_2 = 2.940151e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.33947e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28311e-07
+Current objective function : 2.716076e-06      relative norm : 8.222799e-03
+Iteration 301:
+  Proj. dual windows: ||y-Ax||_2 = 2.700565e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.34759e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28267e-07
+Current objective function : 2.693947e-06      relative norm : 8.214283e-03
+Iteration 302:
+  Proj. dual windows: ||y-Ax||_2 = 2.653251e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.35565e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28223e-07
+Current objective function : 2.672021e-06      relative norm : 8.205737e-03
+Iteration 303:
+  Proj. dual windows: ||y-Ax||_2 = 4.912883e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.36366e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2818e-07
+Current objective function : 2.650296e-06      relative norm : 8.197161e-03
+Iteration 304:
+  Proj. dual windows: ||y-Ax||_2 = 4.807680e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.37161e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28138e-07
+Current objective function : 2.628770e-06      relative norm : 8.188554e-03
+Iteration 305:
+  Proj. dual windows: ||y-Ax||_2 = 2.421876e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.37951e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28097e-07
+Current objective function : 2.607442e-06      relative norm : 8.179916e-03
+Iteration 306:
+  Proj. dual windows: ||y-Ax||_2 = 4.472851e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.38735e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28056e-07
+Current objective function : 2.586308e-06      relative norm : 8.171245e-03
+Iteration 307:
+  Proj. dual windows: ||y-Ax||_2 = 1.682337e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.39514e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.28016e-07
+Current objective function : 2.565368e-06      relative norm : 8.162543e-03
+Iteration 308:
+  Proj. dual windows: ||y-Ax||_2 = 4.811552e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.40288e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27976e-07
+Current objective function : 2.544620e-06      relative norm : 8.153808e-03
+Iteration 309:
+  Proj. dual windows: ||y-Ax||_2 = 7.390049e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.41056e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27938e-07
+Current objective function : 2.524061e-06      relative norm : 8.145040e-03
+Iteration 310:
+  Proj. dual windows: ||y-Ax||_2 = 1.592905e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.41819e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27899e-07
+Current objective function : 2.503691e-06      relative norm : 8.136239e-03
+Iteration 311:
+  Proj. dual windows: ||y-Ax||_2 = 3.105575e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.42577e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27862e-07
+Current objective function : 2.483506e-06      relative norm : 8.127404e-03
+Iteration 312:
+  Proj. dual windows: ||y-Ax||_2 = 2.701956e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.4333e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27825e-07
+Current objective function : 2.463506e-06      relative norm : 8.118534e-03
+Iteration 313:
+  Proj. dual windows: ||y-Ax||_2 = 2.046749e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.44077e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27788e-07
+Current objective function : 2.443689e-06      relative norm : 8.109630e-03
+Iteration 314:
+  Proj. dual windows: ||y-Ax||_2 = 2.201991e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.44819e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27752e-07
+Current objective function : 2.424052e-06      relative norm : 8.100692e-03
+Iteration 315:
+  Proj. dual windows: ||y-Ax||_2 = 2.752947e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.45556e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27717e-07
+Current objective function : 2.404595e-06      relative norm : 8.091717e-03
+Iteration 316:
+  Proj. dual windows: ||y-Ax||_2 = 6.355782e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.46288e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27682e-07
+Current objective function : 2.385315e-06      relative norm : 8.082708e-03
+Iteration 317:
+  Proj. dual windows: ||y-Ax||_2 = 4.303535e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.47015e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27648e-07
+Current objective function : 2.366211e-06      relative norm : 8.073661e-03
+Iteration 318:
+  Proj. dual windows: ||y-Ax||_2 = 1.327784e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.47736e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27615e-07
+Current objective function : 2.347281e-06      relative norm : 8.064579e-03
+Iteration 319:
+  Proj. dual windows: ||y-Ax||_2 = 1.314537e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.48453e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27582e-07
+Current objective function : 2.328524e-06      relative norm : 8.055460e-03
+Iteration 320:
+  Proj. dual windows: ||y-Ax||_2 = 4.317614e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.49165e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27549e-07
+Current objective function : 2.309938e-06      relative norm : 8.046303e-03
+Iteration 321:
+  Proj. dual windows: ||y-Ax||_2 = 2.661956e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.49872e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27517e-07
+Current objective function : 2.291520e-06      relative norm : 8.037109e-03
+Iteration 322:
+  Proj. dual windows: ||y-Ax||_2 = 2.816652e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.50574e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27486e-07
+Current objective function : 2.273271e-06      relative norm : 8.027877e-03
+Iteration 323:
+  Proj. dual windows: ||y-Ax||_2 = 3.119050e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.51271e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27455e-07
+Current objective function : 2.255187e-06      relative norm : 8.018607e-03
+Iteration 324:
+  Proj. dual windows: ||y-Ax||_2 = 3.426196e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.51963e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27424e-07
+Current objective function : 2.237268e-06      relative norm : 8.009298e-03
+Iteration 325:
+  Proj. dual windows: ||y-Ax||_2 = 2.146133e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.5265e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27394e-07
+Current objective function : 2.219512e-06      relative norm : 7.999951e-03
+Iteration 326:
+  Proj. dual windows: ||y-Ax||_2 = 3.472969e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.53333e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27364e-07
+Current objective function : 2.201918e-06      relative norm : 7.990564e-03
+Iteration 327:
+  Proj. dual windows: ||y-Ax||_2 = 1.318611e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.54011e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27335e-07
+Current objective function : 2.184483e-06      relative norm : 7.981137e-03
+Iteration 328:
+  Proj. dual windows: ||y-Ax||_2 = 5.082781e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.54684e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27307e-07
+Current objective function : 2.167207e-06      relative norm : 7.971671e-03
+Iteration 329:
+  Proj. dual windows: ||y-Ax||_2 = 1.246052e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.55352e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27279e-07
+Current objective function : 2.150088e-06      relative norm : 7.962164e-03
+Iteration 330:
+  Proj. dual windows: ||y-Ax||_2 = 4.327310e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.56016e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27251e-07
+Current objective function : 2.133124e-06      relative norm : 7.952617e-03
+Iteration 331:
+  Proj. dual windows: ||y-Ax||_2 = 1.732461e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.56675e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27224e-07
+Current objective function : 2.116314e-06      relative norm : 7.943029e-03
+Iteration 332:
+  Proj. dual windows: ||y-Ax||_2 = 1.140640e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.57329e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27197e-07
+Current objective function : 2.099656e-06      relative norm : 7.933399e-03
+Iteration 333:
+  Proj. dual windows: ||y-Ax||_2 = 4.594687e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.57979e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2717e-07
+Current objective function : 2.083150e-06      relative norm : 7.923729e-03
+Iteration 334:
+  Proj. dual windows: ||y-Ax||_2 = 4.797387e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.58624e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27144e-07
+Current objective function : 2.066793e-06      relative norm : 7.914016e-03
+Iteration 335:
+  Proj. dual windows: ||y-Ax||_2 = 2.416838e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.59265e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27119e-07
+Current objective function : 2.050585e-06      relative norm : 7.904261e-03
+Iteration 336:
+  Proj. dual windows: ||y-Ax||_2 = 4.933919e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.59901e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27094e-07
+Current objective function : 2.034524e-06      relative norm : 7.894464e-03
+Iteration 337:
+  Proj. dual windows: ||y-Ax||_2 = 4.772267e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.60533e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27069e-07
+Current objective function : 2.018608e-06      relative norm : 7.884624e-03
+Iteration 338:
+  Proj. dual windows: ||y-Ax||_2 = 5.196465e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.6116e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.27044e-07
+Current objective function : 2.002836e-06      relative norm : 7.874741e-03
+Iteration 339:
+  Proj. dual windows: ||y-Ax||_2 = 3.407809e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.61783e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2702e-07
+Current objective function : 1.987207e-06      relative norm : 7.864815e-03
+Iteration 340:
+  Proj. dual windows: ||y-Ax||_2 = 2.996657e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.62402e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26997e-07
+Current objective function : 1.971719e-06      relative norm : 7.854846e-03
+Iteration 341:
+  Proj. dual windows: ||y-Ax||_2 = 5.837576e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.63016e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26974e-07
+Current objective function : 1.956372e-06      relative norm : 7.844832e-03
+Iteration 342:
+  Proj. dual windows: ||y-Ax||_2 = 4.556756e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.63626e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26951e-07
+Current objective function : 1.941163e-06      relative norm : 7.834775e-03
+Iteration 343:
+  Proj. dual windows: ||y-Ax||_2 = 3.612989e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.64231e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26928e-07
+Current objective function : 1.926092e-06      relative norm : 7.824672e-03
+Iteration 344:
+  Proj. dual windows: ||y-Ax||_2 = 1.334894e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.64833e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26906e-07
+Current objective function : 1.911157e-06      relative norm : 7.814526e-03
+Iteration 345:
+  Proj. dual windows: ||y-Ax||_2 = 1.919559e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.6543e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26884e-07
+Current objective function : 1.896358e-06      relative norm : 7.804334e-03
+Iteration 346:
+  Proj. dual windows: ||y-Ax||_2 = 1.075422e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.66023e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26863e-07
+Current objective function : 1.881692e-06      relative norm : 7.794097e-03
+Iteration 347:
+  Proj. dual windows: ||y-Ax||_2 = 2.146359e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.66611e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26842e-07
+Current objective function : 1.867158e-06      relative norm : 7.783815e-03
+Iteration 348:
+  Proj. dual windows: ||y-Ax||_2 = 3.457001e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.67196e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26821e-07
+Current objective function : 1.852756e-06      relative norm : 7.773487e-03
+Iteration 349:
+  Proj. dual windows: ||y-Ax||_2 = 2.008537e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.67776e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.268e-07
+Current objective function : 1.838483e-06      relative norm : 7.763114e-03
+Iteration 350:
+  Proj. dual windows: ||y-Ax||_2 = 2.775575e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.68352e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2678e-07
+Current objective function : 1.824340e-06      relative norm : 7.752693e-03
+Iteration 351:
+  Proj. dual windows: ||y-Ax||_2 = 1.401424e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.68925e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2676e-07
+Current objective function : 1.810324e-06      relative norm : 7.742227e-03
+Iteration 352:
+  Proj. dual windows: ||y-Ax||_2 = 2.258810e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.69493e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26741e-07
+Current objective function : 1.796434e-06      relative norm : 7.731714e-03
+Iteration 353:
+  Proj. dual windows: ||y-Ax||_2 = 7.337520e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.70057e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26722e-07
+Current objective function : 1.782670e-06      relative norm : 7.721154e-03
+Iteration 354:
+  Proj. dual windows: ||y-Ax||_2 = 6.164123e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.70617e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26703e-07
+Current objective function : 1.769030e-06      relative norm : 7.710547e-03
+Iteration 355:
+  Proj. dual windows: ||y-Ax||_2 = 4.994920e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.71173e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26684e-07
+Current objective function : 1.755512e-06      relative norm : 7.699892e-03
+Iteration 356:
+  Proj. dual windows: ||y-Ax||_2 = 5.850731e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.71725e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26666e-07
+Current objective function : 1.742117e-06      relative norm : 7.689190e-03
+Iteration 357:
+  Proj. dual windows: ||y-Ax||_2 = 5.050171e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.72274e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26648e-07
+Current objective function : 1.728842e-06      relative norm : 7.678441e-03
+Iteration 358:
+  Proj. dual windows: ||y-Ax||_2 = 2.187409e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.72818e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2663e-07
+Current objective function : 1.715687e-06      relative norm : 7.667643e-03
+Iteration 359:
+  Proj. dual windows: ||y-Ax||_2 = 3.471281e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.73358e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26612e-07
+Current objective function : 1.702650e-06      relative norm : 7.656797e-03
+Iteration 360:
+  Proj. dual windows: ||y-Ax||_2 = 3.300798e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.73895e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26595e-07
+Current objective function : 1.689731e-06      relative norm : 7.645902e-03
+Iteration 361:
+  Proj. dual windows: ||y-Ax||_2 = 4.431459e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.74428e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26578e-07
+Current objective function : 1.676927e-06      relative norm : 7.634959e-03
+Iteration 362:
+  Proj. dual windows: ||y-Ax||_2 = 1.035784e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.74957e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26562e-07
+Current objective function : 1.664239e-06      relative norm : 7.623967e-03
+Iteration 363:
+  Proj. dual windows: ||y-Ax||_2 = 1.941627e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.75482e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26545e-07
+Current objective function : 1.651665e-06      relative norm : 7.612926e-03
+Iteration 364:
+  Proj. dual windows: ||y-Ax||_2 = 7.191555e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.76004e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26529e-07
+Current objective function : 1.639204e-06      relative norm : 7.601836e-03
+Iteration 365:
+  Proj. dual windows: ||y-Ax||_2 = 1.645078e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.76522e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26513e-07
+Current objective function : 1.626855e-06      relative norm : 7.590696e-03
+Iteration 366:
+  Proj. dual windows: ||y-Ax||_2 = 3.256834e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.77036e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26498e-07
+Current objective function : 1.614617e-06      relative norm : 7.579507e-03
+Iteration 367:
+  Proj. dual windows: ||y-Ax||_2 = 4.823470e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.77546e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26482e-07
+Current objective function : 1.602489e-06      relative norm : 7.568268e-03
+Iteration 368:
+  Proj. dual windows: ||y-Ax||_2 = 5.912834e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.78053e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26467e-07
+Current objective function : 1.590470e-06      relative norm : 7.556979e-03
+Iteration 369:
+  Proj. dual windows: ||y-Ax||_2 = 2.744969e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.78557e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26452e-07
+Current objective function : 1.578559e-06      relative norm : 7.545640e-03
+Iteration 370:
+  Proj. dual windows: ||y-Ax||_2 = 5.224945e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.79056e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26437e-07
+Current objective function : 1.566754e-06      relative norm : 7.534251e-03
+Iteration 371:
+  Proj. dual windows: ||y-Ax||_2 = 3.872899e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.79552e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26423e-07
+Current objective function : 1.555056e-06      relative norm : 7.522811e-03
+Iteration 372:
+  Proj. dual windows: ||y-Ax||_2 = 2.140896e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.80045e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26409e-07
+Current objective function : 1.543463e-06      relative norm : 7.511320e-03
+Iteration 373:
+  Proj. dual windows: ||y-Ax||_2 = 2.428954e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.80534e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26395e-07
+Current objective function : 1.531973e-06      relative norm : 7.499779e-03
+Iteration 374:
+  Proj. dual windows: ||y-Ax||_2 = 2.766917e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.8102e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26381e-07
+Current objective function : 1.520587e-06      relative norm : 7.488187e-03
+Iteration 375:
+  Proj. dual windows: ||y-Ax||_2 = 2.941873e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.81502e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26367e-07
+Current objective function : 1.509302e-06      relative norm : 7.476543e-03
+Iteration 376:
+  Proj. dual windows: ||y-Ax||_2 = 1.861937e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.8198e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26354e-07
+Current objective function : 1.498119e-06      relative norm : 7.464849e-03
+Iteration 377:
+  Proj. dual windows: ||y-Ax||_2 = 6.857024e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.82455e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26341e-07
+Current objective function : 1.487036e-06      relative norm : 7.453103e-03
+Iteration 378:
+  Proj. dual windows: ||y-Ax||_2 = 4.448108e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.82927e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26328e-07
+Current objective function : 1.476052e-06      relative norm : 7.441305e-03
+Iteration 379:
+  Proj. dual windows: ||y-Ax||_2 = 1.358877e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.83396e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26315e-07
+Current objective function : 1.465167e-06      relative norm : 7.429456e-03
+Iteration 380:
+  Proj. dual windows: ||y-Ax||_2 = 2.643403e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.83861e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26302e-07
+Current objective function : 1.454379e-06      relative norm : 7.417555e-03
+Iteration 381:
+  Proj. dual windows: ||y-Ax||_2 = 8.806472e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.84323e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2629e-07
+Current objective function : 1.443688e-06      relative norm : 7.405603e-03
+Iteration 382:
+  Proj. dual windows: ||y-Ax||_2 = 3.405992e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.84781e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26278e-07
+Current objective function : 1.433092e-06      relative norm : 7.393597e-03
+Iteration 383:
+  Proj. dual windows: ||y-Ax||_2 = 3.098779e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.85236e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26266e-07
+Current objective function : 1.422591e-06      relative norm : 7.381541e-03
+Iteration 384:
+  Proj. dual windows: ||y-Ax||_2 = 5.951608e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.85688e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26254e-07
+Current objective function : 1.412184e-06      relative norm : 7.369431e-03
+Iteration 385:
+  Proj. dual windows: ||y-Ax||_2 = 3.429803e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.86137e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26243e-07
+Current objective function : 1.401870e-06      relative norm : 7.357270e-03
+Iteration 386:
+  Proj. dual windows: ||y-Ax||_2 = 7.351368e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.86582e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26231e-07
+Current objective function : 1.391648e-06      relative norm : 7.345056e-03
+Iteration 387:
+  Proj. dual windows: ||y-Ax||_2 = 2.511329e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.87024e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2622e-07
+Current objective function : 1.381518e-06      relative norm : 7.332789e-03
+Iteration 388:
+  Proj. dual windows: ||y-Ax||_2 = 1.039616e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.87463e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26209e-07
+Current objective function : 1.371478e-06      relative norm : 7.320470e-03
+Iteration 389:
+  Proj. dual windows: ||y-Ax||_2 = 6.269277e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.87899e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26198e-07
+Current objective function : 1.361528e-06      relative norm : 7.308097e-03
+Iteration 390:
+  Proj. dual windows: ||y-Ax||_2 = 5.214473e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.88332e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26187e-07
+Current objective function : 1.351667e-06      relative norm : 7.295673e-03
+Iteration 391:
+  Proj. dual windows: ||y-Ax||_2 = 1.412040e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.88762e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26177e-07
+Current objective function : 1.341893e-06      relative norm : 7.283194e-03
+Iteration 392:
+  Proj. dual windows: ||y-Ax||_2 = 1.643265e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.89188e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26166e-07
+Current objective function : 1.332207e-06      relative norm : 7.270663e-03
+Iteration 393:
+  Proj. dual windows: ||y-Ax||_2 = 3.233881e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.89612e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26156e-07
+Current objective function : 1.322608e-06      relative norm : 7.258080e-03
+Iteration 394:
+  Proj. dual windows: ||y-Ax||_2 = 2.608123e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.90032e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26146e-07
+Current objective function : 1.313094e-06      relative norm : 7.245442e-03
+Iteration 395:
+  Proj. dual windows: ||y-Ax||_2 = 1.306218e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.9045e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26136e-07
+Current objective function : 1.303665e-06      relative norm : 7.232752e-03
+Iteration 396:
+  Proj. dual windows: ||y-Ax||_2 = 2.913749e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.90864e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26126e-07
+Current objective function : 1.294320e-06      relative norm : 7.220008e-03
+Iteration 397:
+  Proj. dual windows: ||y-Ax||_2 = 6.784889e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.91276e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26116e-07
+Current objective function : 1.285058e-06      relative norm : 7.207211e-03
+Iteration 398:
+  Proj. dual windows: ||y-Ax||_2 = 2.175792e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.91684e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26107e-07
+Current objective function : 1.275879e-06      relative norm : 7.194361e-03
+Iteration 399:
+  Proj. dual windows: ||y-Ax||_2 = 2.916029e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.9209e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26098e-07
+Current objective function : 1.266782e-06      relative norm : 7.181457e-03
+Iteration 400:
+  Proj. dual windows: ||y-Ax||_2 = 8.737879e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.92492e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26088e-07
+Current objective function : 1.257765e-06      relative norm : 7.168499e-03
+Iteration 401:
+  Proj. dual windows: ||y-Ax||_2 = 5.878767e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.92892e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26079e-07
+Current objective function : 1.248829e-06      relative norm : 7.155488e-03
+Iteration 402:
+  Proj. dual windows: ||y-Ax||_2 = 4.076922e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.93289e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2607e-07
+Current objective function : 1.239973e-06      relative norm : 7.142424e-03
+Iteration 403:
+  Proj. dual windows: ||y-Ax||_2 = 2.054201e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.93683e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26062e-07
+Current objective function : 1.231195e-06      relative norm : 7.129306e-03
+Iteration 404:
+  Proj. dual windows: ||y-Ax||_2 = 2.114885e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.94074e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26053e-07
+Current objective function : 1.222496e-06      relative norm : 7.116134e-03
+Iteration 405:
+  Proj. dual windows: ||y-Ax||_2 = 1.379386e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.94462e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26045e-07
+Current objective function : 1.213874e-06      relative norm : 7.102909e-03
+Iteration 406:
+  Proj. dual windows: ||y-Ax||_2 = 2.656994e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.94848e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26036e-07
+Current objective function : 1.205328e-06      relative norm : 7.089630e-03
+Iteration 407:
+  Proj. dual windows: ||y-Ax||_2 = 4.868730e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.95231e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26028e-07
+Current objective function : 1.196859e-06      relative norm : 7.076297e-03
+Iteration 408:
+  Proj. dual windows: ||y-Ax||_2 = 2.650199e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.95611e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2602e-07
+Current objective function : 1.188465e-06      relative norm : 7.062911e-03
+Iteration 409:
+  Proj. dual windows: ||y-Ax||_2 = 9.774323e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.95988e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26012e-07
+Current objective function : 1.180146e-06      relative norm : 7.049471e-03
+Iteration 410:
+  Proj. dual windows: ||y-Ax||_2 = 1.076411e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.96363e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.26004e-07
+Current objective function : 1.171900e-06      relative norm : 7.035977e-03
+Iteration 411:
+  Proj. dual windows: ||y-Ax||_2 = 1.746015e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.96734e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25996e-07
+Current objective function : 1.163728e-06      relative norm : 7.022429e-03
+Iteration 412:
+  Proj. dual windows: ||y-Ax||_2 = 2.153988e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.97104e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25989e-07
+Current objective function : 1.155628e-06      relative norm : 7.008829e-03
+Iteration 413:
+  Proj. dual windows: ||y-Ax||_2 = 1.325242e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.9747e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25981e-07
+Current objective function : 1.147601e-06      relative norm : 6.995174e-03
+Iteration 414:
+  Proj. dual windows: ||y-Ax||_2 = 2.452009e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.97834e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25974e-07
+Current objective function : 1.139644e-06      relative norm : 6.981466e-03
+Iteration 415:
+  Proj. dual windows: ||y-Ax||_2 = 8.413195e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.98195e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25966e-07
+Current objective function : 1.131759e-06      relative norm : 6.967704e-03
+Iteration 416:
+  Proj. dual windows: ||y-Ax||_2 = 8.850759e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.98554e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25959e-07
+Current objective function : 1.123943e-06      relative norm : 6.953888e-03
+Iteration 417:
+  Proj. dual windows: ||y-Ax||_2 = 4.485293e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.9891e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25952e-07
+Current objective function : 1.116196e-06      relative norm : 6.940020e-03
+Iteration 418:
+  Proj. dual windows: ||y-Ax||_2 = 1.882206e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.99263e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25945e-07
+Current objective function : 1.108519e-06      relative norm : 6.926097e-03
+Iteration 419:
+  Proj. dual windows: ||y-Ax||_2 = 6.735444e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.99614e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25938e-07
+Current objective function : 1.100909e-06      relative norm : 6.912121e-03
+Iteration 420:
+  Proj. dual windows: ||y-Ax||_2 = 6.150933e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=5.99962e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25931e-07
+Current objective function : 1.093367e-06      relative norm : 6.898092e-03
+Iteration 421:
+  Proj. dual windows: ||y-Ax||_2 = 2.048575e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.00308e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25925e-07
+Current objective function : 1.085892e-06      relative norm : 6.884010e-03
+Iteration 422:
+  Proj. dual windows: ||y-Ax||_2 = 5.750903e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.00651e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25918e-07
+Current objective function : 1.078483e-06      relative norm : 6.869874e-03
+Iteration 423:
+  Proj. dual windows: ||y-Ax||_2 = 3.005722e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.00992e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25912e-07
+Current objective function : 1.071139e-06      relative norm : 6.855685e-03
+Iteration 424:
+  Proj. dual windows: ||y-Ax||_2 = 2.156901e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.0133e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25905e-07
+Current objective function : 1.063861e-06      relative norm : 6.841443e-03
+Iteration 425:
+  Proj. dual windows: ||y-Ax||_2 = 1.581999e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.01666e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25899e-07
+Current objective function : 1.056647e-06      relative norm : 6.827148e-03
+Iteration 426:
+  Proj. dual windows: ||y-Ax||_2 = 3.438030e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.02e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25893e-07
+Current objective function : 1.049497e-06      relative norm : 6.812800e-03
+Iteration 427:
+  Proj. dual windows: ||y-Ax||_2 = 2.109967e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.02331e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25887e-07
+Current objective function : 1.042410e-06      relative norm : 6.798399e-03
+Iteration 428:
+  Proj. dual windows: ||y-Ax||_2 = 5.314214e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.02659e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25881e-07
+Current objective function : 1.035386e-06      relative norm : 6.783946e-03
+Iteration 429:
+  Proj. dual windows: ||y-Ax||_2 = 2.160555e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.02986e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25875e-07
+Current objective function : 1.028424e-06      relative norm : 6.769439e-03
+Iteration 430:
+  Proj. dual windows: ||y-Ax||_2 = 1.445260e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.0331e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25869e-07
+Current objective function : 1.021524e-06      relative norm : 6.754880e-03
+Iteration 431:
+  Proj. dual windows: ||y-Ax||_2 = 6.935424e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.03631e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25864e-07
+Current objective function : 1.014685e-06      relative norm : 6.740269e-03
+Iteration 432:
+  Proj. dual windows: ||y-Ax||_2 = 4.477070e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.0395e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25858e-07
+Current objective function : 1.007906e-06      relative norm : 6.725605e-03
+Iteration 433:
+  Proj. dual windows: ||y-Ax||_2 = 1.574227e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.04267e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25852e-07
+Current objective function : 1.001187e-06      relative norm : 6.710890e-03
+Iteration 434:
+  Proj. dual windows: ||y-Ax||_2 = 3.305575e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.04582e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25847e-07
+Current objective function : 9.945278e-07      relative norm : 6.696121e-03
+Iteration 435:
+  Proj. dual windows: ||y-Ax||_2 = 3.532184e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.04894e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25842e-07
+Current objective function : 9.879272e-07      relative norm : 6.681301e-03
+Iteration 436:
+  Proj. dual windows: ||y-Ax||_2 = 7.019254e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.05204e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25836e-07
+Current objective function : 9.813848e-07      relative norm : 6.666430e-03
+Iteration 437:
+  Proj. dual windows: ||y-Ax||_2 = 3.553839e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.05512e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25831e-07
+Current objective function : 9.749003e-07      relative norm : 6.651507e-03
+Iteration 438:
+  Proj. dual windows: ||y-Ax||_2 = 8.770557e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.05818e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25826e-07
+Current objective function : 9.684730e-07      relative norm : 6.636531e-03
+Iteration 439:
+  Proj. dual windows: ||y-Ax||_2 = 2.976568e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.06121e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25821e-07
+Current objective function : 9.621024e-07      relative norm : 6.621505e-03
+Iteration 440:
+  Proj. dual windows: ||y-Ax||_2 = 9.646395e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.06422e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25816e-07
+Current objective function : 9.557881e-07      relative norm : 6.606427e-03
+Iteration 441:
+  Proj. dual windows: ||y-Ax||_2 = 4.099124e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.06721e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25811e-07
+Current objective function : 9.495294e-07      relative norm : 6.591298e-03
+Iteration 442:
+  Proj. dual windows: ||y-Ax||_2 = 3.141266e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.07018e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25806e-07
+Current objective function : 9.433260e-07      relative norm : 6.576118e-03
+Iteration 443:
+  Proj. dual windows: ||y-Ax||_2 = 1.335150e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.07312e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25801e-07
+Current objective function : 9.371773e-07      relative norm : 6.560888e-03
+Iteration 444:
+  Proj. dual windows: ||y-Ax||_2 = 6.550287e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.07605e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25797e-07
+Current objective function : 9.310828e-07      relative norm : 6.545607e-03
+Iteration 445:
+  Proj. dual windows: ||y-Ax||_2 = 2.784644e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.07895e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25792e-07
+Current objective function : 9.250420e-07      relative norm : 6.530276e-03
+Iteration 446:
+  Proj. dual windows: ||y-Ax||_2 = 6.486743e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.08184e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25788e-07
+Current objective function : 9.190545e-07      relative norm : 6.514894e-03
+Iteration 447:
+  Proj. dual windows: ||y-Ax||_2 = 1.732106e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.0847e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25783e-07
+Current objective function : 9.131197e-07      relative norm : 6.499463e-03
+Iteration 448:
+  Proj. dual windows: ||y-Ax||_2 = 3.084247e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.08754e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25779e-07
+Current objective function : 9.072372e-07      relative norm : 6.483981e-03
+Iteration 449:
+  Proj. dual windows: ||y-Ax||_2 = 1.227823e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.09036e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25774e-07
+Current objective function : 9.014065e-07      relative norm : 6.468451e-03
+Iteration 450:
+  Proj. dual windows: ||y-Ax||_2 = 2.407537e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.09316e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2577e-07
+Current objective function : 8.956271e-07      relative norm : 6.452871e-03
+Iteration 451:
+  Proj. dual windows: ||y-Ax||_2 = 1.526605e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.09594e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25766e-07
+Current objective function : 8.898986e-07      relative norm : 6.437241e-03
+Iteration 452:
+  Proj. dual windows: ||y-Ax||_2 = 2.067546e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.0987e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25762e-07
+Current objective function : 8.842205e-07      relative norm : 6.421563e-03
+Iteration 453:
+  Proj. dual windows: ||y-Ax||_2 = 6.727672e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.10144e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25758e-07
+Current objective function : 8.785924e-07      relative norm : 6.405836e-03
+Iteration 454:
+  Proj. dual windows: ||y-Ax||_2 = 7.871949e-17, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.10415e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25754e-07
+Current objective function : 8.730138e-07      relative norm : 6.390060e-03
+Iteration 455:
+  Proj. dual windows: ||y-Ax||_2 = 6.248207e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.10685e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2575e-07
+Current objective function : 8.674842e-07      relative norm : 6.374236e-03
+Iteration 456:
+  Proj. dual windows: ||y-Ax||_2 = 1.706733e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.10953e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25746e-07
+Current objective function : 8.620033e-07      relative norm : 6.358365e-03
+Iteration 457:
+  Proj. dual windows: ||y-Ax||_2 = 1.620437e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.11219e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25742e-07
+Current objective function : 8.565706e-07      relative norm : 6.342445e-03
+Iteration 458:
+  Proj. dual windows: ||y-Ax||_2 = 7.621530e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.11483e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25738e-07
+Current objective function : 8.511856e-07      relative norm : 6.326478e-03
+Iteration 459:
+  Proj. dual windows: ||y-Ax||_2 = 5.346411e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.11746e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25734e-07
+Current objective function : 8.458479e-07      relative norm : 6.310464e-03
+Iteration 460:
+  Proj. dual windows: ||y-Ax||_2 = 1.295456e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.12006e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25731e-07
+Current objective function : 8.405571e-07      relative norm : 6.294403e-03
+Iteration 461:
+  Proj. dual windows: ||y-Ax||_2 = 1.530851e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.12264e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25727e-07
+Current objective function : 8.353127e-07      relative norm : 6.278295e-03
+Iteration 462:
+  Proj. dual windows: ||y-Ax||_2 = 3.711580e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.12521e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25724e-07
+Current objective function : 8.301144e-07      relative norm : 6.262141e-03
+Iteration 463:
+  Proj. dual windows: ||y-Ax||_2 = 1.774033e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.12775e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2572e-07
+Current objective function : 8.249618e-07      relative norm : 6.245940e-03
+Iteration 464:
+  Proj. dual windows: ||y-Ax||_2 = 4.589869e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.13028e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25717e-07
+Current objective function : 8.198543e-07      relative norm : 6.229694e-03
+Iteration 465:
+  Proj. dual windows: ||y-Ax||_2 = 2.541958e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.13279e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25713e-07
+Current objective function : 8.147917e-07      relative norm : 6.213403e-03
+Iteration 466:
+  Proj. dual windows: ||y-Ax||_2 = 5.614679e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.13528e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2571e-07
+Current objective function : 8.097735e-07      relative norm : 6.197065e-03
+Iteration 467:
+  Proj. dual windows: ||y-Ax||_2 = 4.751136e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.13775e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25706e-07
+Current objective function : 8.047993e-07      relative norm : 6.180683e-03
+Iteration 468:
+  Proj. dual windows: ||y-Ax||_2 = 3.538962e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.14021e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25703e-07
+Current objective function : 7.998687e-07      relative norm : 6.164256e-03
+Iteration 469:
+  Proj. dual windows: ||y-Ax||_2 = 6.451061e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.14264e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.257e-07
+Current objective function : 7.949813e-07      relative norm : 6.147786e-03
+Iteration 470:
+  Proj. dual windows: ||y-Ax||_2 = 3.509293e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.14506e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25697e-07
+Current objective function : 7.901368e-07      relative norm : 6.131270e-03
+Iteration 471:
+  Proj. dual windows: ||y-Ax||_2 = 3.241473e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.14746e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25694e-07
+Current objective function : 7.853347e-07      relative norm : 6.114712e-03
+Iteration 472:
+  Proj. dual windows: ||y-Ax||_2 = 3.752307e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.14985e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25691e-07
+Current objective function : 7.805746e-07      relative norm : 6.098110e-03
+Iteration 473:
+  Proj. dual windows: ||y-Ax||_2 = 3.770068e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.15222e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25688e-07
+Current objective function : 7.758563e-07      relative norm : 6.081466e-03
+Iteration 474:
+  Proj. dual windows: ||y-Ax||_2 = 4.960061e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.15456e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25685e-07
+Current objective function : 7.711793e-07      relative norm : 6.064778e-03
+Iteration 475:
+  Proj. dual windows: ||y-Ax||_2 = 4.639014e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.1569e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25682e-07
+Current objective function : 7.665432e-07      relative norm : 6.048048e-03
+Iteration 476:
+  Proj. dual windows: ||y-Ax||_2 = 4.243881e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.15921e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25679e-07
+Current objective function : 7.619476e-07      relative norm : 6.031275e-03
+Iteration 477:
+  Proj. dual windows: ||y-Ax||_2 = 1.295272e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.16151e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25676e-07
+Current objective function : 7.573923e-07      relative norm : 6.014462e-03
+Iteration 478:
+  Proj. dual windows: ||y-Ax||_2 = 2.431227e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.16379e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25673e-07
+Current objective function : 7.528769e-07      relative norm : 5.997607e-03
+Iteration 479:
+  Proj. dual windows: ||y-Ax||_2 = 1.288698e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.16606e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2567e-07
+Current objective function : 7.484009e-07      relative norm : 5.980711e-03
+Iteration 480:
+  Proj. dual windows: ||y-Ax||_2 = 5.106933e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.1683e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25668e-07
+Current objective function : 7.439641e-07      relative norm : 5.963775e-03
+Iteration 481:
+  Proj. dual windows: ||y-Ax||_2 = 3.716843e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.17054e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25665e-07
+Current objective function : 7.395660e-07      relative norm : 5.946799e-03
+Iteration 482:
+  Proj. dual windows: ||y-Ax||_2 = 2.022318e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.17275e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25662e-07
+Current objective function : 7.352064e-07      relative norm : 5.929782e-03
+Iteration 483:
+  Proj. dual windows: ||y-Ax||_2 = 6.557948e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.17495e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2566e-07
+Current objective function : 7.308849e-07      relative norm : 5.912728e-03
+Iteration 484:
+  Proj. dual windows: ||y-Ax||_2 = 1.925561e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.17713e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25657e-07
+Current objective function : 7.266011e-07      relative norm : 5.895632e-03
+Iteration 485:
+  Proj. dual windows: ||y-Ax||_2 = 3.087286e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.1793e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25655e-07
+Current objective function : 7.223548e-07      relative norm : 5.878499e-03
+Iteration 486:
+  Proj. dual windows: ||y-Ax||_2 = 3.752407e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.18145e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25652e-07
+Current objective function : 7.181455e-07      relative norm : 5.861328e-03
+Iteration 487:
+  Proj. dual windows: ||y-Ax||_2 = 6.299801e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.18359e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2565e-07
+Current objective function : 7.139729e-07      relative norm : 5.844119e-03
+Iteration 488:
+  Proj. dual windows: ||y-Ax||_2 = 2.058066e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.18571e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25647e-07
+Current objective function : 7.098368e-07      relative norm : 5.826873e-03
+Iteration 489:
+  Proj. dual windows: ||y-Ax||_2 = 5.977132e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.18781e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25645e-07
+Current objective function : 7.057368e-07      relative norm : 5.809589e-03
+Iteration 490:
+  Proj. dual windows: ||y-Ax||_2 = 6.714479e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.1899e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25642e-07
+Current objective function : 7.016725e-07      relative norm : 5.792270e-03
+Iteration 491:
+  Proj. dual windows: ||y-Ax||_2 = 2.151934e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.19198e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.2564e-07
+Current objective function : 6.976436e-07      relative norm : 5.774914e-03
+Iteration 492:
+  Proj. dual windows: ||y-Ax||_2 = 2.346589e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.19404e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25638e-07
+Current objective function : 6.936499e-07      relative norm : 5.757522e-03
+Iteration 493:
+  Proj. dual windows: ||y-Ax||_2 = 1.089857e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.19608e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25636e-07
+Current objective function : 6.896910e-07      relative norm : 5.740096e-03
+Iteration 494:
+  Proj. dual windows: ||y-Ax||_2 = 1.649151e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.19811e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25633e-07
+Current objective function : 6.857667e-07      relative norm : 5.722634e-03
+Iteration 495:
+  Proj. dual windows: ||y-Ax||_2 = 1.290710e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.20012e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25631e-07
+Current objective function : 6.818765e-07      relative norm : 5.705139e-03
+Iteration 496:
+  Proj. dual windows: ||y-Ax||_2 = 5.151182e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.20212e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25629e-07
+Current objective function : 6.780201e-07      relative norm : 5.687608e-03
+Iteration 497:
+  Proj. dual windows: ||y-Ax||_2 = 2.735585e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.20411e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25627e-07
+Current objective function : 6.741974e-07      relative norm : 5.670045e-03
+Iteration 498:
+  Proj. dual windows: ||y-Ax||_2 = 3.720257e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.20608e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25625e-07
+Current objective function : 6.704080e-07      relative norm : 5.652449e-03
+Iteration 499:
+  Proj. dual windows: ||y-Ax||_2 = 2.607160e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.20804e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25623e-07
+Current objective function : 6.666515e-07      relative norm : 5.634820e-03
+Iteration 500:
+  Proj. dual windows: ||y-Ax||_2 = 6.205618e-16, TOL_EPS, iter = 0
+  Prox_l2grad: 1 iteration(s), ||grad(x)||^2=6.20998e-10
+  Prox_l2gradfourier: 1 iteration, ||grad(Fx)||^2=2.25621e-07
+
+ Solution found:
+ Final relative norm: 5.617160e-03
+ 500 iterations
+ Stopping criterion: MAX_IT
+
+  Proj. dual windows: ||y-Ax||_2 = 8.018605e-17, TOL_EPS, iter = 0
+  Reconstruction error of optimization problem: 1.32005e-15
+Solve the optimization problem : Variance
+  Reconstruction error of optimization problem: 2.19809e-15
+Solve the optimization problem : energy variance
+  Reconstruction error of optimization problem: 2.27737e-15
+
+crit =
+
+    0.0700    0.9835   36.6945    0.0090    1.7215    0.1220    2.5145    5.9356    0.4811    2.0074    0.1842
+    0.2492    0.4751    6.1779    0.0433    0.8288    0.4345    2.1933    2.5369    0.6529    1.7004    0.3984
+    0.5329    0.5290    3.1118    3.6326    0.9227    0.9292    2.3310    2.4533    0.7282    1.6725    0.6245
+    0.2546    0.4749    5.9891    0.1517    0.8285    0.4439    2.1958    2.5172    0.6572    1.6988    0.4055
+
+
+crit2 =
+
+   1.0e+03 *
+
+    0.0244    0.0001    2.8949    0.0207    0.2069
+    0.0083    0.0004    2.9447    0.0258    0.2490
+    0.0083    0.0004    2.9329    0.0139    0.0964
+    0.0083    0.0004    2.9565    0.0252    0.1182
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

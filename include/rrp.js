@@ -11,6 +11,9 @@ $(document).ready(function(){
     $('a[href^="#BASEURL#"]').attr('href',function(i,el){
         return relativetoabsolute(el);
     });
+    $('a[href^="../archive/#PACKAGE#"]').attr('href',function(i,el){
+        return linkpacakge(el);
+    });
 });
 
 function includefiles(){
@@ -110,6 +113,21 @@ function relativetoabsolute(v){
     {
         var valid = v.substring(n);
         var retval = valid.replace(/^#BASEURL#/,baseurl+'/rrp-html');
+
+        //console.log('Old:' + v);
+        //console.log('New:' + retval);
+        return retval;
+    }
+}
+
+function linkpacakge(v){
+    var n = v.lastIndexOf('../archive/#PACKAGE#');
+    var href = location.href;
+    var pak = href.match(/([^\/]*)\/(\w*\.\w*)?$/)[1];
+    if( n!= -1)
+    {
+        var valid = v.substring(n);
+        var retval = valid.replace(/^\.\.\/archive\/#PACKAGE#/,'../archive/'+pak);
 
         //console.log('Old:' + v);
         //console.log('New:' + retval);

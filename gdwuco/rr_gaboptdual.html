@@ -1,0 +1,521 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_GABOPTDUAL - Optimization of dual gabor windows</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_gaboptdual_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_GABOPTDUAL - Optimization of dual gabor windows</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-optimization-of-dual-gabor-windows">
+<h2>Reproducible research addendum for optimization of dual gabor windows</h2>
+<p>DESINGING GABOR WINDOWS USING CONVEX OPTIMIZATION</p>
+<p>Paper: Nathanael Perraudin, Nicki Holighaus, Peter L. Sondergaard and
+Peter Balazs</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- January 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a> and the LTFAT
+toolbox. You can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+<p>You can also want the convergence of the algorithm at
+<a class="reference external" href="https://lts2research.epfl.ch/unlocbox/rr/gdwuco/gif.php">https://lts2research.epfl.ch/unlocbox/rr/gdwuco/gif.php</a>.</p>
+</div>
+<div class="section" id="goal">
+<h2>Goal</h2>
+<p>We show the deference of different dual sythesis windows designed
+either by classic techniques or by convex optimization.</p>
+<p>All the examples provided in this experiment were computed with an
+Itersine analysis window with <span class="math">\(L_g=60\)</span> <span class="math">\(L=240\)</span>, <span class="math">\(a=15\)</span> and <span class="math">\(M=120\)</span>,
+without support constraints. This setup, in particular its high
+redundancy, allows us to shape the dual windows rather freely for
+different objective functions, therefore producing characteristic
+examples. The window is shown below</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_1.png" src="rr_gaboptdual_1.png" />
+<p class="caption">Analysis window in time domain</p>
+<div class="legend">
+The chosen windows is an itersine of length 60</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_2.png" src="rr_gaboptdual_2.png" />
+<p class="caption">Analysis window in frequency domain</p>
+</div>
+<p>The canonical dual, equals the window up to scaling.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_3.png" src="rr_gaboptdual_3.png" />
+<p class="caption">Canonical dual window in time domain</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_4.png" src="rr_gaboptdual_4.png" />
+<p class="caption">Canonical dual window in frequency domain</p>
+</div>
+<p>To obtain different dual window than the canonical dual, we propose to
+solve a convex optimization problem of the form:</p>
+<!-- gd  = argmin_x    f(x) -->
+<!-- such that    x is a dual windows of g and is compaclty supported -->
+<div class="math">
+\begin{equation*}
+\begin{split}  \text{gd}  =  \text{arg} \min_x   &amp; f(x) \\\\     \text{such that }&amp; x \text{ is a dual windows of }g  \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(x\)</span>         :  optimization variable</li>
+<li><span class="math">\(f(x)\)</span>      :  functional to promote properties.</li>
+</ul>
+</dd>
+</dl>
+<p>We compare several functions to be minimized. A list is presented here
+below. To obtained the best window, we may use several of them:</p>
+<ul class="simple">
+<li><span class="math">\(|| \nabla x ||_2^2\)</span>  : force the windows to be smooth</li>
+<li><span class="math">\(|| \nabla F x ||_2^2\)</span>: force the windows to be localized</li>
+<li><span class="math">\(|| x ||_2^2\)</span>         : minimize the two norm of the synthesis windows</li>
+<li><span class="math">\(|| x ||_1\)</span>           : minimize the one norm of the synthesis windows</li>
+<li><span class="math">\(|| F x ||_1\)</span>         : minimize the one norm in frequencie of the windows</li>
+<li><span class="math">\(|| x - z ||_2^2\)</span>     : Make x look like z in the 2 norm sense</li>
+<li><span class="math">\(var(x)\)</span>              : Localize x in time</li>
+<li><span class="math">\(var(x^2)\)</span>            : Localize x in time</li>
+<li><span class="math">\(var(F x)\)</span>            : Localize x in frequency</li>
+<li><span class="math">\(var((F x)^2)\)</span>        : Localize x in frequency</li>
+</ul>
+<p>Solving the problem for each of these prior at once allows to produce
+characteristic example to illustrate our technique</p>
+</div>
+<div class="section" id="lp-norm-priors">
+<h2>Lp-norm priors</h2>
+<p>In order to tune the solution of a convex optimization problem towards
+the properties we desire, we have to select priors <span class="math">\(f\)</span> that
+promote these properties. In this contribution, we mostly consider
+priors that are fairly standard in optimization, or simple extensions
+of such priors. Although their various effects are quite well known,
+e.g. <span class="math">\(l_1\)</span> optimization favors solutions with a few large values
+while an <span class="math">\(l_2\)</span> prior favors a more even spread of the energy,
+considerable limitations are imposed by the duality constraint.
+Although the set of Gabor dual windows is characterized by the WR
+equations, their implications in terms of window shape, localization,
+decay etc. remain largely unexplored. Therefore a short discussion of
+relevant priors, expected effects and their actual effect in our
+context seems worthwhile.</p>
+<p>An <span class="math">\(l_2\)</span> prior will, in our context, always lead to the canonical dual
+Gabor window. In general, this prior will affect the values in a more
+proportional way over the whole signal range. It is traditionally used
+as a data fidelity term, i.e. the solution is expected to be close, in
+the <span class="math">\(l_2\)</span>-norm sense, to a given estimate. The associated objective
+function is not only convex, but also smooth, admitting gradient
+descent approaches for minimization.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_5.png" src="rr_gaboptdual_5.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the l2 norm</p>
+<div class="legend">
+If we minimize the two norm of the sythesis window, we recover the
+canonical dual. Here the original window.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_6.png" src="rr_gaboptdual_6.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the l2 norm</p>
+<div class="legend">
+If we minimize the two norm of the sythesis window, we recover the
+canonical dual.</div>
+</div>
+<p><span class="math">\(l_1\)</span>-norm minimization is usually considered, whenever (approximate)
+sparsity, i.e. a small number of (significant) non-zero values is
+desired. As the convex relaxation of the <span class="math">\(l_0\)</span> minimization problem, it
+is equivalent or at least close to sparsity optimization under certain
+conditions. In general, these conditions are not satisfied by the WR
+eq. Nevertheless, the restrictions imposed by the WR equations usually
+allow a solution with few large values. It should be noted however,
+that small <span class="math">\(l_1\)</span>-norm does not imply clustering of the large values,
+i.e. a solution supported on a short interval. As expected, some
+concentration is induced by the duality constraint, see the figure
+bellow. In the presented experiment, the <span class="math">\(l_1\)</span> solution possesses only
+<span class="math">\(15\)</span> values above <span class="math">\(-80\)</span>, only half the number of WR equations <span class="math">\(L a/M=30\)</span>.
+However, other configurations have provided solutions with few
+significant values spread over a larger interval.</p>
+<p>The proximity operator of the <span class="math">\(\ell^1\)</span> prior is computed by soft-thresholding:</p>
+<!-- soft_mu(y)  = sign(y) ( |y| - mu )_+ -->
+<div class="math">
+\begin{equation*}
+\text{soft}_\mu(y)=\text{sgn}(y) \left(|y|-\mu \right)_+
+\end{equation*}
+</div>
+<p>where <span class="math">\((.)_+=\max(.,0 )\)</span>. For compactly supported windows, a strictly
+bandlimited dual window is usually not feasible. Therefore, when
+applied in the Fourier domain, the <span class="math">\(l_1\)</span> prior cannot achieve a truly
+sparse solution, but promotes a small number of significant values. In
+many cases, the result is similar to actual concentration measures.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_7.png" src="rr_gaboptdual_7.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the l1 norm</p>
+<div class="legend">
+This window minimize the one norm in time. It tend to have a few
+big coefficient and all other equal to zero.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_8.png" src="rr_gaboptdual_8.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the l1 norm</p>
+<div class="legend">
+The window spread a lot in frequency. Indeed no optimization is done
+in this domain.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_9.png" src="rr_gaboptdual_9.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the l1 norm</p>
+<div class="legend">
+We provide a log scale figure.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_10.png" src="rr_gaboptdual_10.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the l1 norm in frequency</p>
+<div class="legend">
+This looks very similar to a smoothness constraint. It is not
+necessary the case. It is due to the WR equation system.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_11.png" src="rr_gaboptdual_11.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the l1 norm in frequency</p>
+<div class="legend">
+The one norm in frequency is minimized. The aglorithm try to
+sparsify the Fourier transform the window</div>
+</div>
+</div>
+<div class="section" id="concentration-inducing-function">
+<h2>Concentration inducing function</h2>
+<p>Our main objective in the following in this contribution will be the search for a
+Gabor dual window with optimized/modified TF concentration. Therefore
+we recall a number of different concentration measures. Inspired by the
+famous Heisenberg inequality, the most natural way to impose
+localization is to optimize the variance of the signal <span class="math">\(x\in \mathbb{R}^L\)</span> or
+more precisely, its modulus:</p>
+<!-- var(x) = 1/ sqrt(L)  sum_{i=-L/2}^{L/2-1} (i-\bar{|x|})^2 | x_i | -->
+<!-- math: \text{var}(|x|)= 1/\sqrt{L} \sum_{i=-L/2}^{L/2-1}(i-\overline{|x|})^2|x_i| -->
+<p>with <span class="math">\(\bar{|x|}=\sum_{i=-L/2}^{L/2-1}i | x_i |\)</span> being the center of
+gravity. As we consider symmetric windows <span class="math">\(\bar{|x|}=0\)</span>, we can
+simplify this expression to:
+sum_{i=-L/2}^{L/2-1}(i)^2 | x_i |
+to be a weighted <span class="math">\(l_1\)</span>-norm with quadratic weight <span class="math">\(w^2\)</span>,
+<span class="math">\(w := 1 / \sqrt{L} [-L/2, ..., L/2-1]\)</span>. Compared to <span class="math">\(l_1\)</span> minimization,
+this prior additionally penalizes values far from the origin, inducing
+concentration. The proximity operator of <span class="math">\(var(|x|)\)</span> is a variation of
+the <span class="math">\(l_1\)</span> proximity operator and computed by weighted soft
+thresholding. And example is shown in the figure below.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_12.png" src="rr_gaboptdual_12.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the variance it time</p>
+<div class="legend">
+We obtain almost a rectangle</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_13.png" src="rr_gaboptdual_13.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the variance it time</p>
+</div>
+<p>We also consider the variance of the energy of the signal:
+<span class="math">\(var(|x|^2)\)</span>, for symmetric windows equal to a weighted <span class="math">\(l_2\)</span> norm with
+linear weight <span class="math">\(w\)</span>: <span class="math">\(var(x^2)=||w  x||_2^2\)</span>. Explicit computation of the
+proximity operator leads to</p>
+<!-- prox_{gamma var(x^2) }(y) = 1 / ( 1 + 2 gamma w^2) * y -->
+<!-- math: \text{prox}_{\gamma \text{var}(x^2) }(y) = \frac{1}{1+2\gamma w^2} y, -->
+<p>i.e. multiplication with a function that decays quadratically away from
+zero. The optimazation result is shown in the figure below.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_14.png" src="rr_gaboptdual_14.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the energy variance it time</p>
+<div class="legend">
+There is also a good concentration in time, but with a kind of
+smoothness.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_15.png" src="rr_gaboptdual_15.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the energy variance it time</p>
+<div class="legend">
+In frequency, we have a better decay compared to the optimization of
+the variance only.</div>
+</div>
+<p>A closely related concentration measure is smoothness in frequency, as
+measured by the gradient of the Fourier transform
+x||_2^2
+form:</p>
+<!-- prox_{gamma ||\nabla F x||_2^2 }(y) = 1 / ( 1 + 2 gamma psi) * y -->
+<!-- math \text{prox}_{\gamma \|\nabla \mathcal{F} x\|_2^2 }(y) = \frac{1}{1+2\gamma \psi} y -->
+<p>with <span class="math">\(\psi[l] = 2-2 \cos(2 \pi l / L)\)</span>. Since <span class="math">\(\psi[l] \approx C l^2\)</span>
+for small <span class="math">\(l\)</span> and values away from <span class="math">\(0\)</span> are strongly attenuated, the
+priors <span class="math">\(var(|x|^2)\)</span> and <span class="math">\(||\nabla F x||_2^2\)</span> often lead to similar
+results. Both functions induce concentration by attenuation of values
+far from the origin. Examples are shown in the figure below</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_16.png" src="rr_gaboptdual_16.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the gradient of the Fourier transform</p>
+<div class="legend">
+We observe that smoothing the frequencies result in concentrating the
+window in time.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_17.png" src="rr_gaboptdual_17.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the gradient of the Fourier transform</p>
+</div>
+<p>Concentration in frequency is easily achieved through <span class="math">\(var(|| F x||)\)</span>,
+<span class="math">\(var(|| F x ||^2)\)</span> or <span class="math">\(||\nabla x||_2^2\)</span>. The respective proximity
+operators are obtained simply by conjugating the proximitiy operators
+discussed above with the (inverse) Fourier transform. The figure are
+presented bellow.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_18.png" src="rr_gaboptdual_18.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the variance in frequency</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_19.png" src="rr_gaboptdual_19.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the variance in frequency</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_20.png" src="rr_gaboptdual_20.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the energy variance in frequency</p>
+<div class="legend">
+This is equivalent to smooth the window in time.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_21.png" src="rr_gaboptdual_21.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the energy variance in frequency</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_22.png" src="rr_gaboptdual_22.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the gradient in time</p>
+<div class="legend">
+This windows is really smooth. In fact, it is the smoothest dual
+window for the chosen parameter.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_23.png" src="rr_gaboptdual_23.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the gradient in time</p>
+<div class="legend">
+The content in frequency of this windows is more concentrated in
+low frequency. Indeed, optimizing smoothness concentrate the window
+in low frequency by applying low pass filters.</div>
+</div>
+</div>
+<div class="section" id="simulataneous-time-frequency-concentration-function">
+<h2>Simulataneous time/frequency concentration function</h2>
+<p>For simultaneous concentration in time and frequency, we can consider
+jointly the time- and frequency-domain variants of the priors discussed
+above. Alternatively, we use a single cost functions providing
+concentration in both domains at once. In TF literature, modulation
+space norms, i.e. <span class="math">\(l_p\)</span>-norms on the short-time Fourier coefficients
+are frequently used to measure joint TF localization.. In particular
+<span class="math">\(||x||_{S_0}=|| G_{g,1,L} x||_1\)</span>, where <span class="math">\(g\)</span> is a Gaussian function, is
+considered as quality measure for window functions. Minimization of the
+<span class="math">\(S_0\)</span>-norm can be expected to yield TF concentrated windows. However,
+similar to the <span class="math">\(\ell^1\)</span>-norm, small <span class="math">\(S_0\)</span>-norm does not guarantee
+concentration around the origin (or any single TF location). As
+expected, the duality constraint seems to enforce some localization,
+though.</p>
+<p>Compared to the previously discussed priors, <span class="math">\(S_0\)</span> optimization is
+considerably more expensive. Since we are not aware of a explicit
+solution to the <span class="math">\(S_0\)</span> proximity operator, we propose its computation
+via an iteration based on ADMM. The number
+of required ADMM steps per PPXA iteration is low and scales well with
+<span class="math">\(L\)</span> (usually 3-4 steps provided sufficient precision), but each substep
+requires the computation of one full STFT and one inverse STFT, with a
+complexity of <span class="math">\(O(L^2 \log(L))\)</span> each. An example for <span class="math">\(S_0\)</span>
+optimization is shown in the figure below.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_24.png" src="rr_gaboptdual_24.png" />
+<p class="caption">Synthesis dual window in time domain minimizing the S0 norm</p>
+<div class="legend">
+This window is also well concentrated in time.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_25.png" src="rr_gaboptdual_25.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing the S0 norm</p>
+<div class="legend">
+A well concentrated windows in frenquency</div>
+</div>
+<p>In some cases, concentration can be further increased by <span class="math">\(S_0\)</span>-norm
+instead. The proximity operator is realized similar to the unweighted
+case. The next figures show an example, considering the following
+circular weights:</p>
+<!-- W[f,t]= ln( 1 + w^2[t] + w^2[f] ) -->
+<!-- math: W[f,t]=\ln \left( 1 + w^2[t]+w^2[f] \right), -->
+<p>using the weight <span class="math">\(w\)</span> as defined above.</p>
+<p>While other weights are clearly feasible, the weight above has been
+tuned to yield good results in our experiments.</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_26.png" src="rr_gaboptdual_26.png" />
+<p class="caption">Synthesis dual window in time domain minimizing a weighted S0 norm</p>
+<div class="legend">
+This window is also well concentrated in time.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_27.png" src="rr_gaboptdual_27.png" />
+<p class="caption">Synthesis dual window in frequency domain minimizing a weighted S0 norm</p>
+<div class="legend">
+A well concentrated windows in frenquency</div>
+</div>
+</div>
+<div class="section" id="other-cost-functions">
+<h2>Other cost functions</h2>
+<p>The list of possible cost functions is vast and the full exploration of
+the possibilities of convex optimization in window design is far beyond
+the scope of any single contribution. As a rather academic example, we
+propose a free design approach that selects the dual Gabor window
+closest to the linear span of a model window <span class="math">\(g_{sh}\)</span>, i.e. we find</p>
+<!-- argmin || x - P_<g_sh>(x)||_2    such that x is dual -->
+<!-- math:  \mathop{\operatorname{arg~min}}\limits _{x \in \mathcal{C}_{\text{dual}}}\|x - P_{\langle g_{s}\rangle}x\|_2^2, -->
+<p>where <span class="math">\(&lt; g_s&gt;\)</span> is the linear span of <span class="math">\(g_s\)</span>. The solution is computed by
+a POCS (projection onto convex set) algorithm. Due to the examples
+academic nature, we were not concerned with convergence time. Examples
+using a sine wave and a dirac pulse as model window are presented in
+the figure bellow</p>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_28.png" src="rr_gaboptdual_28.png" />
+<p class="caption">Objectiv shape function: a sine</p>
+<div class="legend">
+We choose a sine function as an academic example.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_29.png" src="rr_gaboptdual_29.png" />
+<p class="caption">Synthesis dual window in time domain</p>
+<div class="legend">
+This window looks like a sine and it is still dual.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_30.png" src="rr_gaboptdual_30.png" />
+<p class="caption">Shape objectiv function: a dirac</p>
+<div class="legend">
+We choose a dirac function. Why not?</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_31.png" src="rr_gaboptdual_31.png" />
+<p class="caption">Synthesis dual window in time domain</p>
+<div class="legend">
+This window looks a bit like a dirac and it is still dual.</div>
+</div>
+<div class="figure align-center">
+<img alt="rr_gaboptdual_32.png" src="rr_gaboptdual_32.png" />
+<p class="caption">Synthesis dual window in time domain (zoom in)</p>
+<div class="legend">
+Note that the solution window (d) is actually composed of a smooth
+bump function in addition to the 3 clearly visible impulses.</div>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Solve the convex optimization problem: L2 norm
+  Reconstruction error of optimization problem: 8.06265e-17
+  Equal to the canonical dual? norm(gd-gcan) = 3.76077e-17
+ Solve the convex optimization problem: L1 time
+  Reconstruction error of optimization problem: 4.19042e-17
+  Reconstruction error of the window after a threshold of 80 dB: 3.70359e-10
+  Percent of non-zeros coefficients: 6.25
+  Number of non-zeros coefficients: 15
+  Percent of non-zeros for the cannonical dual: 24.5833
+  Length of the support: 15
+ Solve the convex optimization problem: L1 frequency
+  Reconstruction error of optimization problem: 6.56445e-17
+ Solve the convex optimization problem: Variance in time
+  Reconstruction error of optimization problem: 7.40773e-17
+ Solve the convex optimization problem: Energy variance in time
+  Reconstruction error of optimization problem: 1.45305e-16
+ Solve the convex optimization problem: Concentration in time
+  Reconstruction error of optimization problem: 4.13486e-17
+ Solve the convex optimization problem: Variance in frequency
+  Reconstruction error of optimization problem: 1.71816e-16
+ Solve the convex optimization problem: Energy variance in frequency
+  Reconstruction error of optimization problem: 1.32761e-16
+ Solve the convex optimization problem: smoothness constraint
+  Reconstruction error of optimization problem: 7.56799e-17
+ Solve the convex optimization problem: S0 norm
+  Reconstruction error of optimization problem: 8.04695e-17
+ Solve the convex optimization problem: S0 norm
+  Reconstruction error of optimization problem: 8.51788e-17
+ Solve the convex optimization problem: sine like
+  Reconstruction error of optimization problem: 1.34998e-16
+ Solve the convex optimization problem: dirac like
+  Reconstruction error of optimization problem: 2.29781e-15
+
+Y =
+
+         0    0.0710    0.1132    0.0331    0.0482    0.0851    0.1065    0.0229    0.0033    0.1046    0.0599
+    0.9153         0    0.9727    0.9786    1.0000    0.9818    0.0050    1.0000    0.0001    0.9829         0
+    0.5772    0.2818         0    0.1364    0.0344    0.0076    0.4231    0.0023    0.0210    0.0000    0.2379
+    0.0816    0.1027    0.0507         0    0.0106    0.0464    0.1520    0.0130    0.0030    0.0469    0.0865
+    0.2482    0.1610    0.0184    0.0176         0    0.0223    0.2411    0.0067    0.0055    0.0170    0.1357
+    0.9138    1.0000    0.0234    0.7575    0.6508         0    1.0000         0    1.0000    0.0213    1.0000
+    0.9999    0.0012    1.0000    1.0000    0.9980    1.0000         0    0.9448    0.0000    1.0000    0.0010
+    0.8392    0.6135    0.0139    0.4985    0.3217    0.0002    0.7770    0.0001    0.3324    0.0126    0.5419
+    1.0000    0.0012    1.0000    0.9995    0.9975    1.0000    0.0001    0.9449         0    1.0000    0.0010
+    0.5781    0.2822    0.0000    0.1368    0.0347    0.0075    0.4236    0.0022    0.0212         0    0.2383
+    0.8485    0.0003    0.9107    0.9208    0.9341    0.9314    0.0059    0.9190    0.0001    0.9163    0.0002
+
+
+crit_mat2 =
+
+    0.1542    0.0625  103.7838   20.7926   78.0343
+    0.4708    0.0208  101.9469   28.4970  104.0615
+    0.0625    0.1375  116.3636   23.6556  119.4487
+    0.0958    0.1042  100.1739   39.2813   99.9349
+    0.0708    0.1708   82.6399   75.1863   77.3245
+    0.0625    0.1375  116.3636   13.0368    8.4709
+    0.4958    0.0292   69.1477   54.0575   80.0992
+    0.0625    0.1375  116.3636   13.7642   15.3562
+    0.4958    0.0292   69.1477   54.0674   79.0111
+    0.0625    0.1375  116.3636   23.6034   74.8722
+    0.4458    0.0208  107.6636   28.4789   94.0438
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,163 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_BEAT_ITERSINE - Optimization of dual gabor windows with support constraint</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_beat_itersine_code.html">View the code</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_BEAT_ITERSINE - Optimization of dual gabor windows with support constraint</h1>
+
+<div class="section" id="xxxdescription">
+<h2>Description</h2>
+</div>
+<div class="section" id="reproducible-research-addendum-for-optimization-of-dual-gabor-windows">
+<h2>Reproducible research addendum for optimization of dual gabor windows</h2>
+<p>DESINGING GABOR DUAL WINDOWS USING CONVEX OPTIMIZATION</p>
+<p>Paper: Nathanael Perraudin, Nicki Holighaus, Peter L. Sondergaard and Peter Balazs</p>
+<p>Demonstration matlab file:  Perraudin Nathanael</p>
+<p>ARI -- January 2013</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies</h2>
+<p>In order to use this matlab file you need the UNLocbox toolbox. You
+can download it on <a class="reference external" href="https://lts2research.epfl.ch/unlocbox">https://lts2research.epfl.ch/unlocbox</a> and the LTFAT
+toolbox. You can download it on <a class="reference external" href="http://ltfat.sourceforge.net">http://ltfat.sourceforge.net</a></p>
+</div>
+<div class="section" id="the-problem">
+<h2>The problem</h2>
+<p>For low redudancy setting, there is usually a tradeoff between
+the time/frequcency localization of the the analysis and the synthesis
+window. The 'itersine' as a tight smooth window is can be considered as
+a good tradeoff between the analysis and the sythesis window. Indeed,
+both are equaly good. In this experiment, we are going to construct a
+pair of dual window that are both more concentrated than the
+'itersine'. For this experiment, the shift in time <span class="math">\(a\)</span> is set to <span class="math">\(30\)</span>
+and the number of frequency channel <span class="math">\(M\)</span> is set to <span class="math">\(60\)</span>. To be compactly
+supported, the itersine window has to be of length: <span class="math">\(60\)</span>.</p>
+<p>To find the pair of dual window, we first choose a well localized
+window <span class="math">\(g\)</span> and we construct a dual by solving the following problem:</p>
+<!-- gd  = argmin_x   gamma || nabla F x||_2^2 + mu || nabla x ||_2^2 -->
+<!-- such that    x is a dual windows of g and is compaclty supported -->
+<div class="math">
+\begin{equation*}
+\begin{split}  \text{gd}  =  \text{arg} \min_x   &amp; \gamma \|Fx\|_2^2 + \mu \| \nabla x \|_2^2  \\\\     \text{such that } &amp; x \text{ is a dual windows of }g  \\\\     \text{and } &amp; x \text{ is compaclty supported } \end{split}
+\end{equation*}
+</div>
+<dl class="docutils">
+<dt>with</dt>
+<dd><ul class="first last simple">
+<li><span class="math">\(\mu\)</span>   :  Smoothing parameter</li>
+<li><span class="math">\(\gamma\)</span>:  Smoothing parameter in frequency</li>
+<li><span class="math">\(x\)</span>     :  Optimization variable</li>
+<li><span class="math">\(F\)</span>     :  The Fourier matrix</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="experiments">
+<h2>Experiments</h2>
+<p>In this the experiment, we construct a pair of compactly supported dual
+windows <span class="math">\(g,gd\)</span> such that <span class="math">\(G(g,30,60)\)</span> and <span class="math">\(G(gd,30,60)\)</span> form dual
+frames. To improve over the itersine, we allow some freedom for the
+support. We choose for <span class="math">\(g\)</span> a Nuttall window of length <span class="math">\(L_g = 120\)</span>. This
+window is slightly broader than the Itersine window <span class="math">\(gi\)</span> in
+time, but very good decay and localization in frequency, see the
+figures above. For the dual window, we consider a support of length <span class="math">\(360\)</span>.</p>
+<p>The dual window we obtain (using the regularization parameters
+<span class="math">\(\mu_1 = 0.1\)</span>, <span class="math">\(\mu_2 = 1\)</span>), shows roughly the same time localization
+as the Nuttall window or the tight window obtained before and is quite
+similar to the latter in frequency.</p>
+</div>
+<div class="section" id="results">
+<h2>Results</h2>
+<div class="figure align-center">
+<img alt="rr_beat_itersine_1.png" src="rr_beat_itersine_1.png" />
+<p class="caption">Windows in time domain</p>
+</div>
+<div class="figure align-center">
+<img alt="rr_beat_itersine_2.png" src="rr_beat_itersine_2.png" />
+<p class="caption">Windows in frequency domain</p>
+</div>
+<p><em>This code produces the following output</em>:</p>
+<pre class="literal-block">
+Solve the optimization problem
+  Reconstruction error of optimization problem: 3.50375e-15
+
+A =
+
+   54.1026
+
+
+B =
+
+   70.7394
+
+
+ans =
+
+\begin{table}[thb]
+\begin{center}\begin{tabular}{ |c|ccccccc|}
+ \hline
+ &amp;  &amp;  &amp;  &amp;  &amp;  &amp;  &amp; \\\\
+ \hline
+ &amp; :math:`  10.2778 ` &amp; :math:`   5.5093 ` &amp; :math:` 176.6069 ` &amp; :math:`  20.5903 ` &amp; :math:`  78.1948 ` &amp; :math:`   4.3278 ` &amp; :math:`   8.4892 ` \\\\
+ &amp; :math:`  11.3889 ` &amp; :math:`   6.7130 ` &amp; :math:` 130.7990 ` &amp; :math:`  93.3292 ` &amp; :math:`  55.7800 ` &amp; :math:`   3.1292 ` &amp; :math:`  10.5630 ` \\\\
+ &amp; :math:`  11.9444 ` &amp; :math:`   4.7685 ` &amp; :math:` 175.5701 ` &amp; :math:`  26.0021 ` &amp; :math:`  91.1066 ` &amp; :math:`   3.0412 ` &amp; :math:`   9.1353 ` \\\\
+ \hline
+ \end{tabular}\end{center}
+ \caption{ }
+\end{table}
+</pre>
+</div>
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

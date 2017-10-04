@@ -1,0 +1,5 @@
+[Warning: MATLAB cannot use OpenGL for printing when started with the '-nodisplay' option.] 
+[> In inputcheck (line 143)
+  In print (line 153)
+  In gsp_plotfig (line 86)
+  In plotexec (line 154)] 

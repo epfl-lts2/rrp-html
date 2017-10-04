@@ -130,6 +130,8 @@ h1.title { margin-bottom: 0; }
   -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
      -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
           box-shadow: 0 1px 4px rgba(0,0,0,.065);
+  word-wrap:break-word;
+
 }
 .doc-sidenav > li > a {
   display: block;
@@ -177,7 +179,13 @@ h1.title { margin-bottom: 0; }
 .doc-sidenav a:hover .icon-chevron-left {
   opacity: .5;
 }
-
+.doc-sidenav .active .icon-chevron-right,
+.doc-sidenav .active a:hover .icon-chevron-right,
+.doc-sidenav .active .icon-chevron-left,
+.doc-sidenav .active a:hover .icon-chevron-left {
+  background-image: url(../img/glyphicons-halflings-white.png);
+  opacity: 1;
+}
 .doc-sidenav.affix {
   top: 40px;
 }
@@ -304,3 +312,4 @@ code, kbd, pre, samp {
     font-family: monospace,monospace;
     font-size: 1em;
 }
+

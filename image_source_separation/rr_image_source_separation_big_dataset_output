@@ -1,0 +1,1138 @@
+UnLocBoX version 1.7.2. Copyright 2012-2015 LTS2-EPFL, by Nathanael Perraudin
+The time step is set manually to : 1
+Algorithm selected: PPXA 
+Iteration 1:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.148163e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 0.000000e+00, rel_obj = NaN, MAX_IT, iter = 200
+  f(x^*) = 1.642138e+04, rel_eval = 1.000000e+00
+Iteration 2:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.986453e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 5.334111e+02, rel_obj = 4.870083e-05, TOL_EPS, iter = 126
+  f(x^*) = 2.378837e+04, rel_eval = 3.096886e-01
+Iteration 3:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 2.355151e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 1.929508e+03, rel_obj = 2.097462e-05, TOL_EPS, iter = 90
+  f(x^*) = 2.553295e+04, rel_eval = 6.832689e-02
+Iteration 4:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 3.003894e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.754757e+03, rel_obj = 8.713035e-05, TOL_EPS, iter = 85
+  f(x^*) = 2.373371e+04, rel_eval = 7.580952e-02
+Iteration 5:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 3.534055e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 5.634868e+03, rel_obj = 9.577723e-05, TOL_EPS, iter = 86
+  f(x^*) = 2.148915e+04, rel_eval = 1.044510e-01
+Iteration 6:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 3.929918e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 7.654534e+03, rel_obj = 9.277579e-05, TOL_EPS, iter = 84
+  f(x^*) = 2.006608e+04, rel_eval = 7.091891e-02
+Iteration 7:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 4.477841e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 9.989414e+03, rel_obj = 9.425140e-05, TOL_EPS, iter = 68
+  f(x^*) = 1.946456e+04, rel_eval = 3.090384e-02
+Iteration 8:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 4.996495e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 1.259272e+04, rel_obj = 8.646890e-05, TOL_EPS, iter = 77
+  f(x^*) = 1.918334e+04, rel_eval = 1.465961e-02
+Iteration 9:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 5.473900e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 1.539697e+04, rel_obj = 9.818649e-05, TOL_EPS, iter = 70
+  f(x^*) = 1.884316e+04, rel_eval = 1.805278e-02
+Iteration 10:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 5.895050e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 1.817766e+04, rel_obj = 8.772562e-05, TOL_EPS, iter = 68
+  f(x^*) = 1.835244e+04, rel_eval = 2.673909e-02
+Iteration 11:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.237445e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.078176e+04, rel_obj = 6.606299e-05, TOL_EPS, iter = 69
+  f(x^*) = 1.785536e+04, rel_eval = 2.783915e-02
+Iteration 12:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.564097e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.311365e+04, rel_obj = 9.799016e-05, TOL_EPS, iter = 61
+  f(x^*) = 1.754650e+04, rel_eval = 1.760229e-02
+Iteration 13:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.825208e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.505153e+04, rel_obj = 9.475336e-05, TOL_EPS, iter = 61
+  f(x^*) = 1.753033e+04, rel_eval = 9.225775e-04
+Iteration 14:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.017010e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.659249e+04, rel_obj = 9.854926e-05, TOL_EPS, iter = 55
+  f(x^*) = 1.782928e+04, rel_eval = 1.676766e-02
+Iteration 15:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.165703e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.769183e+04, rel_obj = 9.940957e-05, TOL_EPS, iter = 59
+  f(x^*) = 1.832104e+04, rel_eval = 2.684119e-02
+Iteration 16:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.246715e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.844651e+04, rel_obj = 8.371147e-05, TOL_EPS, iter = 57
+  f(x^*) = 1.887881e+04, rel_eval = 2.954456e-02
+Iteration 17:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.205160e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.891999e+04, rel_obj = 9.657679e-05, TOL_EPS, iter = 52
+  f(x^*) = 1.938717e+04, rel_eval = 2.622185e-02
+Iteration 18:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.323659e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.917215e+04, rel_obj = 9.717810e-05, TOL_EPS, iter = 54
+  f(x^*) = 1.977395e+04, rel_eval = 1.956012e-02
+Iteration 19:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.291587e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.930895e+04, rel_obj = 8.217131e-05, TOL_EPS, iter = 55
+  f(x^*) = 2.002316e+04, rel_eval = 1.244595e-02
+Iteration 20:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.350285e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.939682e+04, rel_obj = 9.294266e-05, TOL_EPS, iter = 54
+  f(x^*) = 2.016758e+04, rel_eval = 7.160961e-03
+Iteration 21:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.326485e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.946945e+04, rel_obj = 9.499688e-05, TOL_EPS, iter = 53
+  f(x^*) = 2.024827e+04, rel_eval = 3.984789e-03
+Iteration 22:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.382626e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.954754e+04, rel_obj = 8.323643e-05, TOL_EPS, iter = 53
+  f(x^*) = 2.030185e+04, rel_eval = 2.639231e-03
+Iteration 23:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.349467e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.965025e+04, rel_obj = 9.524672e-05, TOL_EPS, iter = 52
+  f(x^*) = 2.034873e+04, rel_eval = 2.304159e-03
+Iteration 24:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.438921e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.977917e+04, rel_obj = 9.012906e-05, TOL_EPS, iter = 52
+  f(x^*) = 2.039270e+04, rel_eval = 2.155917e-03
+Iteration 25:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.487184e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 2.993758e+04, rel_obj = 9.354628e-05, TOL_EPS, iter = 53
+  f(x^*) = 2.042852e+04, rel_eval = 1.753348e-03
+Iteration 26:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.514261e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.013406e+04, rel_obj = 9.491021e-05, TOL_EPS, iter = 52
+  f(x^*) = 2.045057e+04, rel_eval = 1.078097e-03
+Iteration 27:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.556463e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.035921e+04, rel_obj = 9.878397e-05, TOL_EPS, iter = 51
+  f(x^*) = 2.045730e+04, rel_eval = 3.293878e-04
+Iteration 28:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.541445e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.060692e+04, rel_obj = 9.368728e-05, TOL_EPS, iter = 50
+  f(x^*) = 2.044727e+04, rel_eval = 4.905194e-04
+Iteration 29:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.689619e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.085746e+04, rel_obj = 8.149545e-05, TOL_EPS, iter = 54
+  f(x^*) = 2.041724e+04, rel_eval = 1.470952e-03
+Iteration 30:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.673817e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.114431e+04, rel_obj = 8.761749e-05, TOL_EPS, iter = 51
+  f(x^*) = 2.039095e+04, rel_eval = 1.289583e-03
+Iteration 31:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.673446e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.142433e+04, rel_obj = 8.654557e-05, TOL_EPS, iter = 53
+  f(x^*) = 2.035360e+04, rel_eval = 1.834792e-03
+Iteration 32:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.761999e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.172345e+04, rel_obj = 9.476514e-05, TOL_EPS, iter = 50
+  f(x^*) = 2.031997e+04, rel_eval = 1.655198e-03
+Iteration 33:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.749472e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.201642e+04, rel_obj = 9.490888e-05, TOL_EPS, iter = 48
+  f(x^*) = 2.028267e+04, rel_eval = 1.839044e-03
+Iteration 34:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.705959e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.228340e+04, rel_obj = 9.483380e-05, TOL_EPS, iter = 51
+  f(x^*) = 2.023317e+04, rel_eval = 2.446334e-03
+Iteration 35:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.739462e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.256182e+04, rel_obj = 8.171999e-05, TOL_EPS, iter = 48
+  f(x^*) = 2.019866e+04, rel_eval = 1.708408e-03
+Iteration 36:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.836086e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.281113e+04, rel_obj = 9.384587e-05, TOL_EPS, iter = 50
+  f(x^*) = 2.015719e+04, rel_eval = 2.057252e-03
+Iteration 37:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.780116e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.306138e+04, rel_obj = 9.760855e-05, TOL_EPS, iter = 48
+  f(x^*) = 2.012337e+04, rel_eval = 1.681020e-03
+Iteration 38:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.898486e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.329930e+04, rel_obj = 9.744610e-05, TOL_EPS, iter = 46
+  f(x^*) = 2.008992e+04, rel_eval = 1.664673e-03
+Iteration 39:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.847438e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.349523e+04, rel_obj = 9.524094e-05, TOL_EPS, iter = 51
+  f(x^*) = 2.003329e+04, rel_eval = 2.827111e-03
+Iteration 40:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.899841e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.370467e+04, rel_obj = 8.761803e-05, TOL_EPS, iter = 50
+  f(x^*) = 1.999322e+04, rel_eval = 2.004052e-03
+Iteration 41:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.875232e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.390193e+04, rel_obj = 9.368151e-05, TOL_EPS, iter = 49
+  f(x^*) = 1.995775e+04, rel_eval = 1.777305e-03
+Iteration 42:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.947227e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.409049e+04, rel_obj = 7.136118e-05, TOL_EPS, iter = 48
+  f(x^*) = 1.991787e+04, rel_eval = 2.001914e-03
+Iteration 43:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.887186e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.426905e+04, rel_obj = 8.249623e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.987292e+04, rel_eval = 2.261914e-03
+Iteration 44:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.929708e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.443890e+04, rel_obj = 9.983937e-05, TOL_EPS, iter = 46
+  f(x^*) = 1.982535e+04, rel_eval = 2.399787e-03
+Iteration 45:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.854335e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.458354e+04, rel_obj = 8.296447e-05, TOL_EPS, iter = 50
+  f(x^*) = 1.975584e+04, rel_eval = 3.518165e-03
+Iteration 46:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.976949e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.475000e+04, rel_obj = 9.834248e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.970606e+04, rel_eval = 2.526054e-03
+Iteration 47:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.899525e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.490354e+04, rel_obj = 9.297096e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.966181e+04, rel_eval = 2.250514e-03
+Iteration 48:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.944167e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.505312e+04, rel_obj = 9.815294e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.961862e+04, rel_eval = 2.201674e-03
+Iteration 49:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.902587e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.520007e+04, rel_obj = 9.712176e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.957402e+04, rel_eval = 2.278604e-03
+Iteration 50:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.038485e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.534520e+04, rel_obj = 8.702956e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.952912e+04, rel_eval = 2.298970e-03
+Iteration 51:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.978840e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.548976e+04, rel_obj = 8.575309e-05, TOL_EPS, iter = 47
+  f(x^*) = 1.948746e+04, rel_eval = 2.138108e-03
+Iteration 52:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.994928e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.563684e+04, rel_obj = 9.610050e-05, TOL_EPS, iter = 46
+  f(x^*) = 1.945110e+04, rel_eval = 1.869177e-03
+Iteration 53:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.057401e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.578428e+04, rel_obj = 9.677641e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.941842e+04, rel_eval = 1.682634e-03
+Iteration 54:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.008057e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.592992e+04, rel_obj = 9.356024e-05, TOL_EPS, iter = 44
+  f(x^*) = 1.939049e+04, rel_eval = 1.440737e-03
+Iteration 55:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.997591e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.604920e+04, rel_obj = 9.166715e-05, TOL_EPS, iter = 49
+  f(x^*) = 1.933161e+04, rel_eval = 3.045477e-03
+Iteration 56:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.042872e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.620092e+04, rel_obj = 9.555247e-05, TOL_EPS, iter = 46
+  f(x^*) = 1.930452e+04, rel_eval = 1.403272e-03
+Iteration 57:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.039729e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.634932e+04, rel_obj = 9.544976e-05, TOL_EPS, iter = 44
+  f(x^*) = 1.929388e+04, rel_eval = 5.516324e-04
+Iteration 58:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.093390e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.649174e+04, rel_obj = 9.731584e-05, TOL_EPS, iter = 43
+  f(x^*) = 1.929036e+04, rel_eval = 1.824229e-04
+Iteration 59:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.043478e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.662539e+04, rel_obj = 9.752184e-05, TOL_EPS, iter = 43
+  f(x^*) = 1.928956e+04, rel_eval = 4.158391e-05
+Iteration 60:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.088580e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.672929e+04, rel_obj = 9.152535e-05, TOL_EPS, iter = 49
+  f(x^*) = 1.923807e+04, rel_eval = 2.676303e-03
+Iteration 61:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.130703e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.687212e+04, rel_obj = 9.604795e-05, TOL_EPS, iter = 46
+  f(x^*) = 1.921785e+04, rel_eval = 1.052422e-03
+Iteration 62:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.013877e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.700657e+04, rel_obj = 8.080586e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.922323e+04, rel_eval = 2.799804e-04
+Iteration 63:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.072078e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.713787e+04, rel_obj = 9.717421e-05, TOL_EPS, iter = 44
+  f(x^*) = 1.923599e+04, rel_eval = 6.633780e-04
+Iteration 64:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.195239e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.724457e+04, rel_obj = 8.956671e-05, TOL_EPS, iter = 48
+  f(x^*) = 1.921424e+04, rel_eval = 1.131938e-03
+Iteration 65:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.139146e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.737218e+04, rel_obj = 9.017999e-05, TOL_EPS, iter = 46
+  f(x^*) = 1.920730e+04, rel_eval = 3.614753e-04
+Iteration 66:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.146766e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.749413e+04, rel_obj = 7.860492e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.921094e+04, rel_eval = 1.895947e-04
+Iteration 67:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.147718e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.760952e+04, rel_obj = 7.858004e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.922099e+04, rel_eval = 5.227499e-04
+Iteration 68:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.182973e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.771853e+04, rel_obj = 9.190642e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.922963e+04, rel_eval = 4.492981e-04
+Iteration 69:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.178073e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.782398e+04, rel_obj = 9.557260e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.923311e+04, rel_eval = 1.812832e-04
+Iteration 70:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.182669e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.792627e+04, rel_obj = 8.449874e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.923242e+04, rel_eval = 3.618665e-05
+Iteration 71:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.104850e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.802525e+04, rel_obj = 8.676373e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.923070e+04, rel_eval = 8.961214e-05
+Iteration 72:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.183167e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.812105e+04, rel_obj = 8.290147e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.922982e+04, rel_eval = 4.533811e-05
+Iteration 73:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.145438e-14, TOL_EPS, iter = 0
+  Prox_TV: obj = 3.821406e+04, rel_obj = 8.025883e-05, TOL_EPS, iter = 45
+  f(x^*) = 1.922934e+04, rel_eval = 2.536287e-05
+
+ PPXA:
+  f(x^*) = 1.922934e+04, rel_eval = 2.536287e-05
+ 73 iterations
+ Stopping criterion: REL_NORM_OBJ 
+
+
+estimation_time_tv =
+
+  303.6600
+
+The time step is set manually to : 18.8112
+Algorithm selected: PPXA 
+Iteration 1:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.148163e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 0.000000e+00, REL_OBJ, iter = 1
+  f(x^*) = 2.329330e+04, rel_eval = 1.000000e+00
+Iteration 2:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 1.986453e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 1.117481e+02, REL_OBJ, iter = 1
+  f(x^*) = 5.197152e+04, rel_eval = 5.518064e-01
+Iteration 3:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 2.379463e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 2.076440e+02, REL_OBJ, iter = 1
+  f(x^*) = 7.552499e+04, rel_eval = 3.118632e-01
+Iteration 4:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 2.927644e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 2.696897e+02, REL_OBJ, iter = 1
+  f(x^*) = 8.756249e+04, rel_eval = 1.374733e-01
+Iteration 5:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 3.568037e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 3.080610e+02, REL_OBJ, iter = 1
+  f(x^*) = 8.789802e+04, rel_eval = 3.817257e-03
+Iteration 6:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 4.016433e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 3.670179e+02, REL_OBJ, iter = 1
+  f(x^*) = 8.043530e+04, rel_eval = 9.277912e-02
+Iteration 7:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 4.553370e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.197783e+02, REL_OBJ, iter = 1
+  f(x^*) = 7.041787e+04, rel_eval = 1.422569e-01
+Iteration 8:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 5.040642e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 8.350260e+02, REL_OBJ, iter = 1
+  f(x^*) = 6.218492e+04, rel_eval = 1.323946e-01
+Iteration 9:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 5.549265e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 1.341152e+03, REL_OBJ, iter = 1
+  f(x^*) = 5.800783e+04, rel_eval = 7.200910e-02
+Iteration 10:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 5.961292e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 2.008834e+03, REL_OBJ, iter = 1
+  f(x^*) = 5.798346e+04, rel_eval = 4.202851e-04
+Iteration 11:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.251836e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 2.758456e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.070969e+04, rel_eval = 4.490593e-02
+Iteration 12:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.483658e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 3.517350e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.429627e+04, rel_eval = 5.578213e-02
+Iteration 13:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.640751e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 4.221545e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.722891e+04, rel_eval = 4.362176e-02
+Iteration 14:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.765299e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 4.826322e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.875940e+04, rel_eval = 2.225857e-02
+Iteration 15:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.781608e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.303384e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.889273e+04, rel_eval = 1.935389e-03
+Iteration 16:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 6.913015e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.641919e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.812045e+04, rel_eval = 1.133698e-02
+Iteration 17:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.004390e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.850583e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.708777e+04, rel_eval = 1.539293e-02
+Iteration 18:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.004605e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.951164e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.629778e+04, rel_eval = 1.191583e-02
+Iteration 19:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.055363e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.977969e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.592233e+04, rel_eval = 5.695361e-03
+Iteration 20:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.018441e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.965225e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.588167e+04, rel_eval = 6.170977e-04
+Iteration 21:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.164671e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.939980e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.603253e+04, rel_eval = 2.284623e-03
+Iteration 22:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.170921e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.923732e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.625147e+04, rel_eval = 3.304601e-03
+Iteration 23:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.208849e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.927162e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.644050e+04, rel_eval = 2.845130e-03
+Iteration 24:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.332248e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 5.954267e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.652430e+04, rel_eval = 1.259669e-03
+Iteration 25:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.390422e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.003262e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.648440e+04, rel_eval = 6.001453e-04
+Iteration 26:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.412511e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.068649e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.635995e+04, rel_eval = 1.875328e-03
+Iteration 27:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.411006e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.144148e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.621095e+04, rel_eval = 2.250394e-03
+Iteration 28:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.538262e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.224537e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.608892e+04, rel_eval = 1.846489e-03
+Iteration 29:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.596680e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.305675e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.601772e+04, rel_eval = 1.078495e-03
+Iteration 30:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.629395e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.383293e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.599554e+04, rel_eval = 3.361255e-04
+Iteration 31:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.626258e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.455535e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.600357e+04, rel_eval = 1.216814e-04
+Iteration 32:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.663121e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.521440e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.602035e+04, rel_eval = 2.542645e-04
+Iteration 33:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.672880e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.579741e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.602862e+04, rel_eval = 1.252543e-04
+Iteration 34:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.696518e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.631605e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.601970e+04, rel_eval = 1.351911e-04
+Iteration 35:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.674625e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.678921e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.599430e+04, rel_eval = 3.848170e-04
+Iteration 36:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.714811e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.722025e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.595867e+04, rel_eval = 5.401912e-04
+Iteration 37:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.732359e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.761961e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.592116e+04, rel_eval = 5.690995e-04
+Iteration 38:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.850108e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.799474e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.588862e+04, rel_eval = 4.938764e-04
+Iteration 39:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.836512e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.834493e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.586402e+04, rel_eval = 3.733671e-04
+Iteration 40:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.811140e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.867098e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.584712e+04, rel_eval = 2.567332e-04
+Iteration 41:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.909109e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.897382e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.583625e+04, rel_eval = 1.650594e-04
+Iteration 42:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.746995e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.925069e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.582871e+04, rel_eval = 1.145420e-04
+Iteration 43:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.925429e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.950669e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.582189e+04, rel_eval = 1.036974e-04
+Iteration 44:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.866776e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.973277e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.581411e+04, rel_eval = 1.181004e-04
+Iteration 45:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.867504e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 6.993097e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.580459e+04, rel_eval = 1.447614e-04
+Iteration 46:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.918307e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.010105e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.579427e+04, rel_eval = 1.568771e-04
+Iteration 47:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.820973e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.024967e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.578364e+04, rel_eval = 1.616186e-04
+Iteration 48:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.900899e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.038658e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.577403e+04, rel_eval = 1.459614e-04
+Iteration 49:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.844875e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.050671e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.576573e+04, rel_eval = 1.262806e-04
+Iteration 50:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.903393e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.061122e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.575855e+04, rel_eval = 1.091625e-04
+Iteration 51:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.843788e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.070556e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.575196e+04, rel_eval = 1.002281e-04
+Iteration 52:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.897704e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.078964e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.574600e+04, rel_eval = 9.060241e-05
+Iteration 53:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.926923e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.086715e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.574046e+04, rel_eval = 8.430499e-05
+Iteration 54:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.868756e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.093457e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.573531e+04, rel_eval = 7.844690e-05
+Iteration 55:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.976307e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.099641e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.573030e+04, rel_eval = 7.609823e-05
+Iteration 56:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.941296e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.105066e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.572523e+04, rel_eval = 7.718911e-05
+Iteration 57:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.984517e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.110180e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.572017e+04, rel_eval = 7.692921e-05
+Iteration 58:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.923964e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.115417e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.571529e+04, rel_eval = 7.439956e-05
+Iteration 59:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.849337e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.120692e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.571039e+04, rel_eval = 7.448146e-05
+Iteration 60:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.947206e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.125819e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.570599e+04, rel_eval = 6.695049e-05
+Iteration 61:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.887571e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.131099e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.570199e+04, rel_eval = 6.096823e-05
+Iteration 62:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.871371e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.136400e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.569835e+04, rel_eval = 5.539128e-05
+Iteration 63:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.951473e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.141701e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.569497e+04, rel_eval = 5.143990e-05
+Iteration 64:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.931128e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.147033e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.569200e+04, rel_eval = 4.512097e-05
+Iteration 65:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.990712e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.152172e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.568914e+04, rel_eval = 4.357562e-05
+Iteration 66:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.944293e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.156904e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.568642e+04, rel_eval = 4.137944e-05
+Iteration 67:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.931570e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.161099e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.568385e+04, rel_eval = 3.922160e-05
+Iteration 68:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.949713e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.164821e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.568121e+04, rel_eval = 4.007478e-05
+Iteration 69:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.006618e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.168187e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.567878e+04, rel_eval = 3.711848e-05
+Iteration 70:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.961295e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.171212e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.567652e+04, rel_eval = 3.434725e-05
+Iteration 71:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.939598e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.174281e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.567424e+04, rel_eval = 3.469996e-05
+Iteration 72:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.985135e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.177582e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.567197e+04, rel_eval = 3.462897e-05
+Iteration 73:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.973019e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.180924e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.566956e+04, rel_eval = 3.671580e-05
+Iteration 74:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.959047e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.184230e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.566732e+04, rel_eval = 3.406282e-05
+Iteration 75:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.096347e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.187500e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.566504e+04, rel_eval = 3.470727e-05
+Iteration 76:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.013104e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.190750e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.566257e+04, rel_eval = 3.757366e-05
+Iteration 77:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.972142e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.194028e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.565993e+04, rel_eval = 4.020375e-05
+Iteration 78:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.042708e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.197084e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.565729e+04, rel_eval = 4.021872e-05
+Iteration 79:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.003002e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.199991e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.565470e+04, rel_eval = 3.950880e-05
+Iteration 80:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.988487e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.202676e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.565221e+04, rel_eval = 3.786579e-05
+Iteration 81:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.955043e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.205221e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.564973e+04, rel_eval = 3.778251e-05
+Iteration 82:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.015171e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.207839e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.564711e+04, rel_eval = 4.001304e-05
+Iteration 83:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.051194e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.210497e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.564459e+04, rel_eval = 3.840164e-05
+Iteration 84:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.994764e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.213190e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.564231e+04, rel_eval = 3.471621e-05
+Iteration 85:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.038704e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.215892e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.564026e+04, rel_eval = 3.122993e-05
+Iteration 86:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.070924e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.218548e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.563826e+04, rel_eval = 3.041671e-05
+Iteration 87:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.083405e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.221283e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.563643e+04, rel_eval = 2.784919e-05
+Iteration 88:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.986416e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.223888e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.563469e+04, rel_eval = 2.655678e-05
+Iteration 89:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.032122e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.226203e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.563310e+04, rel_eval = 2.414697e-05
+Iteration 90:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.049229e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.228438e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.563153e+04, rel_eval = 2.403197e-05
+Iteration 91:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.053114e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.230501e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.563007e+04, rel_eval = 2.218641e-05
+Iteration 92:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.076411e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.232432e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562860e+04, rel_eval = 2.241263e-05
+Iteration 93:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.062744e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.234272e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562736e+04, rel_eval = 1.896801e-05
+Iteration 94:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.965104e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.236020e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562612e+04, rel_eval = 1.889080e-05
+Iteration 95:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.082009e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.237684e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562473e+04, rel_eval = 2.114758e-05
+Iteration 96:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.049462e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.239161e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562337e+04, rel_eval = 2.073781e-05
+Iteration 97:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.062995e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.240538e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562194e+04, rel_eval = 2.178819e-05
+Iteration 98:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.095349e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.241665e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.562052e+04, rel_eval = 2.151854e-05
+Iteration 99:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.140775e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.242677e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561912e+04, rel_eval = 2.141755e-05
+Iteration 100:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 7.995398e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.243715e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561783e+04, rel_eval = 1.967540e-05
+Iteration 101:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.111373e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.244772e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561661e+04, rel_eval = 1.861640e-05
+Iteration 102:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.031116e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.245767e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561546e+04, rel_eval = 1.743339e-05
+Iteration 103:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.100025e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.246789e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561435e+04, rel_eval = 1.699640e-05
+Iteration 104:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.018516e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.247843e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561322e+04, rel_eval = 1.717850e-05
+Iteration 105:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.070099e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.248958e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561217e+04, rel_eval = 1.598676e-05
+Iteration 106:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.117469e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.249986e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561120e+04, rel_eval = 1.485658e-05
+Iteration 107:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.162851e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.251018e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.561022e+04, rel_eval = 1.487072e-05
+Iteration 108:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.026834e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.252049e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560916e+04, rel_eval = 1.611881e-05
+Iteration 109:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.141265e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.253099e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560804e+04, rel_eval = 1.705863e-05
+Iteration 110:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.073899e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.254110e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560696e+04, rel_eval = 1.655347e-05
+Iteration 111:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.072019e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.255109e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560598e+04, rel_eval = 1.493678e-05
+Iteration 112:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.095271e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.255988e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560495e+04, rel_eval = 1.568169e-05
+Iteration 113:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.049099e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.256748e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560391e+04, rel_eval = 1.587281e-05
+Iteration 114:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.072969e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.257439e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560291e+04, rel_eval = 1.524395e-05
+Iteration 115:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.108258e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.258115e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560195e+04, rel_eval = 1.461605e-05
+Iteration 116:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.147130e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.258836e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560105e+04, rel_eval = 1.374751e-05
+Iteration 117:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.107496e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.259646e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.560015e+04, rel_eval = 1.371830e-05
+Iteration 118:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.061578e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.260487e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559928e+04, rel_eval = 1.326583e-05
+Iteration 119:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.178166e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.261388e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559844e+04, rel_eval = 1.274699e-05
+Iteration 120:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.085802e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.262367e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559764e+04, rel_eval = 1.225510e-05
+Iteration 121:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.103186e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.263363e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559681e+04, rel_eval = 1.262586e-05
+Iteration 122:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.065206e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.264422e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559598e+04, rel_eval = 1.261013e-05
+Iteration 123:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.157298e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.265570e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559520e+04, rel_eval = 1.198040e-05
+Iteration 124:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.124768e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.266824e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559447e+04, rel_eval = 1.110856e-05
+Iteration 125:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.100472e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.268061e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559376e+04, rel_eval = 1.083523e-05
+Iteration 126:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.074264e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.269175e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559306e+04, rel_eval = 1.060506e-05
+Iteration 127:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.103667e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.270141e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559241e+04, rel_eval = 9.869184e-06
+Iteration 128:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.079145e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.271010e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559177e+04, rel_eval = 9.846707e-06
+Iteration 129:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.038583e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.271769e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559114e+04, rel_eval = 9.549532e-06
+Iteration 130:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.186965e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.272508e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.559054e+04, rel_eval = 9.196972e-06
+Iteration 131:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.035209e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.273160e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558988e+04, rel_eval = 1.011086e-05
+Iteration 132:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.143017e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.273778e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558915e+04, rel_eval = 1.101595e-05
+Iteration 133:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.096365e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.274369e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558844e+04, rel_eval = 1.087987e-05
+Iteration 134:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.103496e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.274939e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558773e+04, rel_eval = 1.087547e-05
+Iteration 135:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.123352e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.275464e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558700e+04, rel_eval = 1.108443e-05
+Iteration 136:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.082388e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.275992e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558628e+04, rel_eval = 1.090640e-05
+Iteration 137:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.165721e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.276554e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558561e+04, rel_eval = 1.027159e-05
+Iteration 138:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.135628e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.277142e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558494e+04, rel_eval = 1.026439e-05
+Iteration 139:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.142780e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.277718e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558432e+04, rel_eval = 9.397983e-06
+Iteration 140:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.135770e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.278313e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558378e+04, rel_eval = 8.166007e-06
+Iteration 141:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.104699e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.278905e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558329e+04, rel_eval = 7.550390e-06
+Iteration 142:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.116831e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.279484e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558276e+04, rel_eval = 8.090771e-06
+Iteration 143:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.169409e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.280102e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558219e+04, rel_eval = 8.605934e-06
+Iteration 144:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.122409e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.280669e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558167e+04, rel_eval = 7.967130e-06
+Iteration 145:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.111917e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.281222e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558117e+04, rel_eval = 7.721533e-06
+Iteration 146:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.178014e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.281737e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558072e+04, rel_eval = 6.850845e-06
+Iteration 147:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.128226e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.282221e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.558030e+04, rel_eval = 6.365284e-06
+Iteration 148:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.145196e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.282635e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557992e+04, rel_eval = 5.829051e-06
+Iteration 149:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.042676e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.282993e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557950e+04, rel_eval = 6.323852e-06
+Iteration 150:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.116888e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.283297e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557909e+04, rel_eval = 6.260726e-06
+Iteration 151:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.101595e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.283543e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557868e+04, rel_eval = 6.243848e-06
+Iteration 152:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.102965e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.283745e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557827e+04, rel_eval = 6.245782e-06
+Iteration 153:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.188229e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.283984e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557785e+04, rel_eval = 6.393590e-06
+Iteration 154:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.091476e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.284240e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557745e+04, rel_eval = 6.146198e-06
+Iteration 155:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.107843e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.284490e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557708e+04, rel_eval = 5.578560e-06
+Iteration 156:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.098948e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.284778e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557671e+04, rel_eval = 5.687403e-06
+Iteration 157:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.162249e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.285116e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557635e+04, rel_eval = 5.572448e-06
+Iteration 158:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.122897e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.285505e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557602e+04, rel_eval = 5.037302e-06
+Iteration 159:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.108170e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.285931e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557564e+04, rel_eval = 5.759637e-06
+Iteration 160:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.104336e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.286371e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557524e+04, rel_eval = 6.067154e-06
+Iteration 161:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.103852e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.286806e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557483e+04, rel_eval = 6.320753e-06
+Iteration 162:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.107492e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.287239e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557437e+04, rel_eval = 6.958046e-06
+Iteration 163:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.106013e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.287661e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557395e+04, rel_eval = 6.456458e-06
+Iteration 164:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.116720e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.288080e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557354e+04, rel_eval = 6.219143e-06
+Iteration 165:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.160856e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.288474e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557314e+04, rel_eval = 6.020734e-06
+Iteration 166:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.124199e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.288808e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557278e+04, rel_eval = 5.499257e-06
+Iteration 167:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.156238e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.289082e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557242e+04, rel_eval = 5.558358e-06
+Iteration 168:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.146849e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.289314e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557205e+04, rel_eval = 5.619646e-06
+Iteration 169:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.143506e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.289520e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557170e+04, rel_eval = 5.309525e-06
+Iteration 170:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.123855e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.289726e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557140e+04, rel_eval = 4.582923e-06
+Iteration 171:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.155895e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.289942e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557111e+04, rel_eval = 4.472896e-06
+Iteration 172:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.156537e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.290150e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557084e+04, rel_eval = 4.008304e-06
+Iteration 173:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.169129e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.290340e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557056e+04, rel_eval = 4.358180e-06
+Iteration 174:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.174551e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.290531e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.557028e+04, rel_eval = 4.302700e-06
+Iteration 175:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.219386e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.290758e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556999e+04, rel_eval = 4.331556e-06
+Iteration 176:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.125052e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.290997e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556972e+04, rel_eval = 4.209645e-06
+Iteration 177:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.143342e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.291225e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556941e+04, rel_eval = 4.632799e-06
+Iteration 178:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.122017e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.291430e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556912e+04, rel_eval = 4.459253e-06
+Iteration 179:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.204950e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.291621e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556884e+04, rel_eval = 4.337978e-06
+Iteration 180:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.176528e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.291795e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556855e+04, rel_eval = 4.381809e-06
+Iteration 181:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.125574e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.291994e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556828e+04, rel_eval = 4.049189e-06
+Iteration 182:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.145793e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.292201e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556801e+04, rel_eval = 4.142186e-06
+Iteration 183:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.090134e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.292383e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556774e+04, rel_eval = 4.136271e-06
+Iteration 184:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.194265e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.292565e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556749e+04, rel_eval = 3.834818e-06
+Iteration 185:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.192598e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.292731e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556724e+04, rel_eval = 3.873706e-06
+Iteration 186:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.141358e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.292891e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556697e+04, rel_eval = 3.973740e-06
+Iteration 187:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.074700e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.293062e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556673e+04, rel_eval = 3.770724e-06
+Iteration 188:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.126099e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.293264e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556648e+04, rel_eval = 3.835850e-06
+Iteration 189:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.145962e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.293456e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556625e+04, rel_eval = 3.425519e-06
+Iteration 190:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.134454e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.293682e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556606e+04, rel_eval = 2.963834e-06
+Iteration 191:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.080293e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.293931e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556586e+04, rel_eval = 2.987580e-06
+Iteration 192:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.206142e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.294185e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556563e+04, rel_eval = 3.579424e-06
+Iteration 193:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.180990e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.294434e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556540e+04, rel_eval = 3.488871e-06
+Iteration 194:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.118592e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.294669e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556517e+04, rel_eval = 3.431479e-06
+Iteration 195:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.095658e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.294890e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556493e+04, rel_eval = 3.691224e-06
+Iteration 196:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.160748e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.295122e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556468e+04, rel_eval = 3.755661e-06
+Iteration 197:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.197843e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.295355e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556443e+04, rel_eval = 3.926136e-06
+Iteration 198:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.193445e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.295595e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556417e+04, rel_eval = 3.921701e-06
+Iteration 199:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.155988e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.295840e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556389e+04, rel_eval = 4.226372e-06
+Iteration 200:
+  Proj. B2: epsilon = 0.000000e+00, ||y-Ax||_2 = 8.164577e-14, TOL_EPS, iter = 0
+  prox_L1: ||A x-y||_1 = 7.296068e+03, REL_OBJ, iter = 1
+  f(x^*) = 6.556361e+04, rel_eval = 4.243371e-06
+
+ PPXA:
+  f(x^*) = 6.556361e+04, rel_eval = 4.243371e-06
+ 200 iterations
+ Stopping criterion: MAX_IT 
+
+
+estimation_time_l1 =
+
+   42.6700
+
+
+Reconstruction_MSE_tv =
+
+    0.1957
+
+
+Sources_MSE_tv =
+
+    0.5766
+
+
+Reconstruction_MSE_l1 =
+
+    0.2667
+
+
+Sources_MSE_l1 =
+
+    0.8614

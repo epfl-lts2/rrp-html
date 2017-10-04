@@ -1,0 +1,301 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>GLOBAL_ILLUSTRATION - Laplacian eigenvector localization</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="global_illustration.html">View the help</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">GLOBAL_ILLUSTRATION - Laplacian eigenvector localization</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="c">%GLOBAL_ILLUSTRATION Laplacian eigenvector localization</span>
+<span class="c">%</span>
+<span class="c">%   This package contains the code to reproduce all the figures of the</span>
+<span class="c">%   paper: </span>
+<span class="c">%   </span>
+<span class="c">%   Global and Local Uncertainty Principles for Signals on Graphs</span>
+<span class="c">%</span>
+<span class="c">%   Authors: Nathanael Perraudin, Benjamin Ricaud, David I Shuman, Pierre</span>
+<span class="c">%   Vandergheynst </span>
+<span class="c">%</span>
+<span class="c">%   ArXiv: http://arxiv.org/abs/1603.03030</span>
+<span class="c">%</span>
+<span class="c">%   Abstract of the paper</span>
+<span class="c">%   ---------------------</span>
+<span class="c">%</span>
+<span class="c">%   Uncertainty principles such as Heisenberg&#39;s provide limits on the</span>
+<span class="c">%   time-frequency concentration of a signal, and constitute an important</span>
+<span class="c">%   theoretical tool for designing and evaluating linear signal transforms.</span>
+<span class="c">%   Generalizations of such principles to the graph setting can inform</span>
+<span class="c">%   dictionary design for graph signals, lead to algorithms for</span>
+<span class="c">%   reconstructing missing information from graph signals via sparse</span>
+<span class="c">%   representations, and yield new graph analysis tools. While previous</span>
+<span class="c">%   work has focused on generalizing notions of spreads of a graph signal</span>
+<span class="c">%   in the vertex and graph spectral domains, our approach is to generalize</span>
+<span class="c">%   the methods of Lieb in order to develop uncertainty principles that</span>
+<span class="c">%   provide limits on the concentration of the analysis coefficients of any</span>
+<span class="c">%   graph signal under a dictionary transform whose atoms are jointly</span>
+<span class="c">%   localized in the vertex and graph spectral domains. One challenge we</span>
+<span class="c">%   highlight is that due to the inhomogeneity of the underlying graph data</span>
+<span class="c">%   domain, the local structure in a single small region of the graph can</span>
+<span class="c">%   drastically affect the uncertainty bounds for signals concentrated in</span>
+<span class="c">%   different regions of the graph, limiting the information provided by</span>
+<span class="c">%   global uncertainty principles. Accordingly, we suggest a new way to</span>
+<span class="c">%   incorporate a notion of locality, and develop local uncertainty</span>
+<span class="c">%   principles that bound the concentration of the analysis coefficients of</span>
+<span class="c">%   each atom of a localized graph spectral filter frame in terms of</span>
+<span class="c">%   quantities that depend on the local structure of the graph around the</span>
+<span class="c">%   center vertex of the given atom. Finally, we demonstrate how our</span>
+<span class="c">%   proposed local uncertainty measures can improve the random sampling of</span>
+<span class="c">%   graph signals.</span>
+<span class="c">%</span>
+<span class="c">%   This experiment</span>
+<span class="c">%   ---------------</span>
+<span class="c">%</span>
+<span class="c">%   Let us consider the two manifolds (surfaces) embedded in {R}^3 and</span>
+<span class="c">%   shown in Figures 1 and 2. The first one is a flat square. The second is</span>
+<span class="c">%   identical except for the center where it contains a spike. We sample</span>
+<span class="c">%   both of these manifolds uniformly across the x-y plane and create a</span>
+<span class="c">%   graph by connecting the 8 nearest neighbors with weights depending on</span>
+<span class="c">%   the distance (W_{ij}=e^{-d_{ij}/sigma}). The energy of each</span>
+<span class="c">%   Laplacian eigenvector of the graph arising from the first manifold is</span>
+<span class="c">%   not concentrated on any particular vertex; i.e.,</span>
+<span class="c">%   max_{i,ell}|u_ell(i)| &lt;&lt; 1, where u_ell is the eigenvector</span>
+<span class="c">%   associated with eigenvalue lambda_ell. However, the graph arising</span>
+<span class="c">%   from the second manifold does have a few eigenvectors, such as</span>
+<span class="c">%   eigenvector 3 shown in Figure 3, whose energy is highly concentrated on</span>
+<span class="c">%   the region of the spike; i.e: max_{i,ell}|u_ell(i)| approx 1.</span>
+<span class="c">%   Yet, the Laplacian eigenvectors of this second graph whose energy</span>
+<span class="c">%   resides primarily on the flatter regions of the manifold, such as</span>
+<span class="c">%   eigenvector 17 shown in Figure 5, are not too concentrated on any</span>
+<span class="c">%   single vertex. Rather, they more closely resemble some of the Laplacian</span>
+<span class="c">%   eigenvectors of the graph arising from the first manifold.</span>
+<span class="c">%</span>
+<span class="c">%   We discretize two different manifolds by sampling uniformly across the</span>
+<span class="c">%   x-y plane. Due its bumpy central part, the graph arising from</span>
+<span class="c">%   manifold 2 has a graph Laplacian eigenvector (shown in the middle row</span>
+<span class="c">%   of the right column) that is highly concentrated in both the vertex and</span>
+<span class="c">%   graph spectral domains. However, the eigenvectors of this graph whose</span>
+<span class="c">%   energy primarily resides in the flatter parts of the manifold (such as</span>
+<span class="c">%   the one shown in the bottom row of the right column) are less</span>
+<span class="c">%   concentrated, and some closely resemble the Laplacian eigenvectors of</span>
+<span class="c">%   the graph arising from the flat manifold 1 (such as the corresponding</span>
+<span class="c">%   eigenvector shown in the bottom row of the left column.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Manifold 2</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 2: Manifold 1</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 3: Eigenvector no 3, manifold 2</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 4: Eigenvector no 5, manifold 1</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 5: Eigenvector no 17, manifold 2</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%</span>
+<span class="c">%   Figure 6: Eigenvector no 13, manifold 1</span>
+<span class="c">%</span>
+<span class="c">%      </span>
+<span class="c">%   </span>
+<span class="c">%   References:</span>
+<span class="c">%     N. Perraudin, R. Benjamin, S. David I, and P. Vandergheynst. Global and</span>
+<span class="c">%     local uncertainty principles for signals on graphs. arXiv preprint</span>
+<span class="c">%     arXiv:1603.03030, 2016.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: https://epfl-lts2.github.io/rrp-html/uncertainty/global_illustration.html</span>
+
+<span class="c">% Copyright (C) 2012-2013 Nathanael Perraudin.</span>
+<span class="c">% This file is part of RRP version 0.2</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="c">%% Initialization</span>
+<span class="n">clear</span>
+<span class="n">close</span> <span class="n">all</span><span class="p">;</span>
+
+<span class="c">%% Plotparameter</span>
+<span class="k">global</span> <span class="n">SAVE</span> <span class="p">;</span>
+<span class="k">if</span> <span class="nb">numel</span><span class="p">(</span><span class="n">SAVE</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span>
+    <span class="n">SAVE</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">end</span>
+
+<span class="n">paramplot</span><span class="p">.</span><span class="n">save</span> <span class="p">=</span> <span class="n">SAVE</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">savefig</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+
+
+<span class="c">%% Parameter of sampling</span>
+
+<span class="n">tau</span> <span class="p">=</span> <span class="mf">0.1</span><span class="p">;</span>
+<span class="n">N</span> <span class="p">=</span> <span class="mi">30</span><span class="p">;</span>
+<span class="n">s</span> <span class="p">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">]</span> <span class="p">=</span> <span class="nb">meshgrid</span><span class="p">(</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">N</span><span class="p">:</span><span class="n">s</span><span class="p">,</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">N</span><span class="p">:</span><span class="n">s</span><span class="p">);</span>
+<span class="n">Z</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">tau</span><span class="o">+</span> <span class="n">X</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">.^</span><span class="mi">2</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">Nf</span> <span class="p">=</span> <span class="mi">200</span><span class="p">;</span>
+<span class="p">[</span><span class="n">Xf</span><span class="p">,</span><span class="n">Yf</span><span class="p">]</span> <span class="p">=</span> <span class="nb">meshgrid</span><span class="p">(</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">Nf</span><span class="p">:</span><span class="n">s</span><span class="p">,</span><span class="o">-</span><span class="n">s</span><span class="p">:</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">Nf</span><span class="p">:</span><span class="n">s</span><span class="p">);</span>
+<span class="n">Zf</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="n">tau</span><span class="o">+</span> <span class="n">Xf</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Yf</span><span class="o">.^</span><span class="mi">2</span><span class="p">),</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c">%% Create the graphs</span>
+
+<span class="n">P</span> <span class="p">=</span> <span class="p">[</span><span class="n">X</span><span class="p">(:),</span><span class="n">Y</span><span class="p">(:),</span><span class="n">Z</span><span class="p">(:)];</span>
+<span class="n">paramnn</span><span class="p">.</span><span class="n">k</span> <span class="p">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="n">paramnn</span><span class="p">.</span><span class="n">sigma</span> <span class="p">=</span> <span class="mf">0.03</span><span class="p">;</span>
+<span class="n">paramnn</span><span class="p">.</span><span class="n">rescale</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">G</span> <span class="p">=</span> <span class="n">gsp_nn_graph</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">paramnn</span><span class="p">);</span>
+<span class="n">Gbase</span> <span class="p">=</span> <span class="n">gsp_nn_graph</span><span class="p">([</span><span class="n">X</span><span class="p">(:),</span><span class="n">Y</span><span class="p">(:)],</span><span class="n">paramnn</span><span class="p">);</span>
+
+<span class="c">% Compute Fourier basis</span>
+<span class="n">G</span> <span class="p">=</span> <span class="n">gsp_compute_fourier_basis</span><span class="p">(</span><span class="n">G</span><span class="p">);</span>
+<span class="n">Gbase</span> <span class="p">=</span> <span class="n">gsp_compute_fourier_basis</span><span class="p">(</span><span class="n">Gbase</span><span class="p">);</span>
+
+
+
+<span class="c">%% Plot the results</span>
+
+<span class="p">[</span><span class="n">val</span><span class="p">,</span><span class="n">ind</span><span class="p">]</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">U</span><span class="p">));</span>
+<span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">ind2</span><span class="p">]</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">val</span><span class="p">);</span>
+<span class="n">ind1</span> <span class="p">=</span> <span class="n">ind</span><span class="p">(</span><span class="n">ind2</span><span class="p">);</span>
+
+<span class="n">paramplot</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span> <span class="mi">100</span> <span class="mi">400</span> <span class="mi">300</span><span class="p">];</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">hold</span> <span class="n">off</span>
+<span class="n">surface</span><span class="p">(</span><span class="n">Xf</span><span class="p">,</span><span class="n">Yf</span><span class="p">,</span><span class="n">Zf</span><span class="p">,</span><span class="o">-</span><span class="n">Zf</span><span class="p">,</span><span class="s">&#39;EdgeColor&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">view</span><span class="p">([</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span><span class="mi">39</span><span class="p">])</span>
+<span class="n">caxis</span><span class="p">([</span><span class="n">min</span><span class="p">(</span><span class="o">-</span><span class="n">Zf</span><span class="p">(:)),</span><span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">Zf</span><span class="p">(:))]);</span>
+<span class="n">hold</span> <span class="n">on</span>
+<span class="n">scatter3</span><span class="p">(</span><span class="n">X</span><span class="p">(:),</span><span class="n">Y</span><span class="p">(:),</span><span class="n">Z</span><span class="p">(:),</span><span class="mi">10</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">(:))),</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;filled&#39;</span><span class="p">);</span>
+<span class="n">axis</span><span class="p">([</span><span class="n">min</span><span class="p">(</span><span class="n">X</span><span class="p">(:))</span> <span class="n">max</span><span class="p">(</span><span class="n">X</span><span class="p">(:))</span> <span class="n">min</span><span class="p">(</span><span class="n">Y</span><span class="p">(:))</span> <span class="n">max</span><span class="p">(</span><span class="n">Y</span><span class="p">(:))</span> <span class="n">min</span><span class="p">(</span><span class="n">Z</span><span class="p">(:))</span> <span class="n">max</span><span class="p">(</span><span class="n">Z</span><span class="p">(:))])</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">SAVE</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Manifold 2&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;original_manifold_1&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hold</span> <span class="n">off</span>
+<span class="n">surface</span><span class="p">(</span><span class="n">Xf</span><span class="p">,</span><span class="n">Yf</span><span class="p">,</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">Xf</span><span class="p">)),</span><span class="o">-</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">Xf</span><span class="p">)),</span><span class="s">&#39;EdgeColor&#39;</span><span class="p">,</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+<span class="n">view</span><span class="p">([</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span><span class="mi">39</span><span class="p">])</span>
+<span class="n">caxis</span><span class="p">([</span><span class="n">min</span><span class="p">(</span><span class="o">-</span><span class="n">Zf</span><span class="p">(:)),</span><span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">Zf</span><span class="p">(:))]);</span>
+<span class="n">hold</span> <span class="n">on</span>
+<span class="n">scatter3</span><span class="p">(</span><span class="n">X</span><span class="p">(:),</span><span class="n">Y</span><span class="p">(:),</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">(:))),</span><span class="mi">10</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">(:))),</span><span class="s">&#39;r&#39;</span><span class="p">,</span><span class="s">&#39;filled&#39;</span><span class="p">);</span>
+<span class="n">axis</span><span class="p">([</span><span class="n">min</span><span class="p">(</span><span class="n">X</span><span class="p">(:))</span> <span class="n">max</span><span class="p">(</span><span class="n">X</span><span class="p">(:))</span> <span class="n">min</span><span class="p">(</span><span class="n">Y</span><span class="p">(:))</span> <span class="n">max</span><span class="p">(</span><span class="n">Y</span><span class="p">(:))</span> <span class="n">min</span><span class="p">(</span><span class="n">Z</span><span class="p">(:))</span> <span class="n">max</span><span class="p">(</span><span class="n">Z</span><span class="p">(:))</span><span class="o">+</span><span class="nb">eps</span><span class="p">])</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">SAVE</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Manifold 1&#39;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;original_manifold_2&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+
+<span class="n">paramplot</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span> <span class="mi">100</span> <span class="mi">300</span> <span class="mi">200</span><span class="p">];</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">U</span><span class="p">(:,</span><span class="n">ind2</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">SAVE</span>
+    <span class="n">title</span><span class="p">([</span><span class="s">&#39;Eigenvector no &#39;</span><span class="p">,</span> <span class="n">num2str</span><span class="p">(</span><span class="n">ind2</span><span class="p">)]);</span>
+<span class="k">end</span>
+<span class="n">colorbar</span>
+<span class="n">axis</span> <span class="n">off</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;manifold_1_eig_1&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="o">-</span><span class="n">Gbase</span><span class="p">.</span><span class="n">U</span><span class="p">(:,</span><span class="mi">5</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">SAVE</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Eigenvector no 5&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+<span class="n">colorbar</span>
+<span class="n">axis</span> <span class="n">off</span>
+
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;manifold_2_eig_1&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">U</span><span class="p">(:,</span><span class="mi">17</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">SAVE</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Eigenvector no 17&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+<span class="n">colorbar</span>
+<span class="n">axis</span> <span class="n">off</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;manifold_1_eig_2&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="o">-</span><span class="n">Gbase</span><span class="p">.</span><span class="n">U</span><span class="p">(:,</span><span class="mi">13</span><span class="p">),</span><span class="nb">size</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="k">if</span> <span class="o">~</span><span class="n">SAVE</span>
+    <span class="n">title</span><span class="p">(</span><span class="s">&#39;Eigenvector no 13&#39;</span><span class="p">);</span>
+<span class="k">end</span>
+<span class="n">colorbar</span>
+<span class="n">axis</span> <span class="n">off</span>
+
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;manifold_2_eig_2&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">)</span>
+</pre></div>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

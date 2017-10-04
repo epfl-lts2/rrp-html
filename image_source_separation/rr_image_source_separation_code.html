@@ -1,0 +1,386 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>RR_IMAGE_SOURCE_SEPARATION - Comparison of different methods</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="rr_image_source_separation.html">View the help</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">RR_IMAGE_SOURCE_SEPARATION - Comparison of different methods</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="c">%RR_IMAGE_SOURCE_SEPARATION Comparison of different methods</span>
+<span class="c">%                           </span>
+<span class="c">%   Reproducible research addendum for compressive source separation</span>
+<span class="c">%   ----------------------------------------------------------------</span>
+<span class="c">%   </span>
+<span class="c">%   THEORY AND METHODS FOR HYPERSPECTRAL IMAGING</span>
+<span class="c">%</span>
+<span class="c">%   Paper: Mohammad Golbabaee, Simon Arberet, and Pierre Vandergheynst</span>
+<span class="c">%   </span>
+<span class="c">%   Demonstration matlab file:  Perraudin Nathanael, Mohammad Golbabaee</span>
+<span class="c">%</span>
+<span class="c">%   EPFL -- August 2012</span>
+<span class="c">%   </span>
+<span class="c">%   Dependencies</span>
+<span class="c">%   ------------</span>
+<span class="c">%</span>
+<span class="c">%   In order to use this matlab file you need the UNLocXbox toolbox. You</span>
+<span class="c">%   can download it on https://lts2research.epfl.ch/unlocbox/</span>
+<span class="c">%   </span>
+<span class="c">%   The problem</span>
+<span class="c">%   -----------</span>
+<span class="c">%</span>
+<span class="c">%   We would like to solve this problem: </span>
+<span class="c">%</span>
+<span class="c">%        argmin_S   Sum_j ||S_{.,j}||_TV </span>
+<span class="c">%</span>
+<span class="c">%        such that  || Phi ( S * H^t ) - Y ||_F &lt; epsilon   Projection on a B2-Ball</span>
+<span class="c">%                                                       </span>
+<span class="c">%             and   (S)_{i,j} &gt; 0         for all i,j     (positivity constraint)</span>
+<span class="c">%</span>
+<span class="c">%             and   Sum_j   S_{i,j}  = 1  for all i</span>
+<span class="c">%</span>
+<span class="c">%   with </span>
+<span class="c">%         - S :  Sources</span>
+<span class="c">%         - Y =  Phi(I_m) + Z: the measurement (forward model)</span>
+<span class="c">%         - Z :  noise</span>
+<span class="c">%         - I_m:  Original 3D image  (64 x 64 x 64) in &#39;Data.mat&#39;</span>
+<span class="c">%         - H :  Mixing matrix</span>
+<span class="c">%</span>
+<span class="c">%   Uniform sampling</span>
+<span class="c">%   ----------------</span>
+<span class="c">%</span>
+<span class="c">%   For UNIFORM sampling (Block_diag), a decorrelation step can be applied</span>
+<span class="c">%   by projecting the measurements onto pinv(H), and solve a easier</span>
+<span class="c">%   problem:</span>
+<span class="c">%   </span>
+<span class="c">%        argmin_S   Sum_j ||Sp_{.,j}||_TV </span>
+<span class="c">%       </span>
+<span class="c">%        such that  || Phi * Sp  - Yp ||_F &lt; epsilon  Projection on a B2-Ball</span>
+<span class="c">%                                                   </span>
+<span class="c">%             and   (Sp)_{i,j} &gt; 0        for all i,j  (positivity constraint)</span>
+<span class="c">%</span>
+<span class="c">%             and   Sum_j   Sp_{i,j}  = 1 for all i</span>
+<span class="c">%   </span>
+<span class="c">%             with  Yp =  Y * (P_inv(H))&#39; </span>
+<span class="c">%   </span>
+<span class="c">%   with </span>
+<span class="c">%         - Y =  Phi I_m + Z: the measurement (forward model)</span>
+<span class="c">%</span>
+<span class="c">%   This step accelerates the computation and increase accuracy of source recovery. </span>
+<span class="c">%   However, the use of the block diagonale (Block_diag) sampling is required!</span>
+<span class="c">%</span>
+<span class="c">%   Techniques for solving the problem</span>
+<span class="c">%   ----------------------------------</span>
+<span class="c">%</span>
+<span class="c">%   We will compare 4 different techniques to solve the problem  </span>
+<span class="c">%</span>
+<span class="c">%    Block_diag operator with TV regularization (Decorrelated measurements)</span>
+<span class="c">%</span>
+<span class="c">%    Block_diag operator with Wavelets regularization (Decorrelated measurements)</span>
+<span class="c">%</span>
+<span class="c">%    Dense operator with TV regularization (Correlated measurements)</span>
+<span class="c">%</span>
+<span class="c">%    Dense operator with Wavelets regularization (Correlated measurements)</span>
+<span class="c">%   </span>
+<span class="c">%</span>
+<span class="c">%   Results</span>
+<span class="c">%   -------</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Sprectral signature of the different sources</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 2: Orignial sources</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 3: Block_diag operator with TV regularization (Uncorrelated measurements)</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 4: Block_diag operator with Wavelets regularization (Uncorrelated measurements)</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 5: Dense operator with TV regularization (Correlated measurements)</span>
+<span class="c">%</span>
+<span class="c">%       </span>
+<span class="c">%</span>
+<span class="c">%   Figure 6: Dense operator with Wavelets regularization (Correlated measurements)</span>
+<span class="c">%</span>
+<span class="c">%        </span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     M. Golbabaee, S. Arberet, P. Vandergheynst, et al. Multichannel</span>
+<span class="c">%     compressed sensing via source separation for hyperspectral images. In</span>
+<span class="c">%     Eusipco 2010, 2010.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: https://epfl-lts2.github.io/rrp-html/image_source_separation/rr_image_source_separation.html</span>
+
+<span class="c">% Copyright (C) 2012-2013 Nathanael Perraudin.</span>
+<span class="c">% This file is part of RRP version 0.2</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+
+
+<span class="c">%% Initialization</span>
+
+    <span class="n">clear</span><span class="p">;</span>
+    <span class="n">close</span> <span class="n">all</span><span class="p">;</span>
+
+    <span class="c">% adding path</span>
+<span class="c">%     addpath(genpath(&#39;./&#39;))</span>
+
+
+<span class="c">%% General parameter</span>
+ 
+    <span class="n">sampling_ratios</span> <span class="p">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">;</span>              <span class="c">% compression ratio   only 2^(-p) with  p =1,2,3,... (random convolution RC)</span>
+
+    <span class="n">SNR</span> <span class="p">=</span> <span class="nb">inf</span><span class="p">;</span>                          <span class="c">% SNR (dB)-- inf =&gt; no noise</span>
+    
+
+
+<span class="c">%% Loading data for the problem</span>
+
+    <span class="n">load</span> <span class="s">&#39;Data.mat&#39;</span>                     <span class="c">% Synthetic Geneve images 64*64*64</span>
+
+    <span class="p">[</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="p">,</span> <span class="n">J</span><span class="p">]</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">Img</span><span class="p">);</span>           <span class="c">% n1, n2 : dimention of the image, J number of image</span>
+    
+    <span class="n">N</span> <span class="p">=</span> <span class="n">n1</span><span class="o">*</span><span class="n">n2</span><span class="p">;</span>                          <span class="c">% Number of pixels per image</span>
+    
+    <span class="n">nb_meas</span> <span class="p">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="n">sampling_ratios</span><span class="p">);</span> <span class="c">% Number of measurements per image</span>
+
+    <span class="n">I</span> <span class="p">=</span> <span class="nb">size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>                      <span class="c">% Number of expected sources</span>
+    
+      
+    <span class="c">% display the sources and the mixing parameters</span>
+    <span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c">%set(figure(1),&#39;Units&#39;,&#39;Normalized&#39;,&#39;OuterPosition&#39;,[0 0 1 1])  </span>
+    <span class="c">%subplot(121)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; Mixing Parameters \n (Spectral signatures) \n Sampling ratio: %g \n SNR: %g&#39;</span><span class="p">,</span><span class="n">sampling_ratios</span><span class="p">,</span> <span class="n">SNR</span><span class="p">));</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Spectral band&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Reflectance&#39;</span><span class="p">)</span>
+        <span class="n">axis</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">min</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">H</span><span class="p">)))</span><span class="o">*</span><span class="mf">1.1</span><span class="p">,</span><span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">H</span><span class="p">))</span><span class="o">*</span><span class="mf">1.1</span><span class="p">])</span>
+    <span class="c">%subplot(522)</span>
+    <span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span><span class="n">n1</span><span class="p">,[]))</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,[])</span>
+    <span class="n">colormap</span> <span class="n">hot</span><span class="p">;</span>
+    <span class="c">% Plot separtation lines</span>
+    <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">N_lines</span><span class="p">=</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N_lines</span><span class="p">;</span>
+       <span class="n">plot</span><span class="p">(</span><span class="n">ii</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">n1</span><span class="p">,</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="k">end</span>
+    
+    <span class="n">title</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; Ground Truth \n (Orignial sources) S_1,S_2,..., S_I, I=%i &#39;</span><span class="p">,</span><span class="n">I</span><span class="p">))</span> 
+    <span class="n">drawnow</span><span class="p">;</span>
+    
+<span class="c">%% Method 1: Block_diag (decorrelated measurements) with TV regularization</span>
+ 
+    <span class="n">sampling_mecanism</span> <span class="p">=</span> <span class="s">&#39;Block_diag&#39;</span><span class="p">;</span>   <span class="c">% 3 possibility &#39;Dense&#39;,&#39;DBD&#39;,&#39;Block_diag&#39;</span>
+    
+    <span class="n">decorr</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>                         <span class="c">% decorrelation method (ONLY for Block_diag sampling)</span>
+    
+    <span class="n">method</span> <span class="p">=</span> <span class="s">&#39;TV&#39;</span><span class="p">;</span>                      <span class="c">% &#39;TV&#39; or &#39;Wavelet-L1&#39; minimization</span>
+
+
+    <span class="n">t</span><span class="p">=</span><span class="n">cputime</span><span class="p">;</span>
+<span class="p">[</span> <span class="n">S_est</span><span class="p">,</span> <span class="n">Img_est</span> <span class="p">]</span> <span class="p">=</span> <span class="n">general_solver</span><span class="p">(</span> <span class="n">decorr</span><span class="p">,</span><span class="n">sampling_mecanism</span><span class="p">,</span><span class="n">method</span><span class="p">,</span><span class="n">SNR</span><span class="p">,</span><span class="n">Img</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">sources</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">,</span> <span class="n">nb_meas</span> <span class="p">);</span>
+    <span class="n">estimation_time</span><span class="p">=</span><span class="n">cputime</span><span class="o">-</span><span class="n">t</span>
+    <span class="c">% Evalutaion of the error</span>
+    <span class="n">Reconstruction_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:)</span><span class="o">-</span><span class="n">Img_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:))</span>
+    <span class="n">Sources_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">sources</span><span class="p">(:)</span><span class="o">-</span><span class="n">S_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">S_est</span><span class="p">(:))</span>
+    
+    <span class="c">% reshape the solution in &quot;3 images form&quot;</span>
+    <span class="n">recovered_sources</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">S_est</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,[]);</span>
+
+    <span class="n">figure</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="c">%subplot(524)</span>
+    <span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">recovered_sources</span><span class="p">,</span><span class="n">n1</span><span class="p">,[]))</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,[])</span>
+    <span class="n">colormap</span> <span class="n">hot</span><span class="p">;</span>
+    <span class="c">% Plot separtation lines</span>
+    <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">N_lines</span><span class="p">=</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N_lines</span><span class="p">;</span>
+       <span class="n">plot</span><span class="p">(</span><span class="n">ii</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">n1</span><span class="p">,</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="k">end</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; Recovered sources - TV - Block-diag &#39;</span><span class="p">));</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction MSE (dB): %g  Sources MSE (dB): %g  CPU-Time: %g &#39;</span><span class="p">,</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Reconstruction_MSE</span><span class="p">),</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Sources_MSE</span><span class="p">),</span><span class="n">estimation_time</span><span class="p">));</span>
+    <span class="n">drawnow</span><span class="p">;</span>
+    
+   <span class="c">%% Method 2: Block_diag (decorrelated measurements) with Wavelet regularization</span>
+ 
+    <span class="n">sampling_mecanism</span> <span class="p">=</span> <span class="s">&#39;Block_diag&#39;</span><span class="p">;</span>   <span class="c">% 3 possibility &#39;Dense&#39;,&#39;DBD&#39;,&#39;Block_diag&#39;</span>
+    
+    <span class="n">decorr</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>                         <span class="c">% decorrelation method (ONLY for Block_diag sampling)</span>
+    
+    <span class="n">method</span> <span class="p">=</span> <span class="s">&#39;Wavelet-L1&#39;</span><span class="p">;</span>                      <span class="c">% &#39;TV&#39; or &#39;Wavelet-L1&#39; minimization</span>
+
+
+    <span class="n">t</span><span class="p">=</span><span class="n">cputime</span><span class="p">;</span>
+<span class="p">[</span> <span class="n">S_est</span><span class="p">,</span> <span class="n">Img_est</span> <span class="p">]</span> <span class="p">=</span> <span class="n">general_solver</span><span class="p">(</span> <span class="n">decorr</span><span class="p">,</span><span class="n">sampling_mecanism</span><span class="p">,</span><span class="n">method</span><span class="p">,</span><span class="n">SNR</span><span class="p">,</span><span class="n">Img</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">sources</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">,</span> <span class="n">nb_meas</span> <span class="p">);</span>
+    <span class="n">estimation_time</span><span class="p">=</span><span class="n">cputime</span><span class="o">-</span><span class="n">t</span>
+    <span class="c">% Evalutaion of the error</span>
+    <span class="n">Reconstruction_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:)</span><span class="o">-</span><span class="n">Img_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:))</span>
+    <span class="n">Sources_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">sources</span><span class="p">(:)</span><span class="o">-</span><span class="n">S_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">S_est</span><span class="p">(:))</span>
+    
+    <span class="c">% reshape the solution in &quot;3 images form&quot;</span>
+    <span class="n">recovered_sources</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">S_est</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,[]);</span>
+
+    <span class="n">figure</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="c">%subplot(526)</span>
+    <span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">recovered_sources</span><span class="p">,</span><span class="n">n1</span><span class="p">,[]))</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,[])</span>
+    <span class="n">colormap</span> <span class="n">hot</span><span class="p">;</span>
+    <span class="c">% Plot separtation lines</span>
+    <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">N_lines</span><span class="p">=</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N_lines</span><span class="p">;</span>
+       <span class="n">plot</span><span class="p">(</span><span class="n">ii</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">n1</span><span class="p">,</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="k">end</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; Recovered sources - Wavelet - Block-diag &#39;</span><span class="p">));</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction MSE (dB): %g Sources MSE (dB): %g CPU-Time: %g &#39;</span><span class="p">,</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Reconstruction_MSE</span><span class="p">),</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Sources_MSE</span><span class="p">),</span><span class="n">estimation_time</span><span class="p">));</span>
+    <span class="n">drawnow</span><span class="p">;</span>
+    
+    <span class="c">%% Method 3: Dense (correlated measurements) with TV regularization</span>
+ 
+    <span class="n">sampling_mecanism</span> <span class="p">=</span> <span class="s">&#39;Dense&#39;</span><span class="p">;</span>   <span class="c">% 3 possibility &#39;Dense&#39;,&#39;DBD&#39;,&#39;Block_diag&#39;</span>
+    
+    <span class="n">decorr</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                         <span class="c">% decorrelation method (ONLY for Block_diag sampling)</span>
+    
+    <span class="n">method</span> <span class="p">=</span> <span class="s">&#39;TV&#39;</span><span class="p">;</span>                      <span class="c">% &#39;TV&#39; or &#39;Wavelet-L1&#39; minimization</span>
+
+
+    <span class="n">t</span><span class="p">=</span><span class="n">cputime</span><span class="p">;</span>
+<span class="p">[</span> <span class="n">S_est</span><span class="p">,</span> <span class="n">Img_est</span> <span class="p">]</span> <span class="p">=</span> <span class="n">general_solver</span><span class="p">(</span> <span class="n">decorr</span><span class="p">,</span><span class="n">sampling_mecanism</span><span class="p">,</span><span class="n">method</span><span class="p">,</span><span class="n">SNR</span><span class="p">,</span><span class="n">Img</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">sources</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">,</span> <span class="n">nb_meas</span> <span class="p">);</span>
+    <span class="n">estimation_time</span><span class="p">=</span><span class="n">cputime</span><span class="o">-</span><span class="n">t</span>
+    <span class="c">% Evalutaion of the error</span>
+    <span class="n">Reconstruction_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:)</span><span class="o">-</span><span class="n">Img_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:))</span>
+    <span class="n">Sources_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">sources</span><span class="p">(:)</span><span class="o">-</span><span class="n">S_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">S_est</span><span class="p">(:))</span>
+    
+    <span class="c">% reshape the solution in &quot;3 images form&quot;</span>
+    <span class="n">recovered_sources</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">S_est</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,[]);</span>
+
+    <span class="n">figure</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="c">%subplot(528)</span>
+    <span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">recovered_sources</span><span class="p">,</span><span class="n">n1</span><span class="p">,[]))</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,[])</span>
+    <span class="n">colormap</span> <span class="n">hot</span><span class="p">;</span>
+    <span class="c">% Plot separtation lines</span>
+    <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">N_lines</span><span class="p">=</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N_lines</span><span class="p">;</span>
+       <span class="n">plot</span><span class="p">(</span><span class="n">ii</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">n1</span><span class="p">,</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="k">end</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; Recovered sources - TV - Dense &#39;</span><span class="p">));</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction MSE (dB): %g  Sources MSE (dB): %g  CPU-Time: %g &#39;</span><span class="p">,</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Reconstruction_MSE</span><span class="p">),</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Sources_MSE</span><span class="p">),</span><span class="n">estimation_time</span><span class="p">));</span>
+    <span class="n">drawnow</span><span class="p">;</span>
+    
+   <span class="c">%% Method 4: Dense (correlated measurements) with Wavelet regularization</span>
+ 
+    <span class="n">sampling_mecanism</span> <span class="p">=</span> <span class="s">&#39;Dense&#39;</span><span class="p">;</span>   <span class="c">% 3 possibility &#39;Dense&#39;,&#39;DBD&#39;,&#39;Block_diag&#39;</span>
+    
+    <span class="n">decorr</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>                         <span class="c">% decorrelation method (ONLY for Block_diag sampling)</span>
+    
+    <span class="n">method</span> <span class="p">=</span> <span class="s">&#39;Wavelet-L1&#39;</span><span class="p">;</span>                      <span class="c">% &#39;TV&#39; or &#39;Wavelet-L1&#39; minimization</span>
+
+    <span class="n">t</span><span class="p">=</span><span class="n">cputime</span><span class="p">;</span>
+<span class="p">[</span> <span class="n">S_est</span><span class="p">,</span> <span class="n">Img_est</span> <span class="p">]</span> <span class="p">=</span> <span class="n">general_solver</span><span class="p">(</span> <span class="n">decorr</span><span class="p">,</span><span class="n">sampling_mecanism</span><span class="p">,</span><span class="n">method</span><span class="p">,</span><span class="n">SNR</span><span class="p">,</span><span class="n">Img</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">sources</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">,</span> <span class="n">nb_meas</span> <span class="p">);</span>
+    <span class="n">estimation_time</span><span class="p">=</span><span class="n">cputime</span><span class="o">-</span><span class="n">t</span>
+    <span class="c">% Evalutaion of the error</span>
+    <span class="n">Reconstruction_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:)</span><span class="o">-</span><span class="n">Img_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">Img</span><span class="p">(:))</span>
+    <span class="n">Sources_MSE</span> <span class="p">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">sources</span><span class="p">(:)</span><span class="o">-</span><span class="n">S_est</span><span class="p">(:))</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">S_est</span><span class="p">(:))</span>
+    
+    <span class="c">% reshape the solution in &quot;3 images form&quot;</span>
+    <span class="n">recovered_sources</span> <span class="p">=</span> <span class="nb">reshape</span><span class="p">(</span><span class="n">S_est</span><span class="p">,</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,[]);</span>
+
+    <span class="n">figure</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="c">%subplot(5,2,10)</span>
+    <span class="n">imagesc</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">recovered_sources</span><span class="p">,</span><span class="n">n1</span><span class="p">,[]))</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">gca</span><span class="p">,</span><span class="s">&#39;xtick&#39;</span><span class="p">,[])</span>
+    <span class="n">colormap</span> <span class="n">hot</span><span class="p">;</span>
+    <span class="c">% Plot separtation lines</span>
+    <span class="n">hold</span> <span class="n">on</span><span class="p">;</span>
+    <span class="n">N_lines</span><span class="p">=</span><span class="n">I</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">N_lines</span><span class="p">;</span>
+       <span class="n">plot</span><span class="p">(</span><span class="n">ii</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="nb">ones</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">n1</span><span class="p">,</span><span class="s">&#39;k&#39;</span><span class="p">,</span><span class="s">&#39;Linewidth&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="k">end</span>
+    <span class="n">title</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39; Recovered sources - Wavelet - Dense &#39;</span><span class="p">));</span>
+    <span class="n">xlabel</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s">&#39;Reconstruction MSE (dB): %g  Sources MSE (dB): %g CPU-Time: %g &#39;</span><span class="p">,</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Reconstruction_MSE</span><span class="p">),</span><span class="mi">20</span><span class="o">*</span><span class="nb">log10</span><span class="p">(</span><span class="n">Sources_MSE</span><span class="p">),</span><span class="n">estimation_time</span><span class="p">));</span>
+    <span class="n">drawnow</span><span class="p">;</span>
+</pre></div>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,62 @@
+LTFAT version 2.1.1. Copyright 2005-2015 Peter L. Søndergaard. For help, please type "ltfathelp". LTFAT is using the MEX backend.
+(Your global and persistent variables have just been cleared. Sorry.)
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 9.088
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 11.249
+-- Reconstruction done 
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 12.3306
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 14.5599
+-- Reconstruction done 
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 8.39066
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 9.16062
+-- Reconstruction done 
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 15.3393
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 19.6105
+-- Reconstruction done 
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 19.0161
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 148.398
+-- Reconstruction done 
+-- Display the results...  Done
+-- Create the windows and the operators...  Done
+-- Create the spectrogram muliplier...  Done
+-- Reconstruction method:GLA
+   * The obtained ssnr is: 15.1162
+-- Reconstruction done 
+-- Reconstruction method:FGLA  with alpha = 0.99
+   * Selected method: fast Griffin-Lim algorithm
+   * The obtained ssnr is: 18.3271
+-- Reconstruction done 
+-- Display the results...  Done

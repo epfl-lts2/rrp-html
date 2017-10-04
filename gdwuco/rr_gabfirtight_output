@@ -1,0 +1,18 @@
+Reconstruction error of the original tight window: 2.10348e-15
+Solve the optimization problem 
+  Reconstruction error of optimization problem: 3.00771e-10 
+
+ans =
+
+\begin{table}[thb] 
+\begin{center}\begin{tabular}{ |c|ccccccc|} 
+ \hline 
+ &  &  &  &  &  &  & \\ 
+ \hline 
+ & $  10.2778 $ & $   5.5449 $ & $ 175.4726 $ & $  20.5885 $ & $  78.1983 $ & $   4.1096 $ & $   5.5811 $ \\ 
+ & $  10.2778 $ & $   5.4167 $ & $ 179.6258 $ & $  26.1916 $ & $ 123.0701 $ & $   3.5207 $ & $   6.0137 $ \\ 
+ \hline 
+ \end{tabular}\end{center} 
+ \caption{ } 
+\end{table} 
+

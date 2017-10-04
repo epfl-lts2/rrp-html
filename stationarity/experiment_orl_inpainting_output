@@ -1,0 +1,23 @@
+The time step is set manually to : 0.1
+DOUGLAS_RACHFORD  f(x^*) = 2.908592e+02, rel_eval = 8.806905e-11, it = 100, REL_NORM_OBJ
+FORWARD_BACKWARD  f(x^*) = 1.455258e+02, rel_eval = 4.315564e-11, it = 402, REL_NORM_OBJ
+FORWARD_BACKWARD  f(x^*) = 1.210786e+01, rel_eval = 7.660486e-11, it = 455, REL_NORM_OBJ
+
+ans =
+
+    9.4028
+
+
+ans =
+
+    9.8968
+
+
+ans =
+
+   10.4146
+
+
+ans =
+
+   11.0290

@@ -1,0 +1,61 @@
+Solve the convex optimization problem: L2 norm
+  Reconstruction error of optimization problem: 8.06265e-17 
+  Equal to the canonical dual? norm(gd-gcan) = 3.76077e-17 
+ Solve the convex optimization problem: L1 time
+  Reconstruction error of optimization problem: 4.19042e-17 
+  Reconstruction error of the window after a threshold of 80 dB: 3.70359e-10 
+  Percent of non-zeros coefficients: 6.25 
+  Number of non-zeros coefficients: 15 
+  Percent of non-zeros for the cannonical dual: 24.5833 
+  Length of the support: 15
+ Solve the convex optimization problem: L1 frequency
+  Reconstruction error of optimization problem: 6.56445e-17 
+ Solve the convex optimization problem: Variance in time
+  Reconstruction error of optimization problem: 7.40773e-17 
+ Solve the convex optimization problem: Energy variance in time
+  Reconstruction error of optimization problem: 1.45305e-16 
+ Solve the convex optimization problem: Concentration in time
+  Reconstruction error of optimization problem: 4.13486e-17 
+ Solve the convex optimization problem: Variance in frequency
+  Reconstruction error of optimization problem: 1.71816e-16 
+ Solve the convex optimization problem: Energy variance in frequency
+  Reconstruction error of optimization problem: 1.32761e-16 
+ Solve the convex optimization problem: smoothness constraint
+  Reconstruction error of optimization problem: 7.56799e-17 
+ Solve the convex optimization problem: S0 norm
+  Reconstruction error of optimization problem: 8.04695e-17 
+ Solve the convex optimization problem: S0 norm
+  Reconstruction error of optimization problem: 8.51788e-17 
+ Solve the convex optimization problem: sine like
+  Reconstruction error of optimization problem: 1.34998e-16 
+ Solve the convex optimization problem: dirac like
+  Reconstruction error of optimization problem: 2.29781e-15 
+
+Y =
+
+         0    0.0710    0.1132    0.0331    0.0482    0.0851    0.1065    0.0229    0.0033    0.1046    0.0599
+    0.9153         0    0.9727    0.9786    1.0000    0.9818    0.0050    1.0000    0.0001    0.9829         0
+    0.5772    0.2818         0    0.1364    0.0344    0.0076    0.4231    0.0023    0.0210    0.0000    0.2379
+    0.0816    0.1027    0.0507         0    0.0106    0.0464    0.1520    0.0130    0.0030    0.0469    0.0865
+    0.2482    0.1610    0.0184    0.0176         0    0.0223    0.2411    0.0067    0.0055    0.0170    0.1357
+    0.9138    1.0000    0.0234    0.7575    0.6508         0    1.0000         0    1.0000    0.0213    1.0000
+    0.9999    0.0012    1.0000    1.0000    0.9980    1.0000         0    0.9448    0.0000    1.0000    0.0010
+    0.8392    0.6135    0.0139    0.4985    0.3217    0.0002    0.7770    0.0001    0.3324    0.0126    0.5419
+    1.0000    0.0012    1.0000    0.9995    0.9975    1.0000    0.0001    0.9449         0    1.0000    0.0010
+    0.5781    0.2822    0.0000    0.1368    0.0347    0.0075    0.4236    0.0022    0.0212         0    0.2383
+    0.8485    0.0003    0.9107    0.9208    0.9341    0.9314    0.0059    0.9190    0.0001    0.9163    0.0002
+
+
+crit_mat2 =
+
+    0.1542    0.0625  103.7838   20.7926   78.0343
+    0.4708    0.0208  101.9469   28.4970  104.0615
+    0.0625    0.1375  116.3636   23.6556  119.4487
+    0.0958    0.1042  100.1739   39.2813   99.9349
+    0.0708    0.1708   82.6399   75.1863   77.3245
+    0.0625    0.1375  116.3636   13.0368    8.4709
+    0.4958    0.0292   69.1477   54.0575   80.0992
+    0.0625    0.1375  116.3636   13.7642   15.3562
+    0.4958    0.0292   69.1477   54.0674   79.0111
+    0.0625    0.1375  116.3636   23.6034   74.8722
+    0.4458    0.0208  107.6636   28.4789   94.0438

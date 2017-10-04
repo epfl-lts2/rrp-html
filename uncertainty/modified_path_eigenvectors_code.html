@@ -1,0 +1,187 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head class="include" file="../include/header.html">
+<link rel="stylesheet" href="../include/bootstrap.min.css">
+<link rel="stylesheet" href="../include/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../include/bootstrap-select.min.css">
+<link rel="stylesheet" href="../include/style.css" type="text/css">
+<link rel="stylesheet" href="../include/highlight.css" type="text/css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta NAME="keywords" CONTENT="reproducible, research, platform, rrp, rr, reproducible research, reproducible research platform, matlab, code, mat2doc, science, knowledge"/>
+
+<title>MODIFIED_PATH_EIGENVECTORS - Display some eigenvectors for a modified path</title>
+</head>
+
+
+
+<!-- body must stay hidden until all include parts are loaded -->
+<body style="display:none;">
+<!-- Wrap the content into responsive container -->
+<div class="container">
+<!-- Include main navigation -->
+    <div class="masthead include" file="../include/mainnav.html"></div>
+        <div class="row">
+            <div class="col-md-2" id="codeswitch"><div id="menutitle"><a href="modified_path_eigenvectors.html">View the help</a></div>
+</div>
+            <div class="btn btn-large btn-success span22-doc">
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.zip">Download <font color="red">r<sup>2</sup>&pi;</font> archive for windows</a>
+                <a style="color: #FFFFFF" href="../archive/#PACKAGE#.tgz"> or for unix </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="include" file='contentsmenu.html'></div>
+                <br/>
+                <div id="seealso"><p></p></div>
+                <br/>
+            </div>
+            <div class="col-md-10">
+           
+                    <h1 class="title">MODIFIED_PATH_EIGENVECTORS - Display some eigenvectors for a modified path</h1>
+<h2>Program code:</h2>
+<div class="highlight"><pre><span></span><span class="c">%MODIFIED_PATH_EIGENVECTORS Display some eigenvectors for a modified path</span>
+<span class="c">%</span>
+<span class="c">%   This package contains the code to reproduce all the figures of the</span>
+<span class="c">%   paper: </span>
+<span class="c">%   </span>
+<span class="c">%   Global and Local Uncertainty Principles for Signals on Graphs</span>
+<span class="c">%</span>
+<span class="c">%   Authors: Nathanael Perraudin, Benjamin Ricaud, David I Shuman, Pierre</span>
+<span class="c">%   Vandergheynst </span>
+<span class="c">%</span>
+<span class="c">%   ArXiv: http://arxiv.org/abs/1603.03030</span>
+<span class="c">%</span>
+<span class="c">%   Abstract of the paper</span>
+<span class="c">%   ---------------------</span>
+<span class="c">%</span>
+<span class="c">%   Uncertainty principles such as Heisenberg&#39;s provide limits on the</span>
+<span class="c">%   time-frequency concentration of a signal, and constitute an important</span>
+<span class="c">%   theoretical tool for designing and evaluating linear signal transforms.</span>
+<span class="c">%   Generalizations of such principles to the graph setting can inform</span>
+<span class="c">%   dictionary design for graph signals, lead to algorithms for</span>
+<span class="c">%   reconstructing missing information from graph signals via sparse</span>
+<span class="c">%   representations, and yield new graph analysis tools. While previous</span>
+<span class="c">%   work has focused on generalizing notions of spreads of a graph signal</span>
+<span class="c">%   in the vertex and graph spectral domains, our approach is to generalize</span>
+<span class="c">%   the methods of Lieb in order to develop uncertainty principles that</span>
+<span class="c">%   provide limits on the concentration of the analysis coefficients of any</span>
+<span class="c">%   graph signal under a dictionary transform whose atoms are jointly</span>
+<span class="c">%   localized in the vertex and graph spectral domains. One challenge we</span>
+<span class="c">%   highlight is that due to the inhomogeneity of the underlying graph data</span>
+<span class="c">%   domain, the local structure in a single small region of the graph can</span>
+<span class="c">%   drastically affect the uncertainty bounds for signals concentrated in</span>
+<span class="c">%   different regions of the graph, limiting the information provided by</span>
+<span class="c">%   global uncertainty principles. Accordingly, we suggest a new way to</span>
+<span class="c">%   incorporate a notion of locality, and develop local uncertainty</span>
+<span class="c">%   principles that bound the concentration of the analysis coefficients of</span>
+<span class="c">%   each atom of a localized graph spectral filter frame in terms of</span>
+<span class="c">%   quantities that depend on the local structure of the graph around the</span>
+<span class="c">%   center vertex of the given atom. Finally, we demonstrate how our</span>
+<span class="c">%   proposed local uncertainty measures can improve the random sampling of</span>
+<span class="c">%   graph signals.</span>
+<span class="c">%</span>
+<span class="c">%   This experiment</span>
+<span class="c">%   ---------------</span>
+<span class="c">%</span>
+<span class="c">%   In Figure 1, we display the eigenvector associated with the largest</span>
+<span class="c">%   graph Laplacian eigenvalue for a modified path graph of 100 nodes, for</span>
+<span class="c">%   several values of the weight W_{12}. Observe that the shape of the</span>
+<span class="c">%   eigenvector has a sharp local change at node 1.</span>
+<span class="c">%</span>
+<span class="c">%   Figure 1: Different graphs eigenvectors</span>
+<span class="c">%</span>
+<span class="c">%      Eigenvectors associated with the largest graph Laplacian eigenvalue</span>
+<span class="c">%      of the modified path graph with 100 nodes, for different values of</span>
+<span class="c">%      W_{12}. As the distance between the first two nodes increases, the</span>
+<span class="c">%      eigenvector becomes sharply peaked.</span>
+<span class="c">%</span>
+<span class="c">%   References:</span>
+<span class="c">%     N. Perraudin, R. Benjamin, S. David I, and P. Vandergheynst. Global and</span>
+<span class="c">%     local uncertainty principles for signals on graphs. arXiv preprint</span>
+<span class="c">%     arXiv:1603.03030, 2016.</span>
+<span class="c">%     </span>
+<span class="c">%</span>
+<span class="c">%</span>
+<span class="c">%   Url: https://epfl-lts2.github.io/rrp-html/uncertainty/modified_path_eigenvectors.html</span>
+
+<span class="c">% Copyright (C) 2012-2013 Nathanael Perraudin.</span>
+<span class="c">% This file is part of RRP version 0.2</span>
+<span class="c">%</span>
+<span class="c">% This program is free software: you can redistribute it and/or modify</span>
+<span class="c">% it under the terms of the GNU General Public License as published by</span>
+<span class="c">% the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">% (at your option) any later version.</span>
+<span class="c">%</span>
+<span class="c">% This program is distributed in the hope that it will be useful,</span>
+<span class="c">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">% GNU General Public License for more details.</span>
+<span class="c">%</span>
+<span class="c">% You should have received a copy of the GNU General Public License</span>
+<span class="c">% along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+  
+
+<span class="c">%% Initialization</span>
+<span class="n">clear</span>
+
+<span class="n">close</span> <span class="n">all</span><span class="p">;</span>
+
+<span class="c">%% Plotparameter</span>
+<span class="k">global</span> <span class="n">SAVE</span> <span class="p">;</span>
+
+<span class="n">paramplot</span><span class="p">.</span><span class="n">save</span> <span class="p">=</span> <span class="n">SAVE</span><span class="p">;</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span> <span class="mi">100</span> <span class="mi">300</span> <span class="mi">200</span><span class="p">];</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">savefig</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c">%%</span>
+
+<span class="c">% Number of nodes</span>
+<span class="n">N</span><span class="p">=</span><span class="mi">100</span><span class="p">;</span>
+
+<span class="c">% values to be tested</span>
+<span class="n">val_s</span><span class="p">=[</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">];</span>
+
+
+<span class="n">W</span> <span class="p">=</span> <span class="nb">ones</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+
+<span class="n">figure</span>
+<span class="k">for</span> <span class="n">ii</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="nb">length</span><span class="p">(</span><span class="n">val_s</span><span class="p">);</span>
+    <span class="n">W</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">val_s</span><span class="p">(</span><span class="n">ii</span><span class="p">);</span>
+    
+    <span class="c">% Create the graph</span>
+    <span class="n">G</span> <span class="p">=</span> <span class="n">gsp_modified_path</span><span class="p">(</span><span class="n">W</span><span class="p">);</span>
+
+    <span class="n">G</span> <span class="p">=</span> <span class="n">gsp_compute_fourier_basis</span><span class="p">(</span><span class="n">G</span><span class="p">);</span> 
+
+    <span class="c">% Save the result on the ambiguity fonction</span>
+    <span class="p">[</span><span class="o">~</span><span class="p">,</span><span class="n">ind</span><span class="p">]</span> <span class="p">=</span> <span class="n">max</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">U</span><span class="p">)));</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">val_s</span><span class="p">))),</span><span class="nb">round</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">length</span><span class="p">(</span><span class="n">val_s</span><span class="p">))),</span><span class="n">ii</span><span class="p">);</span>
+    <span class="n">stem</span><span class="p">(</span><span class="n">G</span><span class="p">.</span><span class="n">U</span><span class="p">(:,</span><span class="n">ind</span><span class="p">));</span>
+    <span class="n">h</span> <span class="p">=</span> <span class="n">title</span><span class="p">([</span><span class="s">&#39;$W_{12}$ = &#39;</span><span class="p">,</span><span class="n">num2str</span><span class="p">(</span><span class="n">W</span><span class="p">(</span><span class="mi">1</span><span class="p">))],</span><span class="s">&#39;FontSize&#39;</span><span class="p">,</span><span class="mi">14</span><span class="p">);</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="s">&#39;interpreter&#39;</span><span class="p">,</span><span class="s">&#39;latex&#39;</span><span class="p">,</span><span class="s">&#39;FontSize&#39;</span><span class="p">,</span><span class="mi">14</span><span class="p">);</span>
+<span class="k">end</span>
+<span class="n">paramplot</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="p">[</span><span class="mi">100</span> <span class="mi">100</span> <span class="mi">600</span> <span class="mi">300</span><span class="p">];</span>
+<span class="n">gsp_plotfig</span><span class="p">(</span><span class="s">&#39;Aggpath_eig&#39;</span><span class="p">,</span><span class="n">paramplot</span><span class="p">);</span>
+</pre></div>
+
+
+            </div>
+        </div>
+
+        <div class="include" file="../include/footer.html"></div>
+    </div>
+</div>
+<!-- These two have to be here to dynamically load the included parts -->
+<script src="../include/jquery.min.js"></script>
+<script src="../include/bootstrap-select.min.js"></script>
+<script src="../include/rrp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+

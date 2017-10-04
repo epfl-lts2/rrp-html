@@ -1,0 +1,205 @@
+Compute the canonical dual 
+  Reconstruction error of the canonical dual 5.55112e-17 
+Solve the optimization problem : smoothness in frequency
+  Reconstruction error of optimization problem: 1.48412e-16 
+Solve the optimization problem : variance in time
+  Reconstruction error of optimization problem: 3.91382e-16 
+Solve the optimization problem : energy variance in time
+  Reconstruction error of optimization problem: 2.13162e-16 
+Solve the optimization problem : smoothness in time
+  Reconstruction error of optimization problem: 3.02599e-16 
+Solve the optimization problem : variance in frequency
+  Reconstruction error of optimization problem: 1.12694e-16 
+Solve the optimization problem : energy variance in frequency
+  Reconstruction error of optimization problem: 1.40431e-16 
+Solve the optimization problem : Smoothness
+  Reconstruction error of optimization problem: 3.15598e-16 
+Solve the optimization problem : Variance
+  Reconstruction error of optimization problem: 3.96401e-16 
+Solve the optimization problem : energy variance
+  Reconstruction error of optimization problem: 3.44958e-16 
+Solve the optimization problem : S0
+  Reconstruction error of optimization problem: 9.59711e-17 
+Solve the optimization problem : Weigted S0
+  Reconstruction error of optimization problem: 3.44441e-16 
+Solve the optimization problem : Weigted S2 norm
+Iteration 1:
+  Proj. dual windows: ||y-Ax||_2 = 1.678542e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 8.979255e-05, MAX_IT, iter = 5
+Current objective function : 6.633050e-01 	 relative norm : 3.453392e-01 
+Iteration 2:
+  Proj. dual windows: ||y-Ax||_2 = 1.636430e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 8.979255e-05, MAX_IT, iter = 5
+Current objective function : 6.294974e-01 	 relative norm : 5.370581e-02 
+Iteration 3:
+  Proj. dual windows: ||y-Ax||_2 = 1.684535e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 1.409032e-04, MAX_IT, iter = 5
+Current objective function : 6.475172e-01 	 relative norm : 2.782920e-02 
+Iteration 4:
+  Proj. dual windows: ||y-Ax||_2 = 5.934285e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 2.049512e-04, MAX_IT, iter = 5
+Current objective function : 6.703044e-01 	 relative norm : 3.399531e-02 
+Iteration 5:
+  Proj. dual windows: ||y-Ax||_2 = 6.248546e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 2.612780e-04, MAX_IT, iter = 5
+Current objective function : 6.884438e-01 	 relative norm : 2.634834e-02 
+Iteration 6:
+  Proj. dual windows: ||y-Ax||_2 = 3.671226e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.028690e-04, MAX_IT, iter = 5
+Current objective function : 7.019800e-01 	 relative norm : 1.928294e-02 
+Iteration 7:
+  Proj. dual windows: ||y-Ax||_2 = 4.136180e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.303082e-04, MAX_IT, iter = 5
+Current objective function : 7.119686e-01 	 relative norm : 1.402949e-02 
+Iteration 8:
+  Proj. dual windows: ||y-Ax||_2 = 3.820133e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.466218e-04, MAX_IT, iter = 5
+Current objective function : 7.191373e-01 	 relative norm : 9.968522e-03 
+Iteration 9:
+  Proj. dual windows: ||y-Ax||_2 = 1.697918e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.549957e-04, MAX_IT, iter = 5
+Current objective function : 7.244063e-01 	 relative norm : 7.273473e-03 
+Iteration 10:
+  Proj. dual windows: ||y-Ax||_2 = 9.255606e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.580984e-04, MAX_IT, iter = 5
+Current objective function : 7.289900e-01 	 relative norm : 6.287789e-03 
+Iteration 11:
+  Proj. dual windows: ||y-Ax||_2 = 4.170696e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.579742e-04, MAX_IT, iter = 5
+Current objective function : 7.314281e-01 	 relative norm : 3.333376e-03 
+Iteration 12:
+  Proj. dual windows: ||y-Ax||_2 = 6.607573e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.560952e-04, MAX_IT, iter = 5
+Current objective function : 7.321695e-01 	 relative norm : 1.012487e-03 
+Iteration 13:
+  Proj. dual windows: ||y-Ax||_2 = 9.096482e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.534560e-04, MAX_IT, iter = 5
+Current objective function : 7.318847e-01 	 relative norm : 3.890275e-04 
+Iteration 14:
+  Proj. dual windows: ||y-Ax||_2 = 4.636640e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.506777e-04, MAX_IT, iter = 5
+Current objective function : 7.310749e-01 	 relative norm : 1.107766e-03 
+Iteration 15:
+  Proj. dual windows: ||y-Ax||_2 = 8.986680e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.481088e-04, MAX_IT, iter = 5
+Current objective function : 7.300780e-01 	 relative norm : 1.365422e-03 
+Iteration 16:
+  Proj. dual windows: ||y-Ax||_2 = 4.812625e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.459134e-04, MAX_IT, iter = 5
+Current objective function : 7.291051e-01 	 relative norm : 1.334348e-03 
+Iteration 17:
+  Proj. dual windows: ||y-Ax||_2 = 1.687576e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.441395e-04, MAX_IT, iter = 5
+Current objective function : 7.282789e-01 	 relative norm : 1.134466e-03 
+Iteration 18:
+  Proj. dual windows: ||y-Ax||_2 = 3.998773e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.427676e-04, MAX_IT, iter = 5
+Current objective function : 7.276594e-01 	 relative norm : 8.514235e-04 
+Iteration 19:
+  Proj. dual windows: ||y-Ax||_2 = 1.155160e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.417399e-04, MAX_IT, iter = 5
+Current objective function : 7.272471e-01 	 relative norm : 5.668612e-04 
+Iteration 20:
+  Proj. dual windows: ||y-Ax||_2 = 6.744481e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.409800e-04, MAX_IT, iter = 5
+Current objective function : 7.269923e-01 	 relative norm : 3.505587e-04 
+Iteration 21:
+  Proj. dual windows: ||y-Ax||_2 = 4.326681e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.404134e-04, MAX_IT, iter = 5
+Current objective function : 7.268336e-01 	 relative norm : 2.183253e-04 
+Iteration 22:
+  Proj. dual windows: ||y-Ax||_2 = 1.410747e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.399826e-04, MAX_IT, iter = 5
+Current objective function : 7.267270e-01 	 relative norm : 1.466699e-04 
+Iteration 23:
+  Proj. dual windows: ||y-Ax||_2 = 3.118601e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.396481e-04, MAX_IT, iter = 5
+Current objective function : 7.266458e-01 	 relative norm : 1.116985e-04 
+Iteration 24:
+  Proj. dual windows: ||y-Ax||_2 = 3.677464e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.393825e-04, MAX_IT, iter = 5
+Current objective function : 7.265747e-01 	 relative norm : 9.787986e-05 
+Iteration 25:
+  Proj. dual windows: ||y-Ax||_2 = 3.634071e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.391666e-04, MAX_IT, iter = 5
+Current objective function : 7.265059e-01 	 relative norm : 9.467794e-05 
+Iteration 26:
+  Proj. dual windows: ||y-Ax||_2 = 4.280895e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.389882e-04, MAX_IT, iter = 5
+Current objective function : 7.264369e-01 	 relative norm : 9.508277e-05 
+Iteration 27:
+  Proj. dual windows: ||y-Ax||_2 = 6.956583e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.388403e-04, MAX_IT, iter = 5
+Current objective function : 7.263679e-01 	 relative norm : 9.488856e-05 
+Iteration 28:
+  Proj. dual windows: ||y-Ax||_2 = 1.435464e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.387189e-04, MAX_IT, iter = 5
+Current objective function : 7.263011e-01 	 relative norm : 9.201009e-05 
+Iteration 29:
+  Proj. dual windows: ||y-Ax||_2 = 3.941209e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.386213e-04, MAX_IT, iter = 5
+Current objective function : 7.262387e-01 	 relative norm : 8.599405e-05 
+Iteration 30:
+  Proj. dual windows: ||y-Ax||_2 = 5.063158e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.385450e-04, MAX_IT, iter = 5
+Current objective function : 7.261824e-01 	 relative norm : 7.749054e-05 
+Iteration 31:
+  Proj. dual windows: ||y-Ax||_2 = 7.395727e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.384873e-04, MAX_IT, iter = 5
+Current objective function : 7.261333e-01 	 relative norm : 6.763176e-05 
+Iteration 32:
+  Proj. dual windows: ||y-Ax||_2 = 6.585973e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.384453e-04, MAX_IT, iter = 5
+Current objective function : 7.260915e-01 	 relative norm : 5.751819e-05 
+Iteration 33:
+  Proj. dual windows: ||y-Ax||_2 = 6.526510e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.384160e-04, MAX_IT, iter = 5
+Current objective function : 7.260567e-01 	 relative norm : 4.794372e-05 
+Iteration 34:
+  Proj. dual windows: ||y-Ax||_2 = 9.182868e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383969e-04, MAX_IT, iter = 5
+Current objective function : 7.260281e-01 	 relative norm : 3.934830e-05 
+Iteration 35:
+  Proj. dual windows: ||y-Ax||_2 = 8.701364e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383853e-04, MAX_IT, iter = 5
+Current objective function : 7.260050e-01 	 relative norm : 3.191121e-05 
+Iteration 36:
+  Proj. dual windows: ||y-Ax||_2 = 5.072479e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383792e-04, MAX_IT, iter = 5
+Current objective function : 7.259863e-01 	 relative norm : 2.567222e-05 
+Iteration 37:
+  Proj. dual windows: ||y-Ax||_2 = 1.172046e-16, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383768e-04, MAX_IT, iter = 5
+Current objective function : 7.259714e-01 	 relative norm : 2.060311e-05 
+Iteration 38:
+  Proj. dual windows: ||y-Ax||_2 = 4.782711e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383769e-04, MAX_IT, iter = 5
+Current objective function : 7.259593e-01 	 relative norm : 1.662406e-05 
+Iteration 39:
+  Proj. dual windows: ||y-Ax||_2 = 6.431025e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383783e-04, MAX_IT, iter = 5
+Current objective function : 7.259494e-01 	 relative norm : 1.360187e-05 
+Iteration 40:
+  Proj. dual windows: ||y-Ax||_2 = 3.563700e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383803e-04, MAX_IT, iter = 5
+Current objective function : 7.259412e-01 	 relative norm : 1.136074e-05 
+Iteration 41:
+  Proj. dual windows: ||y-Ax||_2 = 6.427195e-17, TOL_EPS, iter = 0
+  prox_L2: ||w (A x- y) ||_2^2 = 3.383826e-04, MAX_IT, iter = 5
+
+ Solution found:
+ Final relative norm: 9.711091e-06
+ 41 iterations
+ Stopping criterion: REL_NORM 
+
+  Proj. dual windows: ||y-Ax||_2 = 4.044610e-17, TOL_EPS, iter = 0
+  Reconstruction error of optimization problem: 2.89626e-16 
+
+Y =
+
+    0.1177    0.2630    0.5873    0.4546    1.0000    1.0000    0.2939    1.0000    1.0000    0.5951    0.2961
+    0.5623    0.5806    0.0691    0.4814    0.2090    0.1505    0.6373    0.2492    0.1490    0.0708    0.5808
+    1.0000    1.0000         0    1.0000    0.0832    0.5693    1.0000         0    0.1151         0    1.0000
+    0.6507    0.6883    0.0147    0.6011    0.1970    0.1365    0.7293    0.1983    0.1310    0.0164    0.6884
+         0         0    1.0000         0    0.5594    0.2231         0    0.8161         0    1.0000         0
+    0.7141    0.6529    0.0838    0.5150         0         0    0.7040    0.0514    0.0077    0.0834    0.6528
