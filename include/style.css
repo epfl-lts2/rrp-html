@@ -282,6 +282,12 @@ table > hr {
     height : auto;
   }
 
+img.align-center{
+    width : 700px;
+    height : auto;
+}
+
+
 /* Fix a problem with reStructuredText where nested environment had a
 larger fontsize. */
 blockquote p { font-size: 100%; }
